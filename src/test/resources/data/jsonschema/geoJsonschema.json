@@ -1,0 +1,134 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Citation DTO",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": [
+				"integer",
+				"null"
+			]
+		},
+		"properties": {
+			"$ref": "#/definitions/CitationPropertiesDTO"
+		},
+		"geometry": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": [
+						"Point"
+					],
+					"default": "Point"
+				},
+				"coordinates": {
+					"type": "array",
+					"items": {
+						"type": "number",
+						"maximum": 9000000000000000,
+						"minimum": -9000000000000000
+					},
+					"minItems": 2,
+					"maxItems": 2
+				}
+			},
+			"required": [
+				"type",
+				"coordinates"
+			]
+		},
+		"uuid": {
+			"type": [
+				"string",
+				"null"
+			]
+		}
+	},
+	"definitions": {
+		"CitationPropertiesDTO": {
+			"type": "object",
+			"properties": {
+				"z": {
+					"type": [
+						"number",
+						"null"
+					]
+				},
+				"deviation": {
+					"type": [
+						"number",
+						"null"
+					]
+				},
+				"startDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				},
+				"endDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				},
+				"remark": {
+					"type": [
+						"string",
+						"null"
+					],
+					"maxLength": 1500
+				},
+				"confidence": {
+					"default": "1",
+					"type": [
+						"integer",
+						"null"
+					],
+					"url": "/operator/confidences"
+				},
+				"radius": {
+					"type": "number"
+				},
+				"speciesConfidence": {
+					"default": "1",
+					"type": "integer",
+					"url": "/operator/confidences"
+				},
+				"taxon": {
+					"type": "integer",
+					"url": "/operator/taxons/species"
+				},
+				"misidentification": {
+					"type": [
+						"integer",
+						"null"
+					],
+					"url": "/operator/taxons/misidentification"
+				},
+				"collectorName": {
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				"specimenCount": {
+					"type": [
+						"integer",
+						"null"
+					]
+				}
+			},
+			"required": [
+				"radius",
+				"speciesConfidence",
+				"taxon"
+			]
+		}
+	},
+	"required": ["properties", "geometry"]
+}

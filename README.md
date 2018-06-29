@@ -1,0 +1,7 @@
+|    Metrics    |                                                                                     Master                                                                                     |                                                                                  Develop                                                                                 |
+|:-------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| CI status     | [![pipeline status](https://gitlab.com/redmic-project/server/api/badges/master/pipeline.svg)](https://gitlab.com/redmic-project/server/api/commits/master) | [![pipeline status](https://gitlab.com/redmic-project/server/api/badges/dev/pipeline.svg)](https://gitlab.com/redmic-project/server/api/commits/dev) |
+| Test coverage | [![coverage report](https://gitlab.com/redmic-project/server/api/badges/master/coverage.svg)](https://gitlab.com/redmic-project/server/api/commits/master) | [![coverage report](https://gitlab.com/redmic-project/server/api/badges/dev/coverage.svg)](https://gitlab.com/redmic-project/server/api/commits/dev) |
+
+# API
+Este repositorio es para guardar la API de REDMIC. Este README está por hacer.

@@ -1,0 +1,261 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Activity DTO",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": [
+				"integer",
+				"null"
+			]
+		},
+		"name": {
+			"type": "string",
+			"minLength": 1,
+			"maxLength": 500
+		},
+		"parent": {
+			"type": "integer",
+			"url": "/operator/projects/"
+		},
+		"code": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 25
+		},
+		"description": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 1500
+		},
+		"note": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 1500
+		},
+		"accessibility": {
+			"type": "integer",
+			"url": "/operator/accessibilities/"
+		},
+		"scope": {
+			"type": [
+				"integer",
+				"null"
+			],
+			"url": "/operator/scopes/"
+		},
+		"activityType": {
+			"type": "integer",
+			"url": "/operator/activitytypes"
+		},
+		"startDate": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"endDate": {
+			"type": [
+				"string",
+				"null"
+			],
+			"format": "date-time"
+		},
+		"documents": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ActivityDocumentDTO"
+			}
+		},
+		"platforms": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ActivityPlatformRoleDTO"
+			}
+		},
+		"contacts": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ContactOrganisationRoleDTO"
+			}
+		},
+		"organisations": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/OrganisationRoleDTO"
+			}
+		}
+	},
+	"required": [
+		"name",
+		"startDate",
+		"accessibility",
+		"parent",
+		"activityType"
+	],
+	"definitions": {
+		"ActivityDocumentDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": [
+						"integer",
+						"null"
+					]
+				},
+				"document": {
+					"type": "integer",
+					"url": "/operator/documents/"
+				}
+			},
+			"required": [
+				"document"
+			]
+		},
+		"ActivityPlatformRoleDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": [
+						"integer",
+						"null"
+					]
+				},
+				"platform": {
+					"type": "integer",
+					"url": "/operator/platforms/"
+				},
+				"contact": {
+					"type": "integer",
+					"url": "/operator/contacts/"
+				},
+				"role": {
+					"type": "integer",
+					"url": "/operator/contactroles/"
+				},
+				"endDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				},
+				"startDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"platform",
+				"contact",
+				"role"
+			]
+		},
+		"ContactOrganisationRoleDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": [
+						"integer",
+						"null"
+					]
+				},
+				"contact": {
+					"type": "integer",
+					"url": "/operator/contacts/"
+				},
+				"organisation": {
+					"type": "integer",
+					"url": "/operator/organisations/"
+				},
+				"role": {
+					"type": "integer",
+					"url": "/operator/contactroles/"
+				},
+				"endDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				},
+				"startDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"contact",
+				"organisation",
+				"role"
+			]
+		},
+		"OrganisationRoleDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": [
+						"integer",
+						"null"
+					]
+				},
+				"organisation": {
+					"type": "integer",
+					"url": "/operator/organisations/"
+				},
+				"role": {
+					"type": "integer",
+					"url": "/operator/organisationroles/"
+				},
+				"endDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				},
+				"startDate": {
+					"type": [
+						"string",
+						"null"
+					],
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"organisation",
+				"role"
+			]
+		}
+	}
+}

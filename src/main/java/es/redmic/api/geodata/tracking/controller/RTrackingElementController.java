@@ -1,0 +1,59 @@
+package es.redmic.api.geodata.tracking.controller;
+
+import javax.annotation.PostConstruct;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import es.redmic.api.common.controller.RBaseController;
+import es.redmic.es.common.queryFactory.geodata.TrackingQueryUtils;
+import es.redmic.es.geodata.tracking.common.service.TrackingESService;
+import es.redmic.models.es.common.dto.ElasticSearchDTO;
+import es.redmic.models.es.common.dto.SuperDTO;
+import es.redmic.models.es.common.dto.UuidDTO;
+import es.redmic.models.es.common.query.dto.DataQueryDTO;
+import es.redmic.models.es.geojson.common.model.GeoPointData;
+import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
+
+@RestController
+@RequestMapping(value = "${controller.mapping.TRACKING_ELEMENTS_BY_ACTIVITY}")
+public class RTrackingElementController extends RBaseController<GeoPointData, ElementTrackingDTO, DataQueryDTO>{
+
+	TrackingESService service;
+
+	@Autowired
+	public RTrackingElementController(TrackingESService serviceES) {
+		super(serviceES);
+		this.service = serviceES;
+	}
+	
+	@PostConstruct
+	private void postConstruct() {
+		setFieldsExcludedOnQuery(TrackingQueryUtils.getFieldsExcludedOnQuery());
+	}
+	
+	@RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+	@ResponseBody
+	public SuperDTO getElement(@PathVariable("uuid") String elementUuid) {
+
+		UuidDTO result = service.getElement(elementUuid);
+		return new ElasticSearchDTO(result, result != null ? 1 : 0);
+	}
+	
+	@RequestMapping(value = "/_search", method = RequestMethod.POST)
+	@ResponseBody
+	public SuperDTO getElements(@PathVariable("activityId") String activityId,
+			@Valid @RequestBody DataQueryDTO queryDTO, BindingResult bindingResult) {
+
+		processQuery(queryDTO, bindingResult);
+		
+		return new ElasticSearchDTO(service.getElementsByActivity(activityId, queryDTO));
+	}
+}
