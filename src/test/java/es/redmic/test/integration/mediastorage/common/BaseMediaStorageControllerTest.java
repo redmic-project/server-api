@@ -25,7 +25,7 @@ import es.redmic.mediastorage.service.MediaStorageServiceItfc;
 import es.redmic.models.es.common.dto.BodyItemDTO;
 import es.redmic.models.es.common.dto.UrlDTO;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.testutils.oauth.IntegrationTestBase;
+import es.redmic.test.integration.common.IntegrationTestBase;
 
 @SpringBootTest(classes = { ApiApplication.class,
 		ApiApplicationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)

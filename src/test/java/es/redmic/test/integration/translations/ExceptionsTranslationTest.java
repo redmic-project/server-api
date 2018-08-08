@@ -1,6 +1,6 @@
 package es.redmic.test.integration.translations;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.text.MessageFormat;

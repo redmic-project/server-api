@@ -30,7 +30,7 @@ import es.redmic.models.es.administrative.taxonomy.dto.SpeciesDTO;
 import es.redmic.models.es.administrative.taxonomy.dto.TaxonDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.testutils.oauth.IntegrationTestBase;
+import es.redmic.test.integration.common.IntegrationTestBase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,

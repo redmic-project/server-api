@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import es.redmic.ApiApplication;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.testutils.oauth.IntegrationTestBase;
+import es.redmic.test.integration.common.IntegrationTestBase;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,

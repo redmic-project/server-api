@@ -17,7 +17,6 @@ import es.redmic.models.es.administrative.taxonomy.model.Species;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.query.dto.MetadataQueryDTO;
-import es.redmic.models.es.common.query.dto.SimpleQueryDTO;
 
 @RestController
 @RequestMapping(value = "${controller.mapping.SPECIES}")

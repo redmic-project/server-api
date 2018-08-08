@@ -24,8 +24,8 @@ import es.redmic.api.utils.sitemap.dto.OpenModules;
 import es.redmic.api.utils.sitemap.service.GenerateSitemapService;
 import es.redmic.exception.dto.SuperDTO;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.testutils.oauth.IntegrationTestBase;
-import es.redmic.testutils.utils.JsonToBeanTestUtil;
+import es.redmic.test.integration.common.IntegrationTestBase;
+import es.redmic.test.integration.utils.JsonToBeanTestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,
