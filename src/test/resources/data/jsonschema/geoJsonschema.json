@@ -85,10 +85,7 @@
 				},
 				"confidence": {
 					"default": "1",
-					"type": [
-						"integer",
-						"null"
-					],
+					"type": "integer",
 					"url": "/operator/confidences"
 				},
 				"radius": {
@@ -124,6 +121,7 @@
 				}
 			},
 			"required": [
+				"confidence",
 				"radius",
 				"speciesConfidence",
 				"taxon"

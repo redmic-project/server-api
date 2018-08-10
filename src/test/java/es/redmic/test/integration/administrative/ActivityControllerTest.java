@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.redmic.ApiApplication;
 import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.testutils.oauth.IntegrationTestBase;
+import es.redmic.test.integration.common.IntegrationTestBase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,
