@@ -63,17 +63,11 @@
 					]
 				},
 				"startDate": {
-					"type": [
-						"string",
-						"null"
-					],
+					"type": "string",
 					"format": "date-time"
 				},
 				"endDate": {
-					"type": [
-						"string",
-						"null"
-					],
+					"type":	"string",
 					"format": "date-time"
 				},
 				"remark": {
