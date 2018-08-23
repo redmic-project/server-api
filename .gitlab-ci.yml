@@ -172,8 +172,10 @@ deploy-pro:
   image: registry.gitlab.com/redmic-project/docker/docker-deploy
   variables:
     DOCKER_DRIVER: overlay2
-    SSH_REMOTE: ${PRO_SSH_REMOTE}
-    SERVICE: ${CI_PROJECT_NAME}
+    SSH_REMOTE: ${PRO_SSH_REMOTE}   
+    STATUS_CHECK_DELAY: 120
+    STACK: api
+    SERVICES_TO_CHECK: api_${CI_PROJECT_NAME}
     IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     IMAGE_TAG: ${CI_COMMIT_SHA}
     COMPOSE_FILE: docker-compose.tmpl.yml:docker-compose.prod.yml
