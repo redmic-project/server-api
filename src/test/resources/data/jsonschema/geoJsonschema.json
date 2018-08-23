@@ -115,6 +115,8 @@
 				}
 			},
 			"required": [
+			    "startDate",
+			    "endDate",
 				"confidence",
 				"radius",
 				"speciesConfidence",
