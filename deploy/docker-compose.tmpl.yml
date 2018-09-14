@@ -14,11 +14,12 @@ services:
       - AWS_ACCESS_KEY
       - AWS_SECRET_KEY
       - ELASTIC_XPACKSECURITYUSER
-      - JAVA_OPTS=-Xmx1g -Xss1g
+      - JAVA_OPTS=-XX:MaxRAMFraction=1
     networks:
       - elastic-net
       - postgres-net
       - redmic-net
+      - traefik-net
     volumes:
       - mediastorage-private-vol:/data/MEDIA_STORAGE
       - mediastorage-public-vol:/data/PUBLIC_MEDIA_STORAGE
@@ -32,7 +33,12 @@ services:
 networks:
   elastic-net:
     external: true
+
   postgres-net:
     external: true
+
   redmic-net:
+    external: true
+
+  traefik-net:
     external: true
