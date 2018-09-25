@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  api:
+    ports:
+      - target: ${MICROSERVICE_PORT}
+        published: ${MICROSERVICE_PORT}
+        mode: host
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        traefik.port: "${MICROSERVICE_PORT}"
+        traefik.docker.network: traefik-net
+        traefik.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}
+        traefik.backend: ${MICROSERVICE_NAME}
+      restart_policy:
+        delay: 1m
+        window: 3m
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          memory: 820M
+
+volumes:
+  mediastorage-private-vol:
+    name: mediastorage-private-vol
+
+  mediastorage-public-vol:
+    name: mediastorage-public-vol
