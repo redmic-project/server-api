@@ -7,7 +7,7 @@ services:
       replicas: 1
       labels:
         traefik.docker.network: traefik-net
-        traefik.microservice.port: "${MICROSERVICE_PORT}"
+        traefik.port: "${MICROSERVICE_PORT}"
         traefik.microservice.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}
         traefik.microservice.backend: ${MICROSERVICE_NAME}
         traefik.mediastorage.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|layers|species|platforms|organisations}
