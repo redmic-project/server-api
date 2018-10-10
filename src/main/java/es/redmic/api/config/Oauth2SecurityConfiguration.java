@@ -67,14 +67,6 @@ public class Oauth2SecurityConfiguration {
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/_schema").access(
 					"#oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
-			
-			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/**").access(
-					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
-			
-			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/**").access(
-					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/uploads/users").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
@@ -83,6 +75,14 @@ public class Oauth2SecurityConfiguration {
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/photobank/users/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+			
+			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/**").access(
+					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+			
+			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/**").access(
+					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
 			
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").access(
 					"#oauth2.hasScope('write') and "
