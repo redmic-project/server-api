@@ -76,7 +76,7 @@ public class Oauth2SecurityConfiguration {
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
 
-			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/uploads/users/**").access(
+			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/uploads/users").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 			
