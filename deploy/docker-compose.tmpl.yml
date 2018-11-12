@@ -29,6 +29,25 @@ services:
       timeout: 10s
       retries: 3
       start_period: 4m
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        traefik.docker.network: traefik-net
+        traefik.port: "${MICROSERVICE_PORT}"
+        traefik.sitemap.frontend.rule: PathPrefix:/sitemap;AddPrefix:${MICROSERVICE_NAME}
+        traefik.sitemap.backend: ${MICROSERVICE_NAME}
+        traefik.microservice.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}
+        traefik.microservice.backend: ${MICROSERVICE_NAME}
+        traefik.mediastorage.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|layers|species|platforms|organisations}
+        traefik.mediastorage.frontend.redirect.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|layers|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
+        traefik.mediastorage.frontend.redirect.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$$1/$$2/$$3
+        traefik.grafcan.frontend.rule: PathPrefix:/grafcan
+        traefik.grafcan.frontend.redirect.regex: ^.*/grafcan(.*)$$
+        traefik.grafcan.frontend.redirect.replacement: https://visor.grafcan.es/busquedas/toponimoxml$$1
+      restart_policy:
+        delay: 1m
+        window: 3m
 
 networks:
   elastic-net:
