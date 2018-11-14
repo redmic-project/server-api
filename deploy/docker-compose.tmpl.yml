@@ -35,7 +35,7 @@ services:
       labels:
         traefik.docker.network: traefik-net
         traefik.port: "${MICROSERVICE_PORT}"
-        traefik.sitemap.frontend.rule: PathPrefix:/sitemap;AddPrefix:${MICROSERVICE_NAME}
+        traefik.sitemap.frontend.rule: PathPrefix:/sitemap;AddPrefix:/${MICROSERVICE_NAME}
         traefik.sitemap.backend: ${MICROSERVICE_NAME}
         traefik.microservice.frontend.rule: PathPrefix:/${MICROSERVICE_NAME}
         traefik.microservice.backend: ${MICROSERVICE_NAME}
