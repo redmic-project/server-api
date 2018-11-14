@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.File;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
@@ -14,28 +15,39 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import es.redmic.ApiApplication;
 import es.redmic.api.utils.sitemap.controller.GenerateSitemapController;
 import es.redmic.api.utils.sitemap.dto.OpenModules;
 import es.redmic.api.utils.sitemap.service.GenerateSitemapService;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.test.integration.common.IntegrationTestBase;
 import es.redmic.test.integration.utils.JsonToBeanTestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,
 		ApiApplicationTest.class }, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class GenerateSitemapTest extends IntegrationTestBase {
+public class GenerateSitemapTest {
 
 	@MockBean
 	GenerateSitemapController controller;
 
 	@Autowired
 	GenerateSitemapService service;
+
+	@Autowired
+	protected WebApplicationContext webApplicationContext;
+
+	@Autowired
+	protected FilterChainProxy springSecurityFilterChain;
+
+	protected MockMvc mockMvc;
 
 	// @formatter:off
 
@@ -48,17 +60,17 @@ public class GenerateSitemapTest extends IntegrationTestBase {
 	@Value("${property.SITEMAP_DESTINATION_DIR}")
 	private String DESTINATION_DIR;
 
-	@Test
-	public void generateSitemapAsAdministrator_IsSuccessful_IfIsAuthorized() throws Exception {
+	@Before
+	public void setUp() {
 
-		mockMvc.perform(get(GENERATE_SITEMAP_URL).header("Authorization", "Bearer " + getTokenAdministratorUser()))
-				.andExpect(status().isOk());
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).addFilters(springSecurityFilterChain)
+				.build();
 	}
 
 	@Test
-	public void generateSitemapAsGuest_ReturnUnauthorized_IfNotIsAuntificated() throws Exception {
+	public void getSitemap_ReturnFile_IfSitemapWasGenerated() throws Exception {
 
-		mockMvc.perform(get(GENERATE_SITEMAP_URL)).andExpect(status().isUnauthorized());
+		mockMvc.perform(get(GENERATE_SITEMAP_URL)).andExpect(status().isOk());
 	}
 
 	@Test
