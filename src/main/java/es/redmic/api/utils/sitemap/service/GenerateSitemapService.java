@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import es.redmic.api.utils.sitemap.dto.ModuleNamesDTO;
 import es.redmic.api.utils.sitemap.dto.OpenModules;
+import es.redmic.es.common.queryFactory.geodata.AreaQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.CitationQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.PlatformTrackingQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.TrackingQueryUtils;
@@ -149,6 +150,8 @@ public class GenerateSitemapService {
 			queryDTO.setTerms(TrackingQueryUtils.getActivityCategoryTermQuery());
 		} else if (moduleName.contains("infrastructure")) {
 			queryDTO.setTerms(PlatformTrackingQueryUtils.getActivityCategoryTermQuery());
+		} else if (moduleName.contains("area")) {
+			queryDTO.setTerms(AreaQueryUtils.getActivityCategoryTermQuery());
 		}
 		return queryDTO;
 	}
