@@ -3,7 +3,9 @@ package es.redmic;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration;
@@ -30,6 +32,7 @@ import es.redmic.databaselib.common.repository.BaseRepositoryImpl;
 import es.redmic.db.config.EntityManagerWrapper;
 import es.redmic.es.common.service.UserUtilsServiceItfc;
 import es.redmic.models.es.common.view.QueryDTODeserializerModifier;
+import io.micrometer.core.instrument.MeterRegistry;
 
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, ElasticsearchAutoConfiguration.class })
 @EnableAutoConfiguration
@@ -39,6 +42,9 @@ import es.redmic.models.es.common.view.QueryDTODeserializerModifier;
 @EnableJpaRepositories(basePackages = { "es.redmic.db",
 		"es.redmic.databaselib" }, repositoryBaseClass = BaseRepositoryImpl.class)
 public class ApiApplication {
+
+	@Value("${info.microservice.name}")
+	String microserviceName;
 
 	@Autowired
 	ObjectMapper objectMapper;
@@ -92,5 +98,10 @@ public class ApiApplication {
 		objectMapper.setFilterProvider(filters);
 
 		return new QueryDTOMessageConverter(objectMapper, userService);
+	}
+
+	@Bean
+	MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
+		return registry -> registry.config().commonTags("application", microserviceName);
 	}
 }

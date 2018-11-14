@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import es.redmic.api.utils.sitemap.dto.ModuleNamesDTO;
 import es.redmic.api.utils.sitemap.dto.OpenModules;
+import es.redmic.es.common.queryFactory.geodata.AreaQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.CitationQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.PlatformTrackingQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.TrackingQueryUtils;
 import es.redmic.es.common.service.MetaDataESService;
 import es.redmic.exception.utils.SitemapGenerateException;
+import es.redmic.mediastorage.service.FileUtils;
 import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.utils.httpclient.HttpClient;
 import es.redmic.utils.sitemap.Sitemap;
@@ -61,6 +63,8 @@ public class GenerateSitemapService {
 	}
 
 	public void createSitemap() {
+
+		FileUtils.createDirectoryIfNotExist(DESTINATION_DIR);
 
 		Sitemap sitemap = new Sitemap(BASE_URL, DESTINATION_DIR, langs, defaultLang);
 
@@ -146,6 +150,8 @@ public class GenerateSitemapService {
 			queryDTO.setTerms(TrackingQueryUtils.getActivityCategoryTermQuery());
 		} else if (moduleName.contains("infrastructure")) {
 			queryDTO.setTerms(PlatformTrackingQueryUtils.getActivityCategoryTermQuery());
+		} else if (moduleName.contains("area")) {
+			queryDTO.setTerms(AreaQueryUtils.getActivityCategoryTermQuery());
 		}
 		return queryDTO;
 	}

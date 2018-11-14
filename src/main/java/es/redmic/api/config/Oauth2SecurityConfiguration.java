@@ -59,6 +59,8 @@ public class Oauth2SecurityConfiguration {
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/_search/_schema").permitAll();
 			
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/utils/geo/convert2geojson").permitAll();
+			
+			http.authorizeRequests().antMatchers(HttpMethod.GET, "/sitemap.xml").permitAll();
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/activitycategories").access(
 					"#oauth2.hasScope('write') and "
@@ -102,10 +104,6 @@ public class Oauth2SecurityConfiguration {
 			http.authorizeRequests().antMatchers("/temp/report/**/").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
-			
-			http.authorizeRequests().antMatchers(HttpMethod.GET, "/generate-sitemap").access(
-					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR')");
 			
 			http.authorizeRequests().antMatchers("/**/convert2redmic/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
