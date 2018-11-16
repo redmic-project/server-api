@@ -103,7 +103,7 @@ public class Oauth2SecurityConfiguration {
 			
 			http.authorizeRequests().antMatchers("/temp/report/**/").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 			
 			http.authorizeRequests().antMatchers("/**/convert2redmic/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
