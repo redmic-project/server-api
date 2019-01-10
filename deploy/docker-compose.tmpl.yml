@@ -24,7 +24,7 @@ services:
       - mediastorage-private-vol:/data/MEDIA_STORAGE
       - mediastorage-public-vol:/data/PUBLIC_MEDIA_STORAGE
     healthcheck:
-      test: wget --spider -S -t 3 http://localhost:${MICROSERVICE_PORT}/${MICROSERVICE_NAME}/actuator/health
+      test: wget --spider -q http://localhost:${MICROSERVICE_PORT}/${MICROSERVICE_NAME}/actuator/health
       interval: 30s
       timeout: 10s
       retries: 3
