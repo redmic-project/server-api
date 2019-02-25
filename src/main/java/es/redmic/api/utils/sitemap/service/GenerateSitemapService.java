@@ -1,5 +1,6 @@
 package es.redmic.api.utils.sitemap.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import es.redmic.es.common.queryFactory.geodata.CitationQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.PlatformTrackingQueryUtils;
 import es.redmic.es.common.queryFactory.geodata.TrackingQueryUtils;
 import es.redmic.es.common.service.MetaDataESService;
-import es.redmic.exception.utils.SitemapGenerateException;
 import es.redmic.mediastorage.service.FileUtils;
 import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.utils.httpclient.HttpClient;
@@ -73,27 +73,19 @@ public class GenerateSitemapService {
 			String parentName = moduleNames.getParentName(), moduleName = moduleNames.getModuleName();
 
 			if (!moduleName.contains(ID_PATTERN)) {
-
 				sitemap.addUrl(createUrl(parentName, moduleName));
-
 			} else {
-
 				String serviceName = getServiceName(moduleName);
-
 				if (serviceName == null) {
-
 					System.out.println("Nombre del servicio no soportado en el generador de sitemap " + serviceName);
-					throw new SitemapGenerateException();
-				}
+				} else {
+					List<String> ids = getIds(serviceName, getQuery(moduleName));
 
-				List<String> ids = getIds(serviceName, getQuery(moduleName));
-
-				if (ids != null) {
-
-					for (String id : ids) {
-
-						String moduleNameWithId = moduleName.replace(ID_PATTERN, id);
-						sitemap.addUrl(createUrl(parentName, moduleNameWithId));
+					if (ids != null) {
+						for (String id : ids) {
+							String moduleNameWithId = moduleName.replace(ID_PATTERN, id);
+							sitemap.addUrl(createUrl(parentName, moduleNameWithId));
+						}
 					}
 				}
 			}
@@ -118,6 +110,11 @@ public class GenerateSitemapService {
 			if (moduleNameSplit[1].equals("ogc"))
 				return "layer" + SERVICE_SUFFIX;
 
+			// TODO: extender funcionalidad para crear entradas de otros tipo de datos
+			// getAllIds solo está implementado para metadata
+			if (moduleName.contains("real-time-dashboard"))
+				return null;
+
 			return moduleNameSplit[0] + SERVICE_SUFFIX;
 		}
 		return name;
@@ -133,7 +130,7 @@ public class GenerateSitemapService {
 			service = (MetaDataESService) ctx.getBean(serviceName);
 		} catch (Exception e) {
 			System.out.println("Nombre del servicio no soportado en el generador de sitemap " + serviceName);
-			throw new SitemapGenerateException(e);
+			return new ArrayList<>();
 		}
 
 		return service.getAllIds(queryDTO, ID_PROPERTY);
@@ -153,6 +150,7 @@ public class GenerateSitemapService {
 		} else if (moduleName.contains("area")) {
 			queryDTO.setTerms(AreaQueryUtils.getActivityCategoryTermQuery());
 		}
+
 		return queryDTO;
 	}
 }
