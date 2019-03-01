@@ -1,5 +1,7 @@
 package es.redmic.api.presence.geodata.common;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
@@ -39,7 +41,7 @@ public abstract class GeoDataPresenceController<TModel extends Feature<GeoDataPr
 		processQuery((TQueryDTO) queryDTO);
 		return new ElasticSearchDTO(serviceES.find(convertToQuery((TQueryDTO) queryDTO)));
 	}
-	
+
 	@RequestMapping(value = "/_search", method = RequestMethod.POST)
 	@ResponseBody
 	public SuperDTO getFeatures(@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
@@ -53,6 +55,14 @@ public abstract class GeoDataPresenceController<TModel extends Feature<GeoDataPr
 	public SuperDTO findById(@PathVariable("id") String id) {
 		TDTO response = serviceES.searchById(id);
 		return new ElasticSearchDTO(response, response == null ? 0 : 1);
+	}
 
+	@RequestMapping(value = "/_suggest", method = RequestMethod.POST)
+	@ResponseBody
+	public SuperDTO _advancedSuggest(@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
+
+		processQuery(queryDTO, bindingResult);
+		List<String> response = serviceES.suggest(convertToQuery(queryDTO));
+		return new ElasticSearchDTO(response, response.size());
 	}
 }
