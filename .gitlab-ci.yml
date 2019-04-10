@@ -4,6 +4,9 @@ include:
     file: '/maven-building-microservice.yml'
   - project: 'redmic-project/gitlab-ci-templates'
     ref: master
+    file: '/license-listing.yml'
+  - project: 'redmic-project/gitlab-ci-templates'
+    ref: master
     file: '/packaging.yml'
   - project: 'redmic-project/gitlab-ci-templates'
     ref: master
@@ -11,14 +14,13 @@ include:
 
 stages:
   - build
+  - license-list
   - package
   - test-package
   - deploy
 
 variables:
-  PARENT_IMAGE_NAME: registry.gitlab.com/redmic-project/docker/redmic-server
-  PARENT_IMAGE_TAG: latest
-  DOCKER_BUILD_ARGS: --build-arg PARENT_IMAGE_NAME=${PARENT_IMAGE_NAME} --build-arg PARENT_IMAGE_TAG=${PARENT_IMAGE_TAG}
+  DOCKER_BUILD_ARGS: --build-arg PARENT_IMAGE_NAME=${REDMIC_SERVER_IMAGE_NAME} --build-arg PARENT_IMAGE_TAG=${REDMIC_SERVER_IMAGE_TAG}
   STACK: api
   STATUS_CHECK_DELAY: 300
 
