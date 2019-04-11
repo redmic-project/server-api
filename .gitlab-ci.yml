@@ -33,15 +33,13 @@ variables:
       OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET} AWS_ACCESS_KEY=${AWS_ACCESS_KEY} AWS_SECRET_KEY=${AWS_SECRET_KEY}
       ELASTIC_XPACKSECURITYUSER=${ELASTIC_XPACKSECURITYUSER} AWS_REGION=${AWS_REGION} S3_BUCKET="${S3_BUCKET}"
       PUBLIC_HOSTNAME=${PUBLIC_HOSTNAME}
+  environment:
+    url: https://${PUBLIC_HOSTNAME}/${CI_PROJECT_NAME}
 
 .deploy-development:
   variables:
     SPRING_PROFILES_ACTIVE: pre
-  environment:
-    url: https://${PUBLIC_HOSTNAME}/${CI_PROJECT_NAME}
 
 .deploy-production:
   variables:
     SPRING_PROFILES_ACTIVE: prod
-  environment:
-    url: https://${PUBLIC_HOSTNAME}/${CI_PROJECT_NAME}
