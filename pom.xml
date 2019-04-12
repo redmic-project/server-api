@@ -14,9 +14,16 @@
 	<groupId>es.redmic</groupId>
 	<artifactId>api</artifactId>
 	<packaging>jar</packaging>
-	<version>0.7.1-feature-updateCI</version>
+	<version>0.7.1-feature-applyLicense</version>
 	<name>API</name>
 	<description>RESTful web services</description>
+	
+	<licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
