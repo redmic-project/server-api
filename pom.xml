@@ -19,7 +19,7 @@
 
 	<properties>
 		<!-- REDMIC -->
-		<redmic.db.version>0.6.1</redmic.db.version>
+		<redmic.db.version>0.7.0-feature-cleanAtlasComponents</redmic.db.version>
 		<redmic.elasticsearch.version>0.6.1</redmic.elasticsearch.version>
 		<redmic.exceptions.version>0.6.0</redmic.exceptions.version>
 		<redmic.utils.version>0.6.0</redmic.utils.version>
