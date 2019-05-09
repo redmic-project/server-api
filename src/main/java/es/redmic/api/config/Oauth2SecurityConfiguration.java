@@ -66,6 +66,8 @@ public class Oauth2SecurityConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
 			
+			http.cors();
+			
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_search").permitAll();
 			
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_categories").permitAll();
