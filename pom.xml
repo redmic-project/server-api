@@ -20,10 +20,10 @@
 	<properties>
 		<!-- REDMIC -->
 		<redmic.db.version>0.7.0-feature-cleanAtlasComponents</redmic.db.version>
-		<redmic.elasticsearch.version>0.6.1</redmic.elasticsearch.version>
+		<redmic.elasticsearch.version>0.7.0-feature-cleanAtlasComponents</redmic.elasticsearch.version>
 		<redmic.exceptions.version>0.6.0</redmic.exceptions.version>
-		<redmic.utils.version>0.6.0</redmic.utils.version>
-		<redmic.models.version>0.6.1</redmic.models.version>
+		<redmic.utils.version>0.9.0-feature-cleanCapabilities</redmic.utils.version>
+		<redmic.models.version>0.10.0-feature-cleanAtlasComponents</redmic.models.version>
 		<redmic.mediastorage.version>0.6.0</redmic.mediastorage.version>
 		<redmic.sitemapgen4j.version>0.6.0</redmic.sitemapgen4j.version>
 
