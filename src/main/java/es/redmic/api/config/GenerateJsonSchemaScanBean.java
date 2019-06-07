@@ -54,6 +54,7 @@ import es.redmic.models.es.administrative.dto.ContactOrganisationRoleDTO;
 import es.redmic.models.es.administrative.dto.OrganisationRoleDTO;
 import es.redmic.models.es.administrative.taxonomy.dto.RecoveryDTO;
 import es.redmic.models.es.administrative.taxonomy.dto.SpecimenTagDTO;
+import es.redmic.models.es.atlas.dto.LayerCompactDTO;
 import es.redmic.models.es.geojson.area.dto.AreaPropertiesDTO;
 import es.redmic.models.es.maintenance.areas.dto.AreaClassificationDTO;
 import es.redmic.models.es.maintenance.device.dto.CalibrationDTO;
@@ -80,10 +81,10 @@ public class GenerateJsonSchemaScanBean implements ApplicationContextAware {
 	@Value("${property.path.media_storage.JSONSCHEMA}")
 	private String jsonschemaPath;
 
-	private List<Class<?>> specialBeansToGenerate = new ArrayList<Class<?>>(
-			Arrays.asList(RecoveryDTO.class, SpecimenTagDTO.class, ContactOrganisationRoleDTO.class,
-					OrganisationRoleDTO.class, ActivityPlatformRoleDTO.class, FixedSurveyDTO.class,
-					MeasurementDTO.class, CalibrationDTO.class, AreaClassificationDTO.class, AreaPropertiesDTO.class));
+	private List<Class<?>> specialBeansToGenerate = new ArrayList<Class<?>>(Arrays.asList(RecoveryDTO.class,
+			SpecimenTagDTO.class, ContactOrganisationRoleDTO.class, OrganisationRoleDTO.class,
+			ActivityPlatformRoleDTO.class, FixedSurveyDTO.class, MeasurementDTO.class, LayerCompactDTO.class,
+			CalibrationDTO.class, AreaClassificationDTO.class, AreaPropertiesDTO.class));
 
 	/**
 	 * {@inheritDoc}
@@ -96,7 +97,8 @@ public class GenerateJsonSchemaScanBean implements ApplicationContextAware {
 	}
 
 	/**
-	 * Recorre todos los beans de tipo Lectura-Escritura para generar los esquemas
+	 * Recorre todos los beans de tipo Lectura-Escritura para generar los
+	 * esquemas
 	 */
 	public void addAllControllerBeans() {
 		/* Genera los esquemas de json de datos simples */

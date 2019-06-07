@@ -127,6 +127,9 @@ public class GenerateSitemapService {
 
 		if (moduleNameSplit.length > 1) {
 
+			if (moduleNameSplit[1].equals("ogc"))
+				return "layer" + SERVICE_SUFFIX;
+
 			// TODO: extender funcionalidad para crear entradas de otros tipo de datos
 			// getAllIds solo está implementado para metadata
 			if (moduleName.contains("real-time-dashboard"))

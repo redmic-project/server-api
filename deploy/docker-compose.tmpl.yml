@@ -38,9 +38,6 @@ services:
         traefik.mediastorage.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|layers|species|platforms|organisations}
         traefik.mediastorage.frontend.redirect.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|layers|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
         traefik.mediastorage.frontend.redirect.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$$1/$$2/$$3
-        traefik.grafcan.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/grafcan
-        traefik.grafcan.frontend.redirect.regex: ^.*/grafcan(.*)$$
-        traefik.grafcan.frontend.redirect.replacement: https://visor.grafcan.es/busquedas/toponimoxml$$1
         traefik.backend: ${MICROSERVICE_NAME}
         traefik.port: "${MICROSERVICE_PORT}"
       restart_policy:
