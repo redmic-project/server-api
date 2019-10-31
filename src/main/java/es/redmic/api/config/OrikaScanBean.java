@@ -38,7 +38,6 @@ import es.redmic.db.config.OrikaScanBeanDBItfc;
 import es.redmic.es.common.objectFactory.ModelESFactory;
 import es.redmic.es.config.OrikaScanBeanESItfc;
 import es.redmic.es.geodata.common.objectfactory.GeometryESFactory;
-import es.redmic.models.es.atlas.LatLonBoundingBox;
 import es.redmic.models.es.common.model.BaseES;
 import ma.glasnost.orika.Converter;
 import ma.glasnost.orika.CustomMapper;
@@ -109,6 +108,7 @@ public class OrikaScanBean extends ConfigurableMapper
 	 * @param applicationContext
 	 *            The application context to look for managed beans in.
 	 */
+	@Override
 	public void addAllSpringBeans() {
 		@SuppressWarnings("rawtypes")
 		final Map<String, Converter> converters = applicationContext.getBeansOfType(Converter.class);
@@ -127,8 +127,8 @@ public class OrikaScanBean extends ConfigurableMapper
 		/*
 		 * @SuppressWarnings("rawtypes") final Map<String, Filter> filters =
 		 * applicationContext.getBeansOfType(Filter.class); for
-		 * (@SuppressWarnings("rawtypes") final Filter filter :
-		 * filters.values()) { addFilter(filter); }
+		 * (@SuppressWarnings("rawtypes") final Filter filter : filters.values()) {
+		 * addFilter(filter); }
 		 */
 
 		addObjectFactory();
@@ -141,6 +141,7 @@ public class OrikaScanBean extends ConfigurableMapper
 	 * @param converter
 	 *            The converter.
 	 */
+	@Override
 	public void addConverter(final Converter<?, ?> converter) {
 		factory.getConverterFactory().registerConverter(converter);
 	}
@@ -151,6 +152,7 @@ public class OrikaScanBean extends ConfigurableMapper
 	 * @param mapper
 	 *            The mapper.
 	 */
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addMapper(final CustomMapper<?, ?> mapper) {
 		factory.classMap(mapper.getAType(), mapper.getBType()).byDefault().customize((CustomMapper) mapper).register();
@@ -165,10 +167,6 @@ public class OrikaScanBean extends ConfigurableMapper
 	}
 
 	private void addDefaultActions() {
-
-		factory.classMap(Double[].class, LatLonBoundingBox.class)
-				.customize(new CustomMapper<Double[], LatLonBoundingBox>() {
-				}).register();
 
 		factory.classMap(Point.class, Point.class).customize(new CustomMapper<Point, Point>() {
 		}).register();
