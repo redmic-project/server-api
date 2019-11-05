@@ -35,8 +35,8 @@ services:
       labels:
         traefik.sitemap.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/sitemap;AddPrefix:/${MICROSERVICE_NAME}
         traefik.microservice.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}
-        traefik.mediastorage.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|layers|species|platforms|organisations}
-        traefik.mediastorage.frontend.redirect.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|layers|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
+        traefik.mediastorage.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|species|platforms|organisations}
+        traefik.mediastorage.frontend.redirect.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
         traefik.mediastorage.frontend.redirect.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$$1/$$2/$$3
         traefik.backend: ${MICROSERVICE_NAME}
         traefik.port: "${MICROSERVICE_PORT}"
