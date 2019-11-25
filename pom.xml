@@ -31,7 +31,7 @@
 
 		<!-- OTHERS -->
 		<orika-core.version>1.4.6</orika-core.version>
-		<commons-fileupload>1.3.2</commons-fileupload>
+		<commons-fileupload>1.3.3</commons-fileupload>
 		<powermock.version>1.7.3</powermock.version>
 
 		<!-- Plugins -->
