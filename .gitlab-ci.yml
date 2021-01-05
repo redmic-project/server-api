@@ -57,7 +57,7 @@ stages:
     ES_DISCOVERY_ZEN_MINIMUM_MASTER_NODES: 1
     ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS: es-1
     ES_XPACK_SECURITY_ENABLED: 'true'
-    ELASTIC_HOSTS: es-1
+    ELASTIC_HOSTS: docker
     ELASTIC_SCHEMA_VERSION: '0.1'
     ELASTIC_PORT: 9200
     GITLAB_REGISTRY_HOST: registry.gitlab.com
@@ -156,7 +156,7 @@ stages:
         -U ${POSTGRES_USER} \
         -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
     - >
-      docker run --rm --name es-1 \
+      docker run -d --rm --name es-1 \
         -p 9300:9300 \
         -p 9200:9200 \
         --network test \
