@@ -177,7 +177,7 @@ stages:
     - >
       HEALTH_CHECK_URL="${ELASTIC_HOSTS}:${ELASTIC_PORT}/_cat/health?h=status";
       RESPONSE="";
-      until [ "$$RESPONSE" = 'green' ];
+      until [ $RESPONSE = 'green' ];
       do
         RESPONSE=$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}");
         echo "Waiting for elasticsearch server, remaining attempts...";
@@ -193,7 +193,7 @@ stages:
         -e ELASTIC_SCHEMA_VERSION \
         ${SCHEMA_ES_IMAGE_NAME}:${SCHEMA_ES_IMAGE_TAG};
   after_script:
-    - docker stop user oauth postgres
+    - docker stop user oauth postgres es-1
 
 .docker-build:
   variables:
