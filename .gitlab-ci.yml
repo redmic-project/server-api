@@ -144,6 +144,19 @@ stages:
         -e OAUTH_CLIENT_SECRET \
         ${USER_IMAGE_NAME}:${USER_IMAGE_TAG};
     - >
+      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+        -o sql/api_database_structure_test.sql \
+        "https://gitlab.com/api/v4/snippets/${API_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
+    - >
+      docker exec postgres psql -h localhost \
+        -d redmic \
+        -U ${POSTGRES_USER} \
+        -f /sql/api_database_structure_test.sql;
+      docker exec postgres psql -h localhost \
+        -d redmic \
+        -U ${POSTGRES_USER} \
+        -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
+    - >
       docker run -d --rm --name es-1 \
         -p 9300:9300 \
         -p 9200:9200 \
@@ -161,7 +174,7 @@ stages:
         -e ES_DISCOVERY_ZEN_MINIMUM_MASTER_NODES \
         -e ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS \
         -e ES_XPACK_SECURITY_ENABLED \
-        ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
+        ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG};
     - >
       HEALTH_CHECK_URL="${ELASTIC_HOSTS}:${ELASTIC_PORT}/_cat/health?h=status"
       RESPONSE="";
@@ -171,9 +184,9 @@ stages:
         RESPONSE=$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}")
         echo "Waiting for elasticsearch server, remaining attempts..."
         sleep 5
-      done
+      done;
 
-      docker login ${GITLAB_REGISTRY_HOST} -u ${CI_DEPLOY_USER} -p ${CI_DEPLOY_PASSWORD}
+      docker login ${GITLAB_REGISTRY_HOST} -u ${CI_DEPLOY_USER} -p ${CI_DEPLOY_PASSWORD};
 
       docker run -d --rm --name schema-es \
         --network test \
@@ -181,7 +194,7 @@ stages:
         -e ELASTIC_USER_PASS \
         -e ELASTIC_HOSTS \
         -e ELASTIC_SCHEMA_VERSION \
-        ${SCHEMA_ES_IMAGE_NAME}:${SCHEMA_ES_IMAGE_TAG}
+        ${SCHEMA_ES_IMAGE_NAME}:${SCHEMA_ES_IMAGE_TAG};
   after_script:
     - docker stop user oauth postgres
 
