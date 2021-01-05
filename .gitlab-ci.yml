@@ -180,7 +180,7 @@ stages:
 
       until [ "$$RESPONSE" = 'green' ];
       do \
-        RESPONSE=$$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}") \
+        RESPONSE=$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}") \
         echo "Waiting for elasticsearch server (${HEALTH_CHECK_URL} -> ${RESPONSE}), remaining attempts..." \
         sleep 5;
       done;
