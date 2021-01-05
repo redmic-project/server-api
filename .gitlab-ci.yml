@@ -93,7 +93,6 @@ stages:
       curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
         -o sql/user_database_data_test.sql \
         "https://gitlab.com/api/v4/snippets/${USER_DATABASE_DATA_TEST_SNIPPET_ID}/raw";
-    - >
       RETRIES=10;
       until docker exec postgres psql -h localhost \
           -d redmic \
@@ -146,7 +145,6 @@ stages:
       curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
         -o sql/api_database_structure_test.sql \
         "https://gitlab.com/api/v4/snippets/${API_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
-    - >
       docker exec postgres psql -h localhost \
         -d redmic \
         -U ${POSTGRES_USER} \
