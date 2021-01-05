@@ -176,7 +176,7 @@ stages:
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG};
     - >
       HEALTH_CHECK_URL="${ELASTIC_HOSTS}:${ELASTIC_PORT}/_cat/health?h=status";
-      RESPONSE="";
+      RESPONSE="red";
       until [ $RESPONSE = 'green' ];
       do
         RESPONSE=$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}");
