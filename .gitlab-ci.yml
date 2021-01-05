@@ -38,7 +38,6 @@ stages:
     DIND_IMAGE_NAME: docker
     DIND_IMAGE_TAG: dind
     DOCKER_HOST: tcp://docker:2375
-    SPRING_DATASOURCE_URL: jdbc:postgresql://docker:5432/redmic?stringtype=unspecified
     ELASTIC_ADDRESSES: docker
     OAUTH_SERVER: http://docker:8081
     PROPERTY_USER_API: http://docker:8082
@@ -112,7 +111,7 @@ stages:
       docker exec postgres psql -h localhost \
         -d redmic \
         -U ${POSTGRES_USER} \
-        -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
+        -c "ALTER ROLE ${USER_SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${USER_SPRING_DATASOURCE_PASSWORD}'";
       docker exec postgres psql -h localhost \
         -d redmic \
         -U ${POSTGRES_USER} \
@@ -130,16 +129,16 @@ stages:
         -p 8081:8081 \
         --network test \
         -e SPRING_PROFILES_ACTIVE=dev \
-        -e SPRING_DATASOURCE_USERNAME \
-        -e SPRING_DATASOURCE_PASSWORD \
+        -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
+        -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
         ${OAUTH_IMAGE_NAME}:${OAUTH_IMAGE_TAG};
     - >
       docker run -d --rm --name user \
         -p 8082:8082 \
         --network test \
         -e SPRING_PROFILES_ACTIVE=dev \
-        -e SPRING_DATASOURCE_USERNAME \
-        -e SPRING_DATASOURCE_PASSWORD \
+        -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
+        -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
         -e OAUTH_CLIENT_ID \
         -e OAUTH_CLIENT_SECRET \
         ${USER_IMAGE_NAME}:${USER_IMAGE_TAG};
