@@ -24,7 +24,7 @@
 		<redmic.exceptions.version>0.6.0</redmic.exceptions.version>
 		<redmic.utils.version>0.6.0</redmic.utils.version>
 		<redmic.models.version>0.6.1</redmic.models.version>
-		<redmic.mediastorage.version>0.6.0</redmic.mediastorage.version>
+		<redmic.mediastorage.version>0.7.0</redmic.mediastorage.version>
 		<redmic.sitemapgen4j.version>0.6.0</redmic.sitemapgen4j.version>
 
 		<redmic.test-utils.version>0.6.0</redmic.test-utils.version>
@@ -153,23 +153,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>libs-release</name>
-			<url>https://artifactory.redmic.net/artifactory/libs-release</url>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<name>libs-snapshot</name>
-			<url>https://artifactory.redmic.net/artifactory/libs-snapshot</url>
-		</repository>
-		<repository>
-			<id>osgeo</id>
-			<name>Open Source Geospatial Foundation Repository</name>
-			<url>http://download.osgeo.org/webdav/geotools/</url>
-		</repository>
-	</repositories>
 	<build>
 		<plugins>
 			<plugin>
