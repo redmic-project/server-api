@@ -9,9 +9,9 @@ package es.redmic.test.integration.common;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,6 +69,9 @@ public abstract class IntegrationTestBase {
 	@Value("${test.user.PASSWORD}")
 	private String PASSWORD;
 
+	@Value("${test.oauth.AUTHORIZATION}")
+	private String AUTHORIZATION;
+
 	@Before
 	public void setUp() {
 
@@ -106,7 +109,7 @@ public abstract class IntegrationTestBase {
 		params.add("scope", "write");
 
 		Map<String, String> headers = new HashMap<>();
-		headers.put("Authorization", "Basic YXBwOnNlY3JldEtleQ==");
+		headers.put("Authorization", "Basic " + AUTHORIZATION);
 
 		Map<String, String> result = (Map<String, String>) client.post(OAUTH_SERVER_PATH + "/api/oauth/token", params,
 				headers, java.util.HashMap.class);
