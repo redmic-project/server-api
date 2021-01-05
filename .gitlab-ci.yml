@@ -156,7 +156,7 @@ stages:
         -U ${POSTGRES_USER} \
         -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
     - >
-      docker run -d --rm --name es-1 \
+      docker run --rm --name es-1 \
         -p 9300:9300 \
         -p 9200:9200 \
         --network test \
@@ -181,7 +181,7 @@ stages:
       until [ "$RESPONSE" = 'green' ];
       do \
         RESPONSE=$(curl --silent -u "${ELASTIC_USER}:${ELASTIC_USER_PASS}" "${HEALTH_CHECK_URL}") \
-        echo "Waiting for elasticsearch server, remaining attempts..." \
+        echo "Waiting for elasticsearch server (${HEALTH_CHECK_URL} -> ${RESPONSE}), remaining attempts..." \
         sleep 5;
       done;
 
