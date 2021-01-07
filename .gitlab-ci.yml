@@ -60,7 +60,6 @@ stages:
     ES_XPACK_SECURITY_ENABLED: 'true'
     ELASTIC_HOSTS: es-1
     ELASTIC_SCHEMA_VERSION: '0.1'
-    ELASTIC_PORT: 9200
     GITLAB_REGISTRY_HOST: registry.gitlab.com
     CI_DEPLOY_USER: ci_deploy_user
     CI_DEPLOY_PASSWORD: ci_deploy_password
@@ -175,12 +174,11 @@ stages:
         -e ES_XPACK_SECURITY_ENABLED \
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
     - >
-      HEALTH_CHECK_URL=docker:${ELASTIC_PORT}/_cat/health?h=status;
       RESPONSE="";
       until [ "$RESPONSE" = "green" ];
       do
         sleep 15;
-        RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} ${HEALTH_CHECK_URL} || :)";
+        RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
         echo "Waiting for elasticsearch server, remaining attempts... Last output:";
         echo $RESPONSE;
       done
