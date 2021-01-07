@@ -186,7 +186,7 @@ stages:
       done
     - >
       docker login ${GITLAB_REGISTRY_HOST} -u ${CI_DEPLOY_USER} -p ${CI_DEPLOY_PASSWORD};
-      docker run -d --rm --name schema-es \
+      docker run --rm --name schema-es \
         --network test \
         -e ELASTIC_USER \
         -e ELASTIC_USER_PASS \
