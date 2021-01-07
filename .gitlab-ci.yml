@@ -181,6 +181,7 @@ stages:
         echo "Waiting for elasticsearch server, remaining attempts...";
         sleep 5;
       done;
+      echo $?;
     - >
       docker login ${GITLAB_REGISTRY_HOST} -u ${CI_DEPLOY_USER} -p ${CI_DEPLOY_PASSWORD};
       docker run -d --rm --name schema-es \
@@ -191,6 +192,7 @@ stages:
         -e ELASTIC_SCHEMA_VERSION \
         ${SCHEMA_ES_IMAGE_NAME}:${SCHEMA_ES_IMAGE_TAG};
   after_script:
+    - rm -rf .m2/repository/es
     - docker stop user oauth postgres es-1
 
 .docker-build:
