@@ -39,6 +39,17 @@
 			],
 			"maxLength": 1500
 		},
+		"resources": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ActivityResourceDTO"
+			}
+		},
 		"accessibility": {
 			"type": "integer",
 			"url": "/operator/accessibilities/"
@@ -118,6 +129,38 @@
 		"activityType"
 	],
 	"definitions": {
+		"ActivityResourceDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": [
+						"integer",
+						"null"
+					]
+				},
+				"name": {
+					"type": "string",
+					"minLength": 1,
+					"maxLength": 100
+				},
+				"description": {
+					"type": [
+						"string",
+						"null"
+					],
+					"maxLength": 1500
+				},
+				"urlResource": {
+					"type": "string",
+					"minLength": 1,
+					"maxLength": 500
+				}
+			},
+			"required": [
+				"name",
+				"urlResource"
+			]
+		},
 		"ActivityDocumentDTO": {
 			"type": "object",
 			"properties": {
