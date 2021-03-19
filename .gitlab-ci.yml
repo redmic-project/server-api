@@ -14,6 +14,9 @@ include:
   - project: 'redmic-project/gitlab-ci-templates'
     ref: master
     file: '/deployment-custom-image.yml'
+  - project: 'redmic-project/gitlab-ci-templates'
+    ref: master
+    file: '/deployment-external-backup-files.yml'
 
 stages:
   - build
@@ -22,6 +25,10 @@ stages:
   - package
   - post-package
   - deploy
+  - deploy-external-service
+
+variables:
+  PROJECT_PARENT_NAME: api
 
 .maven-build:
   variables:
@@ -202,7 +209,11 @@ stages:
 
 .deploy:
   variables:
-    STACK: api
+    STACK: ${PROJECT_PARENT_NAME}
     STATUS_CHECK_DELAY: 300
   environment:
     url: https://${PUBLIC_HOSTNAME}/${CI_PROJECT_NAME}
+
+.deploy-external-service:
+  variables:
+    STACK: ${PROJECT_PARENT_NAME}
