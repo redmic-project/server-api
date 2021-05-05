@@ -15,7 +15,7 @@
 			"maxLength": 500
 		},
 		"parent": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/projects/"
 		},
 		"code": {
@@ -51,18 +51,18 @@
 			}
 		},
 		"accessibility": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/accessibilities/"
 		},
 		"scope": {
 			"type": [
-				"integer",
+				"string",
 				"null"
 			],
 			"url": "/operator/scopes/"
 		},
 		"activityType": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/activitytypes"
 		},
 		"startDate": {
@@ -171,7 +171,7 @@
 					]
 				},
 				"document": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/documents/"
 				}
 			},
@@ -189,15 +189,15 @@
 					]
 				},
 				"platform": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/platforms/"
 				},
 				"contact": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contacts/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -231,15 +231,15 @@
 					]
 				},
 				"contact": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contacts/"
 				},
 				"organisation": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -273,11 +273,11 @@
 					]
 				},
 				"organisation": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisationroles/"
 				},
 				"endDate": {

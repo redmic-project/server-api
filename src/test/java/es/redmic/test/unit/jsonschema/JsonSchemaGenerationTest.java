@@ -9,9 +9,9 @@ package es.redmic.test.unit.jsonschema;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package es.redmic.test.unit.jsonschema;
  */
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 import org.apache.commons.io.IOUtils;
@@ -91,7 +92,7 @@ public class JsonSchemaGenerationTest {
 	public void simpleJsonschemaGenerate() throws JSONException, IOException {
 
 		String result = jsonSchemaUtil.generateJsonSchema(ActivityDTO.class),
-				expected = IOUtils.toString(getClass().getResource(jsonschemaPath).openStream());
+				expected = IOUtils.toString(getClass().getResource(jsonschemaPath).openStream(), Charset.forName("UTF8"));
 		JSONAssert.assertEquals(result, expected, true);
 	}
 
@@ -99,7 +100,7 @@ public class JsonSchemaGenerationTest {
 	public void geoJsonschemaGenerate() throws JSONException, IOException {
 
 		String result = jsonSchemaUtil.generateJsonSchema(CitationDTO.class),
-				expected = IOUtils.toString(getClass().getResource(geoJsonschemaPath).openStream());
+				expected = IOUtils.toString(getClass().getResource(geoJsonschemaPath).openStream(), Charset.forName("UTF8"));
 		JSONAssert.assertEquals(result, expected, true);
 	}
 }
