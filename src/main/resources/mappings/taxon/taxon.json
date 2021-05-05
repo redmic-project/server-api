@@ -1,0 +1,344 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				},
+				"path-analyzer": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer"
+				}
+			},
+			"tokenizer": {
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				},
+				"path-tokenizer": {
+					"type": "path_hierarchy",
+					"delimiter": "."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"_all": {
+				"enabled": false
+			},
+			"_source": {
+				"excludes": [
+					"peculiarity.taxonid",
+					"validAs.leaves",
+					"ancestors.leaves"
+				]
+			},
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"aphia": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"scientificName": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"authorship": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"commonName": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"rank": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"status": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"path": {
+					"type": "keyword",
+					"fields": {
+						"split": {
+							"type": "text",
+							"analyzer": "split-path-analyzer"
+						},
+						"path": {
+							"type": "text",
+							"analyzer": "path-analyzer",
+							"store": true
+						}
+					}
+				},
+				"leaves": {
+					"type": "long"
+				},
+				"ancestors": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						}
+					}
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				},
+				"peculiarity": {
+					"dynamic": "false",
+					"properties": {
+						"ecology": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"endemicity": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"interest": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"origin": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"permanence": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"canaryProtection": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"spainProtection": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"euProtection": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"trophicRegime": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"canaryCatalogue": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"title": {
+									"type": "text"
+								}
+							}
+						},
+						"spainCatalogue": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"title": {
+									"type": "text"
+								}
+							}
+						},
+						"euDirective": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"title": {
+									"type": "text"
+								}
+							}
+						},
+						"popularNames": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						}
+					}
+				},
+				"validAs": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"scientificName": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"authorship": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"path": {
+							"type": "keyword",
+							"fields": {
+								"split": {
+									"type": "text",
+									"analyzer": "split-path-analyzer"
+								},
+								"path": {
+									"type": "text",
+									"analyzer": "path-analyzer",
+									"store": true
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

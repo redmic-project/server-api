@@ -1,0 +1,391 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"code": {
+					"tokenizer": "code_tokenizer",
+					"filter": [
+						"lowercase",
+						"asciifolding",
+						"leading_zero_trim",
+						"edgeNGram_filter"
+					]
+				},
+				"code_search": {
+					"tokenizer": "code_tokenizer",
+					"filter": [
+						"lowercase",
+						"asciifolding",
+						"leading_zero_trim"
+					]
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				},
+				"path-analyzer": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer"
+				}
+			},
+			"tokenizer": {
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				},
+				"path-tokenizer": {
+					"type": "path_hierarchy",
+					"delimiter": "."
+				},
+				"code_tokenizer": {
+					"type": "pattern",
+					"pattern": "-|_|\\s|\\."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				},
+				"leading_zero_trim": {
+					"type": "pattern_replace",
+					"pattern": "^0+(.*)",
+					"replacement": "$1"
+				},
+				"edgeNGram_filter": {
+					"type": "edgeNGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"_all": {
+				"enabled": false
+			},
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"name": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"code": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "code",
+							"search_analyzer": "code_search"
+						}
+					}
+				},
+				"activityCategory": {
+					"type": "keyword"
+				},
+				"path": {
+					"type": "keyword",
+					"fields": {
+						"path": {
+							"type": "text",
+							"analyzer": "path-analyzer",
+							"store": true
+						},
+						"split": {
+							"type": "text",
+							"analyzer": "split-path-analyzer"
+						}
+					}
+				},
+				"scope": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"accessibility": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"rank": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"startDate": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
+				"endDate": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				},
+				"platforms": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"platform": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"contact": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"firstName": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"surname": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"role": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"startDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						},
+						"endDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						}
+					}
+				},
+				"contacts": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"contact": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"firstName": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"surname": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"role": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"startDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						},
+						"endDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						}
+					}
+				},
+				"organisations": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"organisation": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"acronym": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"role": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"startDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						},
+						"endDate": {
+							"type": "date",
+							"format": "date_optional_time"
+						}
+					}
+				},
+				"documents": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"document": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"title": {
+									"type": "text",
+									"analyzer": "spanish",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"code": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"activityType": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						},
+						"activityField": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "integer"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						}
+					}
+				},
+				"projectGroup": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		}
+	}
+}

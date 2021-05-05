@@ -1,0 +1,29 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {},
+			"tokenizer": {},
+			"filter": {}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"_all": {
+				"enabled": false
+			},
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"service": {
+					"type": "keyword"
+				},
+				"date": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}

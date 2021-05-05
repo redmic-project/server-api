@@ -1,0 +1,101 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"email": {
+					"tokenizer": "uax_url_email",
+					"filter": [
+						"lowercase",
+						"unique"
+					]
+				}
+			},
+			"tokenizer": {},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"_all": {
+				"enabled": false
+			},
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"surname": {
+					"type": "keyword",
+					"copy_to": [
+						"fullname"
+					],
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"firstName": {
+					"type": "keyword",
+					"copy_to": [
+						"fullname"
+					],
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"fullname": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"email": {
+					"type": "text",
+					"analyzer": "email"
+				},
+				"affiliation": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}

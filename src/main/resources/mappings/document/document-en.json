@@ -1,0 +1,140 @@
+{
+	"settings": {
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"code": {
+					"tokenizer": "code_tokenizer",
+					"filter": [
+						"lowercase",
+						"asciifolding",
+						"leading_zero_trim",
+						"edgeNGram_filter"
+					]
+				},
+				"code_search": {
+					"tokenizer": "code_tokenizer",
+					"filter": [
+						"lowercase",
+						"asciifolding",
+						"leading_zero_trim"
+					]
+				}
+			},
+			"tokenizer": {
+				"code_tokenizer": {
+					"type": "pattern",
+					"pattern": "-|_|\\s|\\."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				},
+				"leading_zero_trim": {
+					"type": "pattern_replace",
+					"pattern": "^0+(.*)",
+					"replacement": "$1"
+				},
+				"edgeNGram_filter": {
+					"type": "edgeNGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"_all": {
+				"enabled": false
+			},
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"title": {
+					"type": "text",
+					"analyzer": "english",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"author": {
+					"type": "text",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"source": {
+					"type": "text",
+					"analyzer": "english"
+				},
+				"keywords": {
+					"type": "text",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"year": {
+					"type": "integer"
+				},
+				"documentType": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"code": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "code",
+							"search_analyzer": "code_search"
+						}
+					}
+				},
+				"statusdiadema": {
+					"type": "keyword"
+				},
+				"language": {
+					"type": "keyword"
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}
