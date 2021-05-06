@@ -193,7 +193,7 @@ variables:
       done
   after_script:
     - rm -rf .m2/repository/es
-    - docker stop user oauth postgres es-1
+    - docker stop user oauth postgres es6-1
 
 .docker-build:
   variables:
