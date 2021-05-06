@@ -119,6 +119,32 @@
 			"items": {
 				"$ref": "#/definitions/OrganisationRoleDTO"
 			}
+		},
+		"license": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 5000
+		},
+		"spatialExtension": {
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		"starred": {
+			"type": [
+				"boolean",
+				"null"
+			]
+		},
+		"themeInspire": {
+			"type": [
+				"string",
+				"null"
+			],
+			"url": "/operator/themeinspire"
 		}
 	},
 	"required": [
