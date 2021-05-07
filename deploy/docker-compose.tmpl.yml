@@ -21,7 +21,9 @@ services:
       OAUTH_CLIENT_SECRET:
       AWS_ACCESS_KEY:
       AWS_SECRET_KEY:
-      ELASTIC_XPACKSECURITYUSER:
+      ELASTIC_CLUSTERNAME:
+      ELASTIC_USER:
+      ELASTIC_PASSWORD:
       JAVA_OPTS: -XX:MaxRAMFraction=2
     networks:
       elastic-net:
