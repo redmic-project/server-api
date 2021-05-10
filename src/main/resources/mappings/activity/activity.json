@@ -159,9 +159,13 @@
 					"type": "date",
 					"format": "date_optional_time"
 				},
+				"inserted": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
 				"updated": {
 					"type": "date",
-					"format": "date_time"
+					"format": "date_optional_time"
 				},
 				"platforms": {
 					"type": "nested",
