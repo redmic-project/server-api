@@ -23,6 +23,7 @@ package es.redmic.api.config;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.geom.MultiPolygon;
@@ -197,12 +198,21 @@ public class OrikaScanBean extends ConfigurableMapper
 		factory.registerObjectFactory(new GeometryESFactory<MultiLineString>(),
 				TypeFactory.<MultiLineString>valueOf(MultiLineString.class));
 
+
+		factory.classMap(Geometry.class, Geometry.class)
+				.customize(new CustomMapper<Geometry, Geometry>() {
+				}).register();
+
+		factory.registerObjectFactory(new GeometryESFactory<Geometry>(),
+				TypeFactory.<Geometry>valueOf(Geometry.class));
+
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(DateTime.class));
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(Point.class));
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(LineString.class));
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(Polygon.class));
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(MultiPolygon.class));
 		factory.getConverterFactory().registerConverter(new PassThroughConverter(MultiLineString.class));
+		factory.getConverterFactory().registerConverter(new PassThroughConverter(Geometry.class));
 	}
 
 	@Override
