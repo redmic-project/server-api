@@ -421,6 +421,11 @@
 							"type": "keyword"
 						}
 					}
+				},
+				"spatialExtension": {
+					"type": "geo_shape",
+					"tree": "quadtree",
+					"precision": "50.0m"
 				}
 			}
 		}
