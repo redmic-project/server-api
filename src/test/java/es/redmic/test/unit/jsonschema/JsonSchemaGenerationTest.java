@@ -22,6 +22,7 @@ package es.redmic.test.unit.jsonschema;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import org.apache.commons.io.IOUtils;
@@ -93,7 +94,8 @@ public class JsonSchemaGenerationTest {
 	public void simpleJsonschemaGenerate() throws JSONException, IOException {
 
 		String result = jsonSchemaUtil.generateJsonSchema(ActivityDTO.class),
-				expected = IOUtils.toString(getClass().getResource(jsonschemaPath).openStream(), Charset.forName("UTF8"));
+				expected = IOUtils.toString(getClass().getResource(jsonschemaPath).openStream(),
+					Charset.forName(StandardCharsets.UTF_8.name()));
 		JSONAssert.assertEquals(result, expected, true);
 	}
 
@@ -101,7 +103,8 @@ public class JsonSchemaGenerationTest {
 	public void geoJsonschemaGenerate() throws JSONException, IOException {
 
 		String result = jsonSchemaUtil.generateJsonSchema(CitationDTO.class),
-				expected = IOUtils.toString(getClass().getResource(geoJsonschemaPath).openStream(), Charset.forName("UTF8"));
+				expected = IOUtils.toString(getClass().getResource(geoJsonschemaPath).openStream(),
+					Charset.forName(StandardCharsets.UTF_8.name()));
 		JSONAssert.assertEquals(result, expected, true);
 	}
 }
