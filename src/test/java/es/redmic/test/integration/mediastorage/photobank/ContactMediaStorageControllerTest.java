@@ -9,9 +9,9 @@ package es.redmic.test.integration.mediastorage.photobank;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ package es.redmic.test.integration.mediastorage.photobank;
  * #L%
  */
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,7 +56,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 	@Test
 	public void uploadFile_Return200_IfUploadPhotoAsOAGUser() throws Exception {
 
-		MockHttpServletRequestBuilder fileUpload = fileUpload(BASE_MAPPING + CONTROLLER_UPLOAD_FILE).file(multipartFile)
+		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE).file(multipartFile)
 				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
@@ -69,7 +69,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 	@Test
 	public void uploadFile_Return400_IfNotUploadImage() throws Exception {
 
-		MockHttpServletRequestBuilder fileUpload = fileUpload(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
+		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
 				.file(getFile(DOCUMENT_RESOURCES, FILENAME_DOCUMENT, DOCUMENT_CONTENT_TYPE))
 				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
 
@@ -81,7 +81,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 	@Test
 	public void checkSecurity_Return401_IfUploadPhotoAsGuest() throws Exception {
 
-		MockHttpServletRequestBuilder fileUpload = fileUpload(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
+		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
 				.file(multipartFile);
 
 		mockMvc.perform(fileUpload).andExpect(status().isUnauthorized());

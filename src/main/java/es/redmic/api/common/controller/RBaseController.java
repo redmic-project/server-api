@@ -31,14 +31,13 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.redmic.api.common.service.UserUtilsService;
 import es.redmic.es.common.service.RBaseESService;
@@ -62,7 +61,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	@Autowired
 	protected ObjectMapper objectMapper;
 
-	private Map<String, Object> fixedQuery = new HashMap<String, Object>();
+	private Map<String, Object> fixedQuery = new HashMap<>();
 
 	RBaseESService<TModel, TDTO> service;
 
@@ -72,14 +71,14 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	protected Class<TDTO> typeOfTDTO;
 	protected Class<TQueryDTO> typeOfTQueryDTO;
 
-	private Set<String> fieldsExcludedOnQuery = new HashSet<String>();
+	private Set<String> fieldsExcludedOnQuery = new HashSet<>();
 
-	public RBaseController(RBaseESService<TModel, TDTO> service) {
+	protected RBaseController(RBaseESService<TModel, TDTO> service) {
 		this.service = service;
 		defineTypeOfArguments();
 	}
 
-	@RequestMapping(value = { "${controller.mapping.FILTER_SCHEMA}", "${contoller.mapping.FILTERED_DOCUMENTS_SCHEMA}",
+	@GetMapping(value = { "${controller.mapping.FILTER_SCHEMA}", "${contoller.mapping.FILTERED_DOCUMENTS_SCHEMA}",
 			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}",
 			"${controller.mapping.OBJECT_CLASSIFICATION_LIST_SCHEMA}",
 			"${controller.mapping.OBJECT_CLASSIFICATION_SCHEMA}", "${controller.mapping.SERIES_TEMPORALDATA_SCHEMA}",
@@ -87,7 +86,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 			"${controller.mapping.GRID100_BY_ID_SCHEMA}", "${controller.mapping.GRID500_SCHEMA}",
 			"${controller.mapping.GRID500_BY_ID_SCHEMA}", "${controller.mapping.GRID1000_SCHEMA}",
 			"${controller.mapping.GRID1000_BY_ID_SCHEMA}", "${controller.mapping.GRID5000_SCHEMA}",
-			"${controller.mapping.GRID5000_BY_ID_SCHEMA}" }, method = RequestMethod.GET)
+			"${controller.mapping.GRID5000_BY_ID_SCHEMA}" })
 	@ResponseBody
 	public ElasticSearchDTO getFilterSchema(HttpServletResponse response) {
 
