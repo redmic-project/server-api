@@ -22,25 +22,18 @@ package es.redmic.api.utils.sitemap.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import es.redmic.api.utils.sitemap.service.GenerateSitemapService;
+import org.springframework.web.bind.annotation.GetMapping;
 import es.redmic.exception.mediastorage.MSFileNotFoundException;
 import es.redmic.mediastorage.service.MediaStorageServiceItfc;
 
 @Controller
 public class GenerateSitemapController {
-
-	private GenerateSitemapService service;
 
 	@Autowired
 	MediaStorageServiceItfc mediaStorageService;
@@ -48,23 +41,15 @@ public class GenerateSitemapController {
 	@Value("${property.SITEMAP_DESTINATION_DIR}")
 	private String PATH;
 
-	@Autowired
-	public GenerateSitemapController(GenerateSitemapService service) {
-		this.service = service;
+	public GenerateSitemapController() {
+		// TODO: eliminar servir sitemap desde la api
 	}
 
-	@PostConstruct
-	public void GenerateSitemapControllerPostConstruct() {
-		service.createSitemap();
-	}
-
-	@RequestMapping(value = "/sitemap.xml", method = RequestMethod.GET, produces = { "text/xml", "application/xml" })
+	@GetMapping(value = "/sitemap.xml", produces = { "text/xml", "application/xml" })
 	public void download(HttpServletResponse response) {
 
 		String name = "sitemap.xml";
 
-		// TODO: Esta funcionalidad es provisional. En caso de mantener el servir el xml
-		// desde api, añadir esta funcionalidad al servicio.
 		File file = mediaStorageService.openTempFile(PATH, name);
 
 		response.reset();

@@ -44,10 +44,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import es.redmic.ApiApplication;
 import es.redmic.api.utils.sitemap.controller.GenerateSitemapController;
-import es.redmic.api.utils.sitemap.dto.OpenModules;
-import es.redmic.api.utils.sitemap.service.GenerateSitemapService;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.test.integration.utils.JsonToBeanTestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,
@@ -57,9 +54,6 @@ public class GenerateSitemapTest {
 
 	@MockBean
 	GenerateSitemapController controller;
-
-	@Autowired
-	GenerateSitemapService service;
 
 	@Autowired
 	protected WebApplicationContext webApplicationContext;
@@ -72,8 +66,7 @@ public class GenerateSitemapTest {
 	// @formatter:off
 
 	private final String FILE_NAME = "sitemap.xml",
-			GENERATE_SITEMAP_URL = "/" + FILE_NAME,
-			OPEN_MODULES_RESOURCE = "/sitemap/openModules.json";
+			GENERATE_SITEMAP_URL = "/" + FILE_NAME;
 
 	// @formatter:on
 
@@ -91,21 +84,5 @@ public class GenerateSitemapTest {
 	public void getSitemap_ReturnFile_IfSitemapWasGenerated() throws Exception {
 
 		mockMvc.perform(get(GENERATE_SITEMAP_URL)).andExpect(status().isOk());
-	}
-
-	@Test
-	public void generateSitemap_CreateFile_IfThereAreOpenModules() throws Exception {
-
-		File f = new File(DESTINATION_DIR + "/" + FILE_NAME);
-		f.delete();
-
-		OpenModules openModules = (OpenModules) JsonToBeanTestUtil.getBean(OPEN_MODULES_RESOURCE, OpenModules.class);
-
-		Whitebox.setInternalState(service, "openModules", openModules);
-		service.createSitemap();
-
-		assertTrue(f.exists() && f.isFile());
-
-		// TODO: Cuando tenga la base de datos de tests, comprobar contenido.
 	}
 }
