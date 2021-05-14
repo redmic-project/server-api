@@ -9,9 +9,9 @@ package es.redmic.api.series.common.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,9 @@ package es.redmic.api.series.common.controller;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,13 +47,13 @@ public abstract class RSeriesWithOutDataDefinitionController<TModel extends Seri
 
 	protected RSeriesESService<TModel, TDTO> ESService;
 
-	public RSeriesWithOutDataDefinitionController(RSeriesESService<TModel, TDTO> service) {
+	protected RSeriesWithOutDataDefinitionController(RSeriesESService<TModel, TDTO> service) {
 		super(service);
 		ESService = service;
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(value = "")
 	@ResponseBody
 	public SuperDTO _search(@PathVariable("activityId") String activityId, @PathVariable("uuid") String uuid,
 			@RequestParam(required = false, value = "from") Integer from,
@@ -59,21 +61,21 @@ public abstract class RSeriesWithOutDataDefinitionController<TModel extends Seri
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromQueryParams(from, size);
 		processQuery((TQueryDTO) queryDTO);
-		return new ElasticSearchDTO(ESService.find(convertToQuery((TQueryDTO) queryDTO), uuid, activityId));
+		return new ElasticSearchDTO(ESService.find(convertToGeoDataQuery((TQueryDTO) queryDTO), uuid, activityId));
 	}
 
-	@RequestMapping(value = "/_search", method = RequestMethod.POST)
+	@PostMapping(value = "/_search")
 	@ResponseBody
 	public SuperDTO _advancedSearch(@PathVariable("activityId") String activityId, @PathVariable("uuid") String uuid,
 			@Valid @RequestBody TQueryDTO queryDTO, BindingResult errorDto) {
 
 		processQuery(queryDTO, errorDto);
 
-		JSONCollectionDTO result = ESService.find(convertToQuery(queryDTO), uuid, activityId);
+		JSONCollectionDTO result = ESService.find(convertToGeoDataQuery(queryDTO), uuid, activityId);
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	@ResponseBody
 	public SuperDTO _get(@PathVariable("activityId") String activityId, @PathVariable("uuid") String uuid,
 			@PathVariable("id") String id) {
@@ -82,7 +84,7 @@ public abstract class RSeriesWithOutDataDefinitionController<TModel extends Seri
 		return new ElasticSearchDTO(result, result == null ? 0 : 1);
 	}
 
-	@RequestMapping(value = "/_suggest", method = RequestMethod.GET)
+	@GetMapping(value = "/_suggest")
 	@ResponseBody
 	public SuperDTO _suggest() {
 

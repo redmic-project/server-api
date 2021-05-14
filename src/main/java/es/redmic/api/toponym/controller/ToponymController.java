@@ -9,9 +9,9 @@ package es.redmic.api.toponym.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +45,6 @@ import es.redmic.es.toponym.service.ToponymESService;
 import es.redmic.exception.databinding.DTONotValidException;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
-import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.common.query.dto.MgetDTO;
 import es.redmic.models.es.common.query.dto.SimpleQueryDTO;
@@ -64,8 +65,8 @@ public class ToponymController extends RBaseController<es.redmic.models.es.geojs
 		this.serviceES = serviceES;
 		this.service = service;
 	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+
+	@GetMapping(value = "/{id}")
 	@ResponseBody
 	public SuperDTO findById(@PathVariable("id") String id) {
 
@@ -73,7 +74,7 @@ public class ToponymController extends RBaseController<es.redmic.models.es.geojs
 		return new ElasticSearchDTO(item, item != null && item.getId() != null ? 1 : 0);
 	}
 
-	@RequestMapping(value = "/_mget", method = RequestMethod.POST)
+	@PostMapping(value = "/_mget")
 	@ResponseBody
 	public SuperDTO _mget(@Valid @RequestBody MgetDTO mgetDto, BindingResult errorDto) {
 
@@ -83,35 +84,35 @@ public class ToponymController extends RBaseController<es.redmic.models.es.geojs
 		return new ElasticSearchDTO(serviceES.mget(mgetDto, null));
 	}
 
-	@RequestMapping(value = "/_search", method = RequestMethod.POST)
+	@PostMapping(value = "/_search")
 	@ResponseBody
 	public SuperDTO _search(@Valid @RequestBody GeoDataQueryDTO queryDTO, BindingResult bindingResult) {
 
 		processQuery(queryDTO, bindingResult);
 
-		return new ElasticSearchDTO(serviceES.find(orikaMapper.getMapperFacade().map(queryDTO, DataQueryDTO.class), null));
+		return new ElasticSearchDTO(serviceES.find(orikaMapper.getMapperFacade().map(queryDTO, GeoDataQueryDTO.class), null));
 	}
 
-	@RequestMapping(value = "/_suggest", method = RequestMethod.GET)
+	@GetMapping(value = "/_suggest")
 	@ResponseBody
 	public SuperDTO _suggest(@RequestParam(required = false, value = "fields") String[] fields,
 			@RequestParam("text") String text, @RequestParam(required = false, value = "size") Integer size) {
 
 		SimpleQueryDTO queryDTO = serviceES.createSimpleQueryDTOFromSuggestQueryParams(fields, text, size);
 		processQuery((GeoDataQueryDTO) queryDTO);
-		List<String> response = serviceES.suggest(convertToQuery((DataQueryDTO)queryDTO));
+		List<String> response = serviceES.suggest(convertToGeoDataQuery((GeoDataQueryDTO)queryDTO));
 
 		return new ElasticSearchDTO(response, response.size());
 	}
-	
-	@RequestMapping(value = "/_suggest", method = RequestMethod.POST)
+
+	@PostMapping(value = "/_suggest")
 	@ResponseBody
 	public SuperDTO _suggest(@Valid @RequestBody GeoDataQueryDTO queryDTO,
 			BindingResult bindingResult) {
-		
+
 		processQuery(queryDTO, bindingResult);
 
-		List<String> response = serviceES.suggest(convertToQuery(queryDTO));
+		List<String> response = serviceES.suggest(convertToGeoDataQuery(queryDTO));
 
 		return new ElasticSearchDTO(response, response.size());
 	}

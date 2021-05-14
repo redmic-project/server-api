@@ -9,9 +9,9 @@ package es.redmic.api.common.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,14 +48,14 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 		extends SelectionWorkController<TModel, TDTO, TQueryDTO> implements IRController<TModel, TDTO, TQueryDTO> {
 
 	protected RDataESService<TModel, TDTO> ESService;
-	
-	public RController(RDataESService<TModel, TDTO> service) {
+
+	protected RController(RDataESService<TModel, TDTO> service) {
 		super(service);
 		ESService = service;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(value = "")
 	@ResponseBody
 	public SuperDTO _search(@RequestParam(required = false, value = "fields") String[] fields,
 			@RequestParam(required = false, value = "text") String text,
@@ -62,21 +64,21 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size);
 		processQuery((TQueryDTO) queryDTO);
-		JSONCollectionDTO result = ESService.find(convertToQuery((TQueryDTO) queryDTO));
+		JSONCollectionDTO result = ESService.find(convertToDataQuery((TQueryDTO) queryDTO));
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
-	@RequestMapping(value = "/_search", method = RequestMethod.POST)
+	@PostMapping(value = "/_search")
 	@ResponseBody
 	public SuperDTO _advancedSearch(@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
-		
+
 		processQuery(queryDTO, bindingResult);
 
-		JSONCollectionDTO result = ESService.find(convertToQuery(queryDTO));
+		JSONCollectionDTO result = ESService.find(convertToDataQuery(queryDTO));
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
-	@RequestMapping(value = "/_mget", method = RequestMethod.POST)
+	@PostMapping(value = "/_mget")
 	@ResponseBody
 	public SuperDTO _mget(@Valid @RequestBody MgetDTO dto, BindingResult errorDto) {
 
@@ -87,7 +89,7 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	@ResponseBody
 	public SuperDTO _get(@PathVariable("id") Long id) {
 
@@ -96,23 +98,23 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/_suggest", method = RequestMethod.GET)
+	@GetMapping(value = "/_suggest")
 	@ResponseBody
 	public SuperDTO _suggest(@RequestParam(required = false, value = "fields") String[] fields, @RequestParam("text") String text,
 			@RequestParam(required = false, value = "size") Integer size) {
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromSuggestQueryParams(fields, text, size);
 		processQuery((TQueryDTO) queryDTO);
-		List<String> response = ESService.suggest(convertToQuery((TQueryDTO) queryDTO));
+		List<String> response = ESService.suggest(convertToDataQuery((TQueryDTO) queryDTO));
 		return new ElasticSearchDTO(response, response.size());
 	}
-	
-	@RequestMapping(value = "/_suggest", method = RequestMethod.POST)
+
+	@PostMapping(value = "/_suggest")
 	@ResponseBody
 	public SuperDTO _advancedSuggest(@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
 
 		processQuery(queryDTO, bindingResult);
-		List<String> response = ESService.suggest(convertToQuery((TQueryDTO) queryDTO));
+		List<String> response = ESService.suggest(convertToDataQuery((TQueryDTO) queryDTO));
 		return new ElasticSearchDTO(response, response.size());
 	}
 }
