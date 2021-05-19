@@ -426,6 +426,38 @@
 					"type": "geo_shape",
 					"tree": "quadtree",
 					"precision": "50.0m"
+				},
+				"resources": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"description": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						}
+					}
+				},
+				"starred": {
+					"type": "boolean"
 				}
 			}
 		}
