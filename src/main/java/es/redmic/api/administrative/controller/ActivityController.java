@@ -9,9 +9,9 @@ package es.redmic.api.administrative.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,16 +21,20 @@ package es.redmic.api.administrative.controller;
  */
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +49,7 @@ import es.redmic.models.es.common.dto.JSONCollectionDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.models.es.common.query.dto.MgetDTO;
+import es.redmic.models.es.common.query.dto.SimpleQueryDTO;
 import es.redmic.models.es.common.utils.HierarchicalUtils;
 
 @RestController
@@ -60,7 +65,7 @@ public class ActivityController
 		super(service, serviceES);
 	}
 
-	@RequestMapping(value = "${contoller.mapping.ANCESTORS}/_search", method = RequestMethod.POST)
+	@PostMapping(value = "${contoller.mapping.ANCESTORS}/_search")
 	@ResponseBody
 	public SuperDTO _getAncestors(@PathVariable("path") String path, HttpServletResponse response,
 			@Valid @RequestBody DataQueryDTO queryDTO, BindingResult bindingResult) {
@@ -70,9 +75,9 @@ public class ActivityController
 		String[] ancestorIds = HierarchicalUtils.getAncestorsIds(path);
 		MgetDTO mgetDto = new MgetDTO(Arrays.asList(ancestorIds));
 
-		if (queryDTO.getReturnFields() != null && queryDTO.getReturnFields().size() > 0) {
+		if (queryDTO.getReturnFields() != null && !queryDTO.getReturnFields().isEmpty()) {
 			mgetDto.setFields(queryDTO.getReturnFields());
-			
+
 			if (!mgetDto.getFields().contains("path")) {
 				mgetDto.getFields().add("path");
 			}
@@ -80,5 +85,22 @@ public class ActivityController
 
 		JSONCollectionDTO result = activityBaseESService.mget(mgetDto);
 		return new ElasticSearchDTO(result, result.getTotal());
+	}
+
+	@GetMapping(value = "resources/_suggest")
+	@ResponseBody
+	public SuperDTO _suggest(@RequestParam(required = false, value = "fields") String[] fields, @RequestParam("text") String text,
+			@RequestParam(required = false, value = "size") Integer size) {
+
+		if (fields == null || fields.length == 0) {
+			fields = new String[] { "resources.name.suggest", "resources.description.suggest" };
+		}
+
+		SimpleQueryDTO queryDTO = activityBaseESService.createSimpleQueryDTOFromSuggestQueryParams(fields, text, size);
+		processQuery((DataQueryDTO) queryDTO);
+
+		List<String> response = activityBaseESService.suggest(convertToDataQuery((DataQueryDTO)queryDTO));
+
+		return new ElasticSearchDTO(response, response.size());
 	}
 }
