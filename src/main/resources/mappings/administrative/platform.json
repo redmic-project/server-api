@@ -1,5 +1,9 @@
 {
 	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
 		"analysis": {
 			"analyzer": {
 				"lower_analyzer": {
@@ -25,9 +29,6 @@
 	},
 	"mappings": {
 		"_doc": {
-			"_all": {
-				"enabled": false
-			},
 			"dynamic": "false",
 			"properties": {
 				"id": {

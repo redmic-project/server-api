@@ -1,5 +1,9 @@
 {
 	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
 		"analysis": {
 			"analyzer": {},
 			"tokenizer": {},
@@ -8,9 +12,6 @@
 	},
 	"mappings": {
 		"_doc": {
-			"_all": {
-				"enabled": false
-			},
 			"_source": {
 				"excludes": [
 					"_parentId",

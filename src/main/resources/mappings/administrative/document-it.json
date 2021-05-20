@@ -1,5 +1,9 @@
 {
 	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
 		"analysis": {
 			"analyzer": {
 				"lower_analyzer": {
@@ -50,16 +54,13 @@
 				"edgeNGram_filter": {
 					"type": "edgeNGram",
 					"min_gram": 2,
-					"max_gram": 20
+					"max_gram": 10
 				}
 			}
 		}
 	},
 	"mappings": {
 		"_doc": {
-			"_all": {
-				"enabled": false
-			},
 			"dynamic": "false",
 			"properties": {
 				"id": {
@@ -67,6 +68,7 @@
 				},
 				"title": {
 					"type": "text",
+					"fielddata": true,
 					"analyzer": "italian",
 					"fields": {
 						"suggest": {
@@ -77,7 +79,7 @@
 					}
 				},
 				"author": {
-					"type": "text",
+					"type": "keyword",
 					"fields": {
 						"suggest": {
 							"type": "text",
