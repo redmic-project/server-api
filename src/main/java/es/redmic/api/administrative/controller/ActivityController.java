@@ -87,20 +87,16 @@ public class ActivityController
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
-	@GetMapping(value = "resources/_suggest")
+	@GetMapping(value = "/resources")
 	@ResponseBody
-	public SuperDTO _suggest(@RequestParam(required = false, value = "fields") String[] fields, @RequestParam("text") String text,
+	public SuperDTO _search(@RequestParam(required = false, value = "fields") String[] fields,
+			@RequestParam(required = false, value = "text") String text,
+			@RequestParam(required = false, value = "from") Integer from,
 			@RequestParam(required = false, value = "size") Integer size) {
 
-		if (fields == null || fields.length == 0) {
-			fields = new String[] { "resources.name.suggest", "resources.description.suggest" };
-		}
-
-		SimpleQueryDTO queryDTO = activityBaseESService.createSimpleQueryDTOFromSuggestQueryParams(fields, text, size);
+		SimpleQueryDTO queryDTO = activityBaseESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size);
 		processQuery((DataQueryDTO) queryDTO);
-
-		List<String> response = activityBaseESService.suggest(convertToDataQuery((DataQueryDTO)queryDTO));
-
-		return new ElasticSearchDTO(response, response.size());
+		JSONCollectionDTO result = ESService.find(convertToDataQuery((DataQueryDTO) queryDTO));
+		return new ElasticSearchDTO(result, result.getTotal());
 	}
 }
