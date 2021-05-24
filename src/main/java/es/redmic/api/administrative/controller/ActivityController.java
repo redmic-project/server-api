@@ -94,11 +94,11 @@ public class ActivityController
 			@RequestParam(required = false, value = "from") Integer from,
 			@RequestParam(required = false, value = "size") Integer size) {
 
-		SimpleQueryDTO queryDTO = activityBaseESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size);
+		DataQueryDTO queryDTO = objectMapper.convertValue(
+			ESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size), DataQueryDTO.class);
 
-		DataQueryDTO dataQueryDTO = convertToDataQuery((DataQueryDTO) queryDTO);
-		processQuery(dataQueryDTO);
-		JSONCollectionDTO result = ESService.find(dataQueryDTO);
+		processQuery(queryDTO);
+		JSONCollectionDTO result = ESService.find(queryDTO);
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 }
