@@ -1,0 +1,94 @@
+{
+	"settings": {
+		"index": {
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"path-analyzer-slash-skip": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer-skip"
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				}
+			},
+			"tokenizer": {
+				"path-tokenizer-skip": {
+					"type": "path_hierarchy",
+					"skip": "2"
+				},
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				}
+			},
+			"filter": {}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"geometry": {
+					"type": "geo_shape"
+				},
+				"id": {
+					"type": "long"
+				},
+				"properties": {
+					"dynamic": "false",
+					"properties": {
+						"taxons": {
+							"type": "nested",
+							"dynamic": "false",
+							"properties": {
+								"equivalent": {
+									"type": "keyword",
+									"fields": {
+										"split": {
+											"type": "text",
+											"analyzer": "split-path-analyzer"
+										}
+									}
+								},
+								"path": {
+									"type": "keyword",
+									"fields": {
+										"split": {
+											"type": "text",
+											"analyzer": "split-path-analyzer"
+										}
+									}
+								},
+								"registers": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"confidence": {
+											"type": "integer"
+										},
+										"id": {
+											"type": "text",
+											"analyzer": "path-analyzer-slash-skip"
+										},
+										"misidentification": {
+											"type": "keyword",
+											"fields": {
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
