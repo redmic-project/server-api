@@ -71,7 +71,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	protected Class<TDTO> typeOfTDTO;
 	protected Class<TQueryDTO> typeOfTQueryDTO;
 
-	private Set<String> fieldsExcludedOnQuery = new HashSet<>();
+	protected Set<String> fieldsExcludedOnQuery = new HashSet<>();
 
 	protected RBaseController(RBaseESService<TModel, TDTO> service) {
 		this.service = service;
@@ -82,11 +82,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}",
 			"${controller.mapping.OBJECT_CLASSIFICATION_LIST_SCHEMA}",
 			"${controller.mapping.OBJECT_CLASSIFICATION_SCHEMA}", "${controller.mapping.SERIES_TEMPORALDATA_SCHEMA}",
-			"${controller.mapping.SERIES_WINDROSE_SCHEMA}", "${controller.mapping.GRID100_SCHEMA}",
-			"${controller.mapping.GRID100_BY_ID_SCHEMA}", "${controller.mapping.GRID500_SCHEMA}",
-			"${controller.mapping.GRID500_BY_ID_SCHEMA}", "${controller.mapping.GRID1000_SCHEMA}",
-			"${controller.mapping.GRID1000_BY_ID_SCHEMA}", "${controller.mapping.GRID5000_SCHEMA}",
-			"${controller.mapping.GRID5000_BY_ID_SCHEMA}" })
+			"${controller.mapping.SERIES_WINDROSE_SCHEMA}" })
 	@ResponseBody
 	public ElasticSearchDTO getFilterSchema(HttpServletResponse response) {
 

@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -190,5 +189,16 @@ public class SpeciesDistributionController extends SelectionWorkController<Speci
 
 		result.setTotal(speciesESService.getCountLeaves(dto.getIds()));
 		return result;
+	}
+
+	@GetMapping(value = { "${controller.mapping.GRID100_SCHEMA}",
+			"${controller.mapping.GRID100_BY_ID_SCHEMA}", "${controller.mapping.GRID500_SCHEMA}",
+			"${controller.mapping.GRID500_BY_ID_SCHEMA}", "${controller.mapping.GRID1000_SCHEMA}",
+			"${controller.mapping.GRID1000_BY_ID_SCHEMA}", "${controller.mapping.GRID5000_SCHEMA}",
+			"${controller.mapping.GRID5000_BY_ID_SCHEMA}" })
+	@ResponseBody
+	public ElasticSearchDTO getFilterSchema(HttpServletResponse response) {
+
+		return dist100MService.getFilterSchema(GeoDataQueryDTO.class, fieldsExcludedOnQuery);
 	}
 }
