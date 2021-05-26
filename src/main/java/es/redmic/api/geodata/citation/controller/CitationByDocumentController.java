@@ -35,13 +35,13 @@ import es.redmic.api.common.controller.RBaseController;
 import es.redmic.es.geodata.citation.service.CitationESService;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
-import es.redmic.models.es.common.query.dto.DataQueryDTO;
+import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.geojson.citation.dto.CitationDTO;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
 
 @RestController
 @RequestMapping(value = "${controller.mapping.CITATIONS_BY_DOCUMENTS}")
-public class CitationByDocumentController extends RBaseController<GeoPointData, CitationDTO, DataQueryDTO> {
+public class CitationByDocumentController extends RBaseController<GeoPointData, CitationDTO, GeoDataQueryDTO> {
 
 	private CitationESService serviceES;
 
@@ -53,7 +53,7 @@ public class CitationByDocumentController extends RBaseController<GeoPointData, 
 
 	@PostMapping(value = "/_search")
 	@ResponseBody
-	public SuperDTO getCitations(@Valid @RequestBody DataQueryDTO queryDTO, BindingResult bindingResult, @PathVariable("documentId") String documentId) {
+	public SuperDTO getCitations(@Valid @RequestBody GeoDataQueryDTO queryDTO, BindingResult bindingResult, @PathVariable("documentId") String documentId) {
 
 		processQuery(queryDTO, bindingResult);
 
