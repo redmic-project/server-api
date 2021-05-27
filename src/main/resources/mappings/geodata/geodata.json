@@ -60,11 +60,6 @@
 	},
 	"mappings": {
 		"_doc": {
-			"_source": {
-				"excludes": [
-					"properties.activityId"
-				]
-			},
 			"dynamic": "false",
 			"properties": {
 				"geometry": {
@@ -1617,6 +1612,9 @@
 						"siteIds": {
 							"analyzer": "compose_id",
 							"type": "text"
+						},
+						"activityId": {
+							"type": "keyword"
 						},
 						"weatherConditions": {
 							"dynamic": "false",
