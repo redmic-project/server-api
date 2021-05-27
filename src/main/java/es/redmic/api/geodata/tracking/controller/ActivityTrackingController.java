@@ -31,11 +31,11 @@ import es.redmic.es.administrative.service.ActivityESService;
 import es.redmic.es.common.queryFactory.geodata.TrackingQueryUtils;
 import es.redmic.models.es.administrative.dto.ActivityDTO;
 import es.redmic.models.es.administrative.model.Activity;
-import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
+import es.redmic.models.es.common.query.dto.DataQueryDTO;
 
 @RestController
 @RequestMapping(value = "${controller.mapping.ACTIVITY_TRACKING}")
-public class ActivityTrackingController extends RController<Activity, ActivityDTO, GeoDataQueryDTO> {
+public class ActivityTrackingController extends RController<Activity, ActivityDTO, DataQueryDTO> {
 
 	@Autowired
 	public ActivityTrackingController(ActivityESService service) {
