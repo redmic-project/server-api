@@ -1,5 +1,8 @@
 package es.redmic.test.integration.common;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /*-
  * #%L
  * API
@@ -23,6 +26,10 @@ package es.redmic.test.integration.common;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +51,9 @@ public abstract class IntegrationTestBase {
 
 	@Autowired
 	protected FilterChainProxy springSecurityFilterChain;
+
+	@Autowired
+	protected ObjectMapper mapper;
 
 	protected MockMvc mockMvc;
 
@@ -115,5 +125,11 @@ public abstract class IntegrationTestBase {
 				headers, java.util.HashMap.class);
 
 		return result.get("access_token");
+	}
+
+	protected Object getModelToResource(String resourcePath, Class<?> resultClass) throws JsonParseException, JsonMappingException, IOException {
+
+		InputStream resource = getClass().getResourceAsStream(resourcePath);
+		return mapper.readValue(resource, resultClass);
 	}
 }

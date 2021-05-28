@@ -1,0 +1,77 @@
+{
+	"geometry": {
+		"coordinates": [
+			-15.354766845703125,
+			27.969818115234375
+		],
+		"type": "Point"
+	},
+	"id": 14529,
+	"type": "Feature",
+	"uuid": "9e122efc-a020-4293-8406-ccbfa09710ba",
+	"properties": {
+		"geodataRelations": null,
+		"area": null,
+		"length": null,
+		"media": null,
+		"weatherConditions": null,
+		"samplingPlace": null,
+		"activityId": "1167",
+		"site": null,
+		"inserted": "2017-03-15T08:15:38.742+00:00",
+		"updated": "2018-10-09T08:44:47.573+00:00",
+		"collect": {
+			"collectionRegNo": null,
+			"distance": null,
+			"endDate": "2009-05-01T23:59:59.000+00:00",
+			"remark": "Telde. Entre mayo y octubre de 2009\n",
+			"analytics": null,
+			"dataDefinition": null,
+			"taxon": {
+				"path": "root.1.13.148.19923.455.1726.4099.11887",
+				"commonName": "Boga",
+				"leaves": 0,
+				"scientificName": "Boops boops",
+				"authorship": "(Linnaeus, 1758)",
+				"validAs": null,
+				"rank": {
+					"name": "Species",
+					"id": 10,
+					"name_en": "Species"
+				},
+				"aphia": 127047,
+				"id": 11887
+			},
+			"molecular": null,
+			"id": "ci-14529",
+			"radius": 6000.0,
+			"value": 41.0,
+			"collectorName": null,
+			"observationAngle": null,
+			"vFlag": "A",
+			"qFlag": "1",
+			"confidence": {
+				"name": "Fiable",
+				"id": 4,
+				"name_en": "Trustworthy"
+			},
+			"localityConfidence": {
+				"name": "Fiable",
+				"id": 4,
+				"name_en": "Trustworthy"
+			},
+			"deviation": 15.5,
+			"sample": null,
+			"misidentification": null,
+			"elements": null,
+			"animal": null,
+			"z": -35.5,
+			"attributes": null,
+			"metrics": null,
+			"startDate": "2009-05-01T00:00:00.000+00:00",
+			"object": null
+		},
+		"inTrack": null,
+		"measurements": null
+	}
+}

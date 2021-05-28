@@ -31,8 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +46,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import es.redmic.ApiApplication;
+import es.redmic.es.geodata.citation.repository.CitationESRepository;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
+import es.redmic.models.es.geojson.common.model.GeoPointData;
 import es.redmic.test.integration.ApiApplicationTest;
 import es.redmic.test.integration.common.IntegrationTestBase;
 
@@ -58,15 +58,17 @@ import es.redmic.test.integration.common.IntegrationTestBase;
 @ActiveProfiles("test")
 public class CitationControllerTest extends IntegrationTestBase {
 
+	private static final String RESOURCE_PATH = "/geo/models/citation.json";
+
 	@Rule
 	public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
-	@Autowired
-	ObjectMapper mapper;
-
 	private RestDocumentationResultHandler document;
 
-	private final String CITATIONS_BY_ACTIVITY_URL_BASE = "/activities/30/citations";
+	@Autowired
+	CitationESRepository repository;
+
+	private final String CITATIONS_BY_ACTIVITY_URL_BASE = "/activities/1167/citations";
 
 	@Override
 	@Before
@@ -98,6 +100,9 @@ public class CitationControllerTest extends IntegrationTestBase {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void searchCitationByActivity_Return200_WhenSearchIsCorrect() throws Exception {
+
+		GeoPointData modelToIndex = (GeoPointData) getModelToResource(RESOURCE_PATH, GeoPointData.class);
+		repository.save(modelToIndex);
 
 		GeoDataQueryDTO geodataQuery = new GeoDataQueryDTO();
 		geodataQuery.setSize(1);
