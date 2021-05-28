@@ -31,8 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,11 +43,12 @@ import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import es.redmic.ApiApplication;
+import es.redmic.es.tools.distributions.species.repository.TaxonDist100MRepository;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
+import es.redmic.models.es.tools.distribution.model.Distribution;
 import es.redmic.test.integration.ApiApplicationTest;
 import es.redmic.test.integration.common.IntegrationTestBase;
 
@@ -63,11 +62,13 @@ public class SpeciesDistributionControllerTest extends IntegrationTestBase {
 	public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
 	@Autowired
-	ObjectMapper mapper;
+	TaxonDist100MRepository repository;
 
 	private RestDocumentationResultHandler document;
 
 	private final String DISTRIBUTION_URL_BASE = "/distributions/grid100";
+
+	private static final String RESOURCE_PATH = "/distribution/models/distribution100.json";
 
 	@Override
 	@Before
@@ -89,11 +90,34 @@ public class SpeciesDistributionControllerTest extends IntegrationTestBase {
 
 		// @formatter:off
 
-		MvcResult result = this.mockMvc
-				.perform(get(DISTRIBUTION_URL_BASE + "/_search/_schema").accept(MediaType.APPLICATION_JSON)).andReturn();
-				//.andExpect(status().isOk());
+		this.mockMvc
+			.perform(get(DISTRIBUTION_URL_BASE + "/_search/_schema").accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
 
-		System.err.println(result.getResponse().getContentAsString());
+		// @formatter:on
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void searchDistribution_Return200_WhenSearchIsCorrect() throws Exception {
+
+		Distribution modelToIndex = (Distribution) getModelToResource(RESOURCE_PATH, Distribution.class);
+		repository.save(modelToIndex);
+
+		GeoDataQueryDTO geodataQuery = new GeoDataQueryDTO();
+		geodataQuery.setSize(1);
+
+		// Se elimina accessibilityIds ya que no está permitido para usuarios
+		// básicos
+		HashMap<String, Object> query = mapper.convertValue(geodataQuery, HashMap.class);
+		query.remove("accessibilityIds");
+
+		// @formatter:off
+
+		this.mockMvc
+				.perform(post(DISTRIBUTION_URL_BASE + "/_search").content(mapper.writeValueAsString(query))
+						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 
 		// @formatter:on
 	}
