@@ -72,14 +72,15 @@
 							"dynamic": "false",
 							"properties": {
 								"analytics": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"dataDefinition": {
 											"dynamic": "false",
 											"properties": {
 												"description": {
-													"analyzer": "spanish",
-													"type": "text"
+													"type": "text",
+													"analyzer": "spanish"
 												},
 												"device": {
 													"dynamic": "false",
@@ -88,24 +89,24 @@
 															"type": "long"
 														},
 														"model": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
@@ -115,8 +116,8 @@
 											}
 										},
 										"date": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										},
 										"id": {
 											"type": "long"
@@ -128,14 +129,14 @@
 													"type": "long"
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												}
 											}
 										},
@@ -146,14 +147,14 @@
 													"type": "long"
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"parameterType": {
 													"dynamic": "false",
@@ -172,8 +173,8 @@
 											"type": "keyword"
 										},
 										"remark": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"unit": {
 											"dynamic": "false",
@@ -185,14 +186,14 @@
 													"type": "long"
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"unitType": {
 													"dynamic": "false",
@@ -213,8 +214,7 @@
 										"value": {
 											"type": "double"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"animal": {
 									"dynamic": "false",
@@ -223,14 +223,14 @@
 											"type": "long"
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"uuid": {
 											"type": "keyword"
@@ -238,6 +238,7 @@
 									}
 								},
 								"attributes": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"condition": {
@@ -250,14 +251,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
@@ -265,20 +266,20 @@
 													"type": "long"
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												}
 											}
 										},
 										"date": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										},
 										"id": {
 											"type": "long"
@@ -287,34 +288,33 @@
 											"type": "keyword"
 										},
 										"remark": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"vFlag": {
 											"type": "keyword"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"collectionRegNo": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"collectorName": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"confidence": {
 									"dynamic": "false",
@@ -334,17 +334,19 @@
 									"type": "double"
 								},
 								"elements": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"analytics": {
+											"type": "nested",
 											"dynamic": "false",
 											"properties": {
 												"dataDefinition": {
 													"dynamic": "false",
 													"properties": {
 														"description": {
-															"analyzer": "spanish",
-															"type": "text"
+															"type": "text",
+															"analyzer": "spanish"
 														},
 														"device": {
 															"dynamic": "false",
@@ -353,24 +355,24 @@
 																	"type": "long"
 																},
 																"model": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																},
 																"name": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																}
 															}
 														},
@@ -380,8 +382,8 @@
 													}
 												},
 												"date": {
-													"format": "date_optional_time",
-													"type": "date"
+													"type": "date",
+													"format": "date_optional_time"
 												},
 												"id": {
 													"type": "long"
@@ -393,14 +395,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
@@ -411,14 +413,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"parameterType": {
 															"dynamic": "false",
@@ -437,8 +439,8 @@
 													"type": "keyword"
 												},
 												"remark": {
-													"analyzer": "spanish",
-													"type": "text"
+													"type": "text",
+													"analyzer": "spanish"
 												},
 												"unit": {
 													"dynamic": "false",
@@ -450,14 +452,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"unitType": {
 															"dynamic": "false",
@@ -478,10 +480,10 @@
 												"value": {
 													"type": "double"
 												}
-											},
-											"type": "nested"
+											}
 										},
 										"attributes": {
+											"type": "nested",
 											"dynamic": "false",
 											"properties": {
 												"condition": {
@@ -494,14 +496,14 @@
 																	"type": "long"
 																},
 																"name": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																}
 															}
 														},
@@ -509,20 +511,20 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
 												"date": {
-													"format": "date_optional_time",
-													"type": "date"
+													"type": "date",
+													"format": "date_optional_time"
 												},
 												"id": {
 													"type": "long"
@@ -531,24 +533,24 @@
 													"type": "keyword"
 												},
 												"remark": {
-													"analyzer": "spanish",
-													"type": "text"
+													"type": "text",
+													"analyzer": "spanish"
 												},
 												"vFlag": {
 													"type": "keyword"
 												}
-											},
-											"type": "nested"
+											}
 										},
 										"id": {
 											"type": "long"
 										},
 										"metrics": {
+											"type": "nested",
 											"dynamic": "false",
 											"properties": {
 												"date": {
-													"format": "date_optional_time",
-													"type": "date"
+													"type": "date",
+													"format": "date_optional_time"
 												},
 												"id": {
 													"type": "long"
@@ -566,14 +568,14 @@
 																	"type": "long"
 																},
 																"name": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																}
 															}
 														},
@@ -587,26 +589,26 @@
 																	"type": "long"
 																},
 																"name": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																}
 															}
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"unit": {
 															"dynamic": "false",
@@ -615,14 +617,14 @@
 																	"type": "long"
 																},
 																"name": {
+																	"type": "keyword",
 																	"fields": {
 																		"suggest": {
+																			"type": "text",
 																			"analyzer": "autocomplete",
-																			"search_analyzer": "lower_analyzer",
-																			"type": "text"
+																			"search_analyzer": "lower_analyzer"
 																		}
-																	},
-																	"type": "keyword"
+																	}
 																}
 															}
 														}
@@ -632,8 +634,8 @@
 													"type": "keyword"
 												},
 												"remark": {
-													"analyzer": "spanish",
-													"type": "text"
+													"type": "text",
+													"analyzer": "spanish"
 												},
 												"vFlag": {
 													"type": "keyword"
@@ -641,29 +643,27 @@
 												"value": {
 													"type": "double"
 												}
-											},
-											"type": "nested"
+											}
 										},
 										"registerNumber": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"endDate": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"id": {
-									"analyzer": "compose_id",
-									"type": "text"
+									"type": "text",
+									"analyzer": "compose_id"
 								},
 								"localityConfidence": {
 									"dynamic": "false",
@@ -677,11 +677,12 @@
 									}
 								},
 								"metrics": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"date": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										},
 										"id": {
 											"type": "long"
@@ -699,14 +700,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
@@ -720,26 +721,26 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"unit": {
 													"dynamic": "false",
@@ -748,14 +749,14 @@
 															"type": "long"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												}
@@ -765,8 +766,8 @@
 											"type": "keyword"
 										},
 										"remark": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"vFlag": {
 											"type": "keyword"
@@ -774,8 +775,7 @@
 										"value": {
 											"type": "double"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"misidentification": {
 									"dynamic": "false",
@@ -795,28 +795,28 @@
 											"dynamic": "false",
 											"properties": {
 												"authorship": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"path": {
+													"type": "keyword",
 													"fields": {
 														"hierarchy": {
-															"analyzer": "path-analyzer",
+															"type": "text",
 															"store": true,
-															"type": "text"
+															"analyzer": "path-analyzer"
 														},
 														"split": {
-															"analyzer": "split-path-analyzer",
-															"type": "text"
+															"type": "text",
+															"analyzer": "split-path-analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"rank": {
 													"dynamic": "false",
@@ -830,37 +830,39 @@
 													}
 												},
 												"scientificName": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												}
 											}
 										}
 									}
 								},
 								"object": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"classification": {
+											"type": "nested",
 											"dynamic": "false",
 											"properties": {
 												"objectType": {
 													"dynamic": "false",
 													"properties": {
 														"code": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"id": {
 															"type": "long"
@@ -869,33 +871,32 @@
 															"type": "integer"
 														},
 														"name": {
+															"type": "keyword",
 															"fields": {
 																"suggest": {
+																	"type": "text",
 																	"analyzer": "autocomplete",
-																	"search_analyzer": "lower_analyzer",
-																	"type": "text"
+																	"search_analyzer": "lower_analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														},
 														"path": {
+															"type": "keyword",
 															"fields": {
 																"hierarchy": {
-																	"analyzer": "path-analyzer",
+																	"type": "text",
 																	"store": true,
-																	"type": "text"
+																	"analyzer": "path-analyzer"
 																},
 																"split": {
-																	"analyzer": "split-path-analyzer",
-																	"type": "text"
+																	"type": "text",
+																	"analyzer": "split-path-analyzer"
 																}
-															},
-															"type": "keyword"
+															}
 														}
 													}
 												}
-											},
-											"type": "nested"
+											}
 										},
 										"id": {
 											"type": "long"
@@ -903,8 +904,7 @@
 										"name": {
 											"type": "keyword"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"observationAngle": {
 									"type": "double"
@@ -916,39 +916,39 @@
 									"type": "long"
 								},
 								"remark": {
-									"analyzer": "spanish",
-									"type": "text"
+									"type": "text",
+									"analyzer": "spanish"
 								},
 								"sample": {
 									"dynamic": "false",
 									"properties": {
 										"description": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"endDate": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										},
 										"id": {
 											"type": "long"
 										},
 										"remark": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"sampleType": {
 											"dynamic": "false",
 											"properties": {
 												"code": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"id": {
 													"type": "long"
@@ -959,51 +959,51 @@
 											"type": "double"
 										},
 										"startDate": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										}
 									}
 								},
 								"startDate": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"taxon": {
 									"dynamic": "false",
 									"properties": {
 										"authorship": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"commonName": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"path": {
+											"type": "keyword",
 											"fields": {
 												"hierarchy": {
-													"analyzer": "path-analyzer",
+													"type": "text",
 													"store": true,
-													"type": "text"
+													"analyzer": "path-analyzer"
 												},
 												"split": {
-													"analyzer": "split-path-analyzer",
-													"type": "text"
+													"type": "text",
+													"analyzer": "split-path-analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"rank": {
 											"dynamic": "false",
@@ -1017,51 +1017,51 @@
 											}
 										},
 										"scientificName": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"validAs": {
 											"dynamic": "false",
 											"properties": {
 												"authorship": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"commonName": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"path": {
+													"type": "keyword",
 													"fields": {
 														"hierarchy": {
-															"analyzer": "path-analyzer",
+															"type": "text",
 															"store": true,
-															"type": "text"
+															"analyzer": "path-analyzer"
 														},
 														"split": {
-															"analyzer": "split-path-analyzer",
-															"type": "text"
+															"type": "text",
+															"analyzer": "split-path-analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"rank": {
 													"dynamic": "false",
@@ -1075,22 +1075,22 @@
 													}
 												},
 												"scientificName": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												}
 											}
 										}
 									}
 								},
 								"updated": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"vFlag": {
 									"type": "keyword"
@@ -1119,8 +1119,8 @@
 									"type": "long"
 								},
 								"date": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"deviation": {
 									"type": "long"
@@ -1132,14 +1132,14 @@
 											"type": "long"
 										},
 										"model": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										},
 										"name": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
 									}
 								},
@@ -1147,8 +1147,8 @@
 									"type": "long"
 								},
 								"id": {
-									"analyzer": "compose_id",
-									"type": "text"
+									"type": "text",
+									"analyzer": "compose_id"
 								},
 								"lastDistanceKm": {
 									"type": "double"
@@ -1166,14 +1166,14 @@
 											"type": "long"
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"uuid": {
 											"type": "keyword"
@@ -1195,18 +1195,19 @@
 							}
 						},
 						"inTrackIds": {
-							"analyzer": "compose_id",
-							"type": "text"
+							"type": "text",
+							"analyzer": "compose_id"
 						},
 						"measurements": {
+							"type": "nested",
 							"dynamic": "false",
 							"properties": {
 								"data": {
 									"dynamic": "false",
 									"properties": {
 										"date": {
-											"format": "date_optional_time",
-											"type": "date"
+											"type": "date",
+											"format": "date_optional_time"
 										},
 										"id": {
 											"type": "long"
@@ -1215,8 +1216,8 @@
 											"type": "keyword"
 										},
 										"remark": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"vFlag": {
 											"type": "keyword"
@@ -1233,8 +1234,8 @@
 											"type": "boolean"
 										},
 										"description": {
-											"analyzer": "spanish",
-											"type": "text"
+											"type": "text",
+											"analyzer": "spanish"
 										},
 										"deviation": {
 											"type": "long"
@@ -1246,24 +1247,24 @@
 													"type": "long"
 												},
 												"model": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												},
 												"name": {
+													"type": "keyword",
 													"fields": {
 														"suggest": {
+															"type": "text",
 															"analyzer": "autocomplete",
-															"search_analyzer": "lower_analyzer",
-															"type": "text"
+															"search_analyzer": "lower_analyzer"
 														}
-													},
-													"type": "keyword"
+													}
 												}
 											}
 										},
@@ -1291,14 +1292,14 @@
 											"type": "long"
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"parameterType": {
 											"dynamic": "false",
@@ -1312,18 +1313,18 @@
 											}
 										},
 										"path": {
+											"type": "keyword",
 											"fields": {
 												"hierarchy": {
-													"analyzer": "path-analyzer",
+													"type": "text",
 													"store": true,
-													"type": "text"
+													"analyzer": "path-analyzer"
 												},
 												"split": {
-													"analyzer": "split-path-analyzer",
-													"type": "text"
+													"type": "text",
+													"analyzer": "split-path-analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										}
 									}
 								},
@@ -1337,14 +1338,14 @@
 											"type": "long"
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"unitType": {
 											"dynamic": "false",
@@ -1359,38 +1360,38 @@
 										}
 									}
 								}
-							},
-							"type": "nested"
+							}
 						},
 						"media": {
+							"type": "nested",
 							"dynamic": "false",
 							"properties": {
 								"id": {
 									"type": "long"
 								}
-							},
-							"type": "nested"
+							}
 						},
 						"samplingPlace": {
 							"dynamic": "false",
 							"properties": {
 								"classification": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"code": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"description": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										},
 										"document": {
 											"dynamic": "false",
@@ -1401,105 +1402,105 @@
 											}
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"path": {
+											"type": "keyword",
 											"fields": {
 												"hierarchy": {
-													"analyzer": "path-analyzer",
+													"type": "text",
 													"store": true,
-													"type": "text"
+													"analyzer": "path-analyzer"
 												},
 												"split": {
-													"analyzer": "split-path-analyzer",
-													"type": "text"
+													"type": "text",
+													"analyzer": "split-path-analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"remark": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"code": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"description": {
+									"type": "text",
 									"analyzer": "autocomplete",
-									"search_analyzer": "lower_analyzer",
-									"type": "text"
+									"search_analyzer": "lower_analyzer"
 								},
 								"endDate": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"id": {
-									"analyzer": "compose_id",
-									"type": "text"
+									"type": "text",
+									"analyzer": "compose_id"
 								},
 								"name": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"remark": {
+									"type": "text",
 									"analyzer": "autocomplete",
-									"search_analyzer": "lower_analyzer",
-									"type": "text"
+									"search_analyzer": "lower_analyzer"
 								},
 								"startDate": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								}
 							}
 						},
 						"samplingPlaceIds": {
-							"analyzer": "compose_id",
-							"type": "text"
+							"type": "text",
+							"analyzer": "compose_id"
 						},
 						"site": {
 							"dynamic": "false",
 							"properties": {
 								"classification": {
+									"type": "nested",
 									"dynamic": "false",
 									"properties": {
 										"code": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"description": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										},
 										"document": {
 											"dynamic": "false",
@@ -1510,99 +1511,101 @@
 											}
 										},
 										"name": {
+											"type": "keyword",
 											"fields": {
 												"suggest": {
+													"type": "text",
 													"analyzer": "autocomplete",
-													"search_analyzer": "lower_analyzer",
-													"type": "text"
+													"search_analyzer": "lower_analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"path": {
+											"type": "keyword",
 											"fields": {
 												"hierarchy": {
-													"analyzer": "path-analyzer",
+													"type": "text",
 													"store": true,
-													"type": "text"
+													"analyzer": "path-analyzer"
 												},
 												"split": {
-													"analyzer": "split-path-analyzer",
-													"type": "text"
+													"type": "text",
+													"analyzer": "split-path-analyzer"
 												}
-											},
-											"type": "keyword"
+											}
 										},
 										"remark": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "nested"
+									}
 								},
 								"code": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
+									}
+								},
+								"dashboard": {
 									"type": "keyword"
 								},
 								"date": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"description": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"deviation": {
 									"type": "long"
 								},
 								"id": {
-									"analyzer": "compose_id",
-									"type": "text"
+									"type": "text",
+									"analyzer": "compose_id"
 								},
 								"name": {
+									"type": "keyword",
 									"fields": {
 										"suggest": {
+											"type": "text",
 											"analyzer": "autocomplete",
-											"search_analyzer": "lower_analyzer",
-											"type": "text"
+											"search_analyzer": "lower_analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"path": {
+									"type": "keyword",
 									"fields": {
 										"hierarchy": {
-											"analyzer": "path-analyzer",
+											"type": "text",
 											"store": true,
-											"type": "text"
+											"analyzer": "path-analyzer"
 										},
 										"split": {
-											"analyzer": "split-path-analyzer",
-											"type": "text"
+											"type": "text",
+											"analyzer": "split-path-analyzer"
 										}
-									},
-									"type": "keyword"
+									}
 								},
 								"remark": {
-									"analyzer": "spanish",
-									"type": "text"
+									"type": "text",
+									"analyzer": "spanish"
 								},
 								"updated": {
-									"format": "date_optional_time",
-									"type": "date"
+									"type": "date",
+									"format": "date_optional_time"
 								},
 								"z": {
 									"type": "double"
@@ -1610,13 +1613,14 @@
 							}
 						},
 						"siteIds": {
-							"analyzer": "compose_id",
-							"type": "text"
+							"type": "text",
+							"analyzer": "compose_id"
 						},
 						"activityId": {
 							"type": "keyword"
 						},
 						"weatherConditions": {
+							"type": "nested",
 							"dynamic": "false",
 							"properties": {
 								"acronym": {
@@ -1626,9 +1630,9 @@
 									"type": "long"
 								},
 								"name": {
+									"type": "text",
 									"analyzer": "autocomplete",
-									"search_analyzer": "lower_analyzer",
-									"type": "text"
+									"search_analyzer": "lower_analyzer"
 								},
 								"seaConditionType": {
 									"dynamic": "false",
@@ -1641,8 +1645,7 @@
 										}
 									}
 								}
-							},
-							"type": "nested"
+							}
 						}
 					}
 				}
