@@ -70,6 +70,8 @@ public class CitationControllerTest extends IntegrationTestBase {
 
 	private final String CITATIONS_BY_ACTIVITY_URL_BASE = "/activities/1167/citations";
 
+	private final String CITATIONS_URL_BASE = "/citations";
+
 	@Override
 	@Before
 	public void setUp() {
@@ -92,6 +94,21 @@ public class CitationControllerTest extends IntegrationTestBase {
 
 		this.mockMvc
 				.perform(get(CITATIONS_BY_ACTIVITY_URL_BASE + "/_search/_schema").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+		// @formatter:on
+	}
+
+	@Test
+	public void getCitation_Return200_WhenSearchIsCorrect() throws Exception {
+
+		GeoPointData modelToIndex = (GeoPointData) getModelToResource(RESOURCE_PATH, GeoPointData.class);
+		repository.save(modelToIndex);
+
+		// @formatter:off
+
+		this.mockMvc
+				.perform(get(CITATIONS_URL_BASE + "/" + modelToIndex.getId()).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 
 		// @formatter:on
