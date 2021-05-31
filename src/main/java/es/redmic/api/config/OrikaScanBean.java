@@ -45,6 +45,7 @@ import ma.glasnost.orika.Filter;
 import ma.glasnost.orika.Mapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.builtin.PassThroughConverter;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -70,6 +71,8 @@ public class OrikaScanBean extends ConfigurableMapper
 
 	private MapperFactory factory;
 
+	private MappingContext.Factory mappingContextFactory;
+
 	private ApplicationContext applicationContext;
 
 	/**
@@ -78,6 +81,8 @@ public class OrikaScanBean extends ConfigurableMapper
 	@Override
 	public void configureFactoryBuilder(final DefaultMapperFactory.Builder factoryBuilder) {
 		// customize the factoryBuilder as needed
+		mappingContextFactory = new MappingContext.Factory();
+		factoryBuilder.mappingContextFactory(mappingContextFactory);
 	}
 
 	/**
@@ -219,5 +224,9 @@ public class OrikaScanBean extends ConfigurableMapper
 	public MapperFacade getMapperFacade() {
 		return factory.getMapperFacade();
 
+	}
+
+	public MappingContext getMappingContext() {
+		return mappingContextFactory.getContext();
 	}
 }
