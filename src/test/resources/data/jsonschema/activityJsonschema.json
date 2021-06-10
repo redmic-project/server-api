@@ -120,7 +120,14 @@
 				"$ref": "#/definitions/OrganisationRoleDTO"
 			}
 		},
-		"license": {
+		"licence": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 5000
+		},
+		"normative": {
 			"type": [
 				"string",
 				"null"
