@@ -412,7 +412,7 @@
 						}
 					}
 				},
-				"grandParent": {
+				"grandparent": {
 					"dynamic": "false",
 					"properties": {
 						"id": {
