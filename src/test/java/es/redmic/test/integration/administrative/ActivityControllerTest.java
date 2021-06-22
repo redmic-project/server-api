@@ -1,5 +1,7 @@
 package es.redmic.test.integration.administrative;
 
+import static org.junit.Assert.assertEquals;
+
 /*-
  * #%L
  * API
@@ -26,8 +28,10 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,7 +52,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 import es.redmic.ApiApplication;
+import es.redmic.es.administrative.repository.ActivityESRepository;
+import es.redmic.models.es.administrative.model.Activity;
+import es.redmic.models.es.common.model.DomainES;
 import es.redmic.models.es.common.query.dto.DataQueryDTO;
 import es.redmic.test.integration.ApiApplicationTest;
 import es.redmic.test.integration.common.IntegrationTestBase;
@@ -65,6 +75,9 @@ public class ActivityControllerTest extends IntegrationTestBase {
 	@Autowired
 	ObjectMapper mapper;
 
+	@Autowired
+	ActivityESRepository repository;
+
 	private RestDocumentationResultHandler document;
 
 	private final String ACTIVITIES_URL_BASE = "/activities";
@@ -80,6 +93,24 @@ public class ActivityControllerTest extends IntegrationTestBase {
 
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).addFilters(springSecurityFilterChain)
 				.apply(documentationConfiguration(this.restDocumentation)).alwaysDo(this.document).build();
+
+		Activity modelToIndex = new Activity();
+		modelToIndex.setId(3L);
+		modelToIndex.setName("name");
+
+		DomainES accessibility = new DomainES();
+		accessibility.setId(1L);
+		accessibility.setName("Libre");
+		accessibility.setName_en("Free");
+		modelToIndex.setAccessibility(accessibility);
+
+		DomainES rank = new DomainES();
+		rank.setId(3L);
+		rank.setName("Actividad");
+		rank.setName_en("Activity");
+		modelToIndex.setRank(rank);
+
+		modelToIndex = repository.save(modelToIndex);
 
 		// @formatter:on
 	}
@@ -125,6 +156,28 @@ public class ActivityControllerTest extends IntegrationTestBase {
 				.perform(post(ACTIVITIES_URL_BASE + "/_search").content(mapper.writeValueAsString(query))
 						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
+
+		// @formatter:on
+	}
+
+	@Test
+	public void getActivities_Return200_WhenSearchIsCorrect() throws Exception {
+
+		// @formatter:off
+
+		this.mockMvc
+			.perform(get(ACTIVITIES_URL_BASE)
+				.param("from", "0")
+				.param("size", "10")
+				.param("returnFields", "id")
+				.param("returnFields", "name")
+					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.body.data", notNullValue()))
+			.andExpect(jsonPath("$.body.data[0]", notNullValue()))
+			.andExpect(jsonPath("$.body.data[0].id", is(3)))
+			.andExpect(jsonPath("$.body.data[0].name", is("name")))
+			.andExpect(jsonPath("$.body.data.length()", is(1)));
 
 		// @formatter:on
 	}

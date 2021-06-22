@@ -36,6 +36,7 @@ import es.redmic.es.data.common.service.RDataESService;
 import es.redmic.exception.databinding.DTONotValidException;
 import es.redmic.models.es.common.dto.BaseDTO;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
+import es.redmic.models.es.common.dto.ElasticSearchNotNullDTO;
 import es.redmic.models.es.common.dto.JSONCollectionDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.model.BaseES;
@@ -63,8 +64,10 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size, returnFields);
 		processQuery((TQueryDTO) queryDTO);
+
 		JSONCollectionDTO result = ESService.find(convertToDataQuery((TQueryDTO) queryDTO));
-		return new ElasticSearchDTO(result, result.getTotal());
+
+		return new ElasticSearchNotNullDTO(result, result.getTotal());
 	}
 
 	@PostMapping(value = "/_search")
