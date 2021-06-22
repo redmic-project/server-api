@@ -56,7 +56,8 @@ public class RankController extends RWDomainController<Rank, DomainES, RankDTO, 
 	public SuperDTO _search(@RequestParam(required = false, value = "fields") String[] fields,
 			@RequestParam(required = false, value = "text") String text,
 			@RequestParam(required = false, value = "from") Integer from,
-			@RequestParam(required = false, value = "size") Integer size) {
+			@RequestParam(required = false, value = "size") Integer size,
+			@RequestParam(required = false, value = "fields") String[] returnFields) {
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size);
 		queryDTO.addTerm("id", "10");
