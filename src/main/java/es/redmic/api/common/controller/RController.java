@@ -60,7 +60,7 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 			@RequestParam(required = false, value = "text") String text,
 			@RequestParam(required = false, value = "from") Integer from,
 			@RequestParam(required = false, value = "size") Integer size,
-			@RequestParam(required = false, value = "fields") String[] returnFields) {
+			@RequestParam(required = false, value = "returnFields") String[] returnFields) {
 
 		SimpleQueryDTO queryDTO = ESService.createSimpleQueryDTOFromTextQueryParams(fields, text, from, size, returnFields);
 		processQuery((TQueryDTO) queryDTO);
