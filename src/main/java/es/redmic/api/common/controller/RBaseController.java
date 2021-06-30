@@ -79,10 +79,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	}
 
 	@GetMapping(value = { "${controller.mapping.FILTER_SCHEMA}", "${contoller.mapping.FILTERED_DOCUMENTS_SCHEMA}",
-			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}",
-			"${controller.mapping.OBJECT_CLASSIFICATION_LIST_SCHEMA}",
-			"${controller.mapping.OBJECT_CLASSIFICATION_SCHEMA}", "${controller.mapping.SERIES_TEMPORALDATA_SCHEMA}",
-			"${controller.mapping.SERIES_WINDROSE_SCHEMA}" })
+			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}" })
 	@ResponseBody
 	public ElasticSearchDTO getFilterSchema(HttpServletResponse response) {
 
