@@ -1,31 +1,41 @@
-def filterByConfidence = { confidence -> params.confidences.contains(confidence) }
-def filterByPathTaxon = { pathTaxon -> params.taxons.contains(pathTaxon) }
-def filterByMisidentification = {
-	taxon -> taxon.registers.findAll { reg ->
-		params.taxons.contains(reg.misidentification)
-	}
+boolean filterByConfidence(def confidence, def params) {
+	params.confidences.contains(confidence);
 }
-def addRegisters = { taxon ->
-	["registers": taxon.registers.findAll {
-		reg -> filterByConfidence(reg.confidence)
-	}]
+boolean filterByPathTaxon(def pathTaxon, def params) {
+	params.taxons.contains(pathTaxon);
 }
 
-_source.properties.registerCount = 0;
-_source.properties.taxonCount = 0;
+boolean filterByMisidentification(def taxon, def params) {
 
-_source.properties.taxons.findAll { tax ->
-	if (filterByPathTaxon(tax.path) || filterByPathTaxon(tax.equivalent) || filterByMisidentification(tax)) {
-			tax << addRegisters(tax);
-
-			if (tax.registers.size() > 0) {
-				_source.properties.registerCount += tax.registers.size();
-				_source.properties.taxonCount++;
-				return true;
-			}
-			return false;
+	for (reg in taxon.registers) {
+		if (params.taxons.contains(reg.misidentification))
+			return true;
 	}
 	return false;
 }
 
-_source.properties.remove("taxons");
+def getRegisters(def taxon, def params) {
+	return ["registers": taxon.registers.findAll(reg -> filterByConfidence(reg.confidence, params))];
+}
+
+void checkRegister(def result, def taxon, def params) {
+	if (filterByPathTaxon(taxon.path, params) || filterByPathTaxon(taxon.equivalent, params) || filterByMisidentification(taxon, params)) {
+			def taxonRegisters = getRegisters(taxon, params);
+
+			if (taxonRegisters.registers.size() > 0) {
+				result['properties.registerCount'] += taxon.registers.size();
+				result['properties.taxonCount'] ++;
+			}
+	}
+}
+
+Map result = new HashMap();
+
+result['properties.registerCount'] = 0;
+result['properties.taxonCount'] = 0;
+
+for (tax in params._source.properties.taxons) {
+	checkRegister(result, tax, params);
+}
+
+return result;
