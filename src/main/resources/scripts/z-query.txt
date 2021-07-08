@@ -14,23 +14,23 @@ def lowerLimit = value-deviation;
 def upperLimit = value+deviation;
 
 // Límites de query a null, no se permite query
-if (params.minValue == null && params.maxValue == null)
+if (params.zMin == null && params.zMax == null)
 	return false;
 // Límites de query not null, se tiene en cuenta la desviación
-if (params.minValue != null && params.maxValue != null) {
-	if (value >= params.minValue && value <= params.maxValue)
+if (params.zMin != null && params.zMax != null) {
+	if (value >= params.zMin && value <= params.zMax)
 		return true;
-	if (upperLimit >= params.maxValue && lowerLimit <= params.minValue)
+	if (upperLimit >= params.zMax && lowerLimit <= params.zMin)
 		return true;
-	if (upperLimit <= params.maxValue && upperLimit >= params.minValue)
+	if (upperLimit <= params.zMax && upperLimit >= params.zMin)
 		return true;
-	if (lowerLimit <= params.maxValue && lowerLimit >= params.minValue)
+	if (lowerLimit <= params.zMax && lowerLimit >= params.zMin)
 		return true;
 	return false;
 }
 // Algún límite de query a null
-if (params.maxValue != null && upperLimit <= params.maxValue)
+if (params.zMax != null && upperLimit <= params.zMax)
 	return true;
-if (params.minValue != null && lowerLimit >= params.minValue)
+if (params.zMin != null && lowerLimit >= params.zMin)
 	return true;
 return false;
