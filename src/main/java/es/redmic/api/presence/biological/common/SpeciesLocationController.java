@@ -37,14 +37,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.redmic.api.common.controller.RBaseController;
 import es.redmic.es.administrative.taxonomy.service.SpeciesESService;
+import es.redmic.es.common.queryFactory.geodata.AnimalTrackingQueryUtils;
 import es.redmic.es.geodata.citation.service.CitationESService;
 import es.redmic.es.geodata.tracking.animal.service.AnimalTrackingESService;
 import es.redmic.models.es.administrative.taxonomy.dto.SpeciesDTO;
 import es.redmic.models.es.administrative.taxonomy.model.Species;
+import es.redmic.models.es.common.DataPrefixType;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
+import es.redmic.models.es.geojson.citation.dto.CitationDTO;
 import es.redmic.models.es.geojson.common.dto.GeoJSONFeatureCollectionDTO;
+import es.redmic.models.es.geojson.tracking.animal.dto.AnimalTrackingDTO;
 
 @RestController
 @RequestMapping(value = "${controller.mapping.SPECIES_LOCATION}")
@@ -71,11 +75,15 @@ public class SpeciesLocationController extends RBaseController<Species, SpeciesD
 
 		processQuery(queryDTO, bindingResult);
 
-		GeoJSONFeatureCollectionDTO resp = animalTrackingService.find(queryDTO),
-				respCitation = citationService.find(queryDTO),
-				result = new GeoJSONFeatureCollectionDTO();
+		queryDTO.setDataType(DataPrefixType.getPrefixTypeFromClass(AnimalTrackingDTO.class));
+		GeoJSONFeatureCollectionDTO resp = animalTrackingService.find(queryDTO);
 
-		List<GeoJSONFeatureCollectionDTO> features = new ArrayList<GeoJSONFeatureCollectionDTO>();
+		queryDTO.setDataType(DataPrefixType.getPrefixTypeFromClass(CitationDTO.class));
+		GeoJSONFeatureCollectionDTO respCitation = citationService.find(queryDTO);
+
+		GeoJSONFeatureCollectionDTO result = new GeoJSONFeatureCollectionDTO();
+
+		List<GeoJSONFeatureCollectionDTO> features = new ArrayList<>();
 
 		int total = 0;
 
