@@ -166,22 +166,11 @@
 			"type": "object",
 			"properties": {
 				"id": {
-					"type": [
-						"integer",
-						"null"
-					]
+					"type": ["integer", "null"]
 				},
-				"name": {
+				"resourceType": {
 					"type": "string",
-					"minLength": 1,
-					"maxLength": 100
-				},
-				"description": {
-					"type": [
-						"string",
-						"null"
-					],
-					"maxLength": 1500
+					"url": "/operator/resourcetype"
 				},
 				"urlResource": {
 					"type": "string",
@@ -189,10 +178,7 @@
 					"maxLength": 500
 				}
 			},
-			"required": [
-				"name",
-				"urlResource"
-			]
+			"required": ["resourceType", "urlResource"]
 		},
 		"ActivityDocumentDTO": {
 			"type": "object",

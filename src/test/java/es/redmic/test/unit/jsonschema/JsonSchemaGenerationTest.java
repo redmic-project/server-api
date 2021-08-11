@@ -81,6 +81,7 @@ public class JsonSchemaGenerationTest {
 		properties.put("controller.mapping.SPECIES", "/operator/taxons/species");
 		properties.put("controller.mapping.MISIDENTIFICATION", "/operator/taxons/misidentification");
 		properties.put("controller.mapping.THEME_INSPIRE", "/operator/themeinspire");
+		properties.put("controller.mapping.RESOURCE_TYPE", "/operator/resourcetype");
 
 		Whitebox.setInternalState(jsonSchemaUtil, HashMap.class, properties);
 		Whitebox.invokeMethod(jsonSchemaUtil, "jsonSchemaGeneratorInit");
