@@ -433,23 +433,14 @@
 						"id": {
 							"type": "long"
 						},
-						"name": {
-							"type": "keyword",
-							"fields": {
-								"suggest": {
-									"type": "text",
-									"analyzer": "autocomplete",
-									"search_analyzer": "lower_analyzer"
-								}
-							}
-						},
-						"description": {
-							"type": "keyword",
-							"fields": {
-								"suggest": {
-									"type": "text",
-									"analyzer": "autocomplete",
-									"search_analyzer": "lower_analyzer"
+						"resourceType": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
 								}
 							}
 						}
