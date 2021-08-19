@@ -107,9 +107,13 @@
 						}
 					}
 				},
+				"inserted": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
 				"updated": {
 					"type": "date",
-					"format": "date_time"
+					"format": "date_optional_time"
 				}
 			}
 		}
