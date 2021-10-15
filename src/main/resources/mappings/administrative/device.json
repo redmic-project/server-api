@@ -1,0 +1,122 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				}
+			},
+			"tokenizer": {},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"name": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"model": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"serialNumber": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"calibrations": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"contact": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								}
+							}
+						},
+						"date": {
+							"type": "date",
+							"format": "date_time"
+						}
+					}
+				},
+				"deviceType": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"platform": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						}
+					}
+				},
+				"document": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "integer"
+						}
+					}
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}

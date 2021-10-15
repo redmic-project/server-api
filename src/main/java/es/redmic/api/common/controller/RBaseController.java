@@ -9,9 +9,9 @@ package es.redmic.api.common.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,14 +31,13 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.redmic.api.common.service.UserUtilsService;
 import es.redmic.es.common.service.RBaseESService;
@@ -62,7 +61,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	@Autowired
 	protected ObjectMapper objectMapper;
 
-	private Map<String, Object> fixedQuery = new HashMap<String, Object>();
+	private Map<String, Object> fixedQuery = new HashMap<>();
 
 	RBaseESService<TModel, TDTO> service;
 
@@ -72,22 +71,15 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	protected Class<TDTO> typeOfTDTO;
 	protected Class<TQueryDTO> typeOfTQueryDTO;
 
-	private Set<String> fieldsExcludedOnQuery = new HashSet<String>();
+	protected Set<String> fieldsExcludedOnQuery = new HashSet<>();
 
-	public RBaseController(RBaseESService<TModel, TDTO> service) {
+	protected RBaseController(RBaseESService<TModel, TDTO> service) {
 		this.service = service;
 		defineTypeOfArguments();
 	}
 
-	@RequestMapping(value = { "${controller.mapping.FILTER_SCHEMA}", "${contoller.mapping.FILTERED_DOCUMENTS_SCHEMA}",
-			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}",
-			"${controller.mapping.OBJECT_CLASSIFICATION_LIST_SCHEMA}",
-			"${controller.mapping.OBJECT_CLASSIFICATION_SCHEMA}", "${controller.mapping.SERIES_TEMPORALDATA_SCHEMA}",
-			"${controller.mapping.SERIES_WINDROSE_SCHEMA}", "${controller.mapping.GRID100_SCHEMA}",
-			"${controller.mapping.GRID100_BY_ID_SCHEMA}", "${controller.mapping.GRID500_SCHEMA}",
-			"${controller.mapping.GRID500_BY_ID_SCHEMA}", "${controller.mapping.GRID1000_SCHEMA}",
-			"${controller.mapping.GRID1000_BY_ID_SCHEMA}", "${controller.mapping.GRID5000_SCHEMA}",
-			"${controller.mapping.GRID5000_BY_ID_SCHEMA}" }, method = RequestMethod.GET)
+	@GetMapping(value = { "${controller.mapping.FILTER_SCHEMA}", "${contoller.mapping.FILTERED_DOCUMENTS_SCHEMA}",
+			"${contoller.mapping.ANCESTORS_SCHEMA}", "${controller.mapping.TRACK_CLUSTER_SCHEMA}" })
 	@ResponseBody
 	public ElasticSearchDTO getFilterSchema(HttpServletResponse response) {
 
@@ -193,9 +185,17 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 		fixedQuery.put(term, value);
 	}
 
-	protected DataQueryDTO convertToQuery(TQueryDTO queryDTO) {
+	protected DataQueryDTO convertToDataQuery(TQueryDTO queryDTO) {
 
 		DataQueryDTO globalQuery = objectMapper.convertValue(queryDTO, DataQueryDTO.class);
+		globalQuery.setDataType(((SimpleQueryDTO) queryDTO).getDataType());
+
+		return globalQuery;
+	}
+
+	protected GeoDataQueryDTO convertToGeoDataQuery(TQueryDTO queryDTO) {
+
+		GeoDataQueryDTO globalQuery = objectMapper.convertValue(queryDTO, GeoDataQueryDTO.class);
 		globalQuery.setDataType(((SimpleQueryDTO) queryDTO).getDataType());
 
 		return globalQuery;

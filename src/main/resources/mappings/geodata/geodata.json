@@ -1,0 +1,1655 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				},
+				"path-analyzer": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer"
+				},
+				"compose_id": {
+					"tokenizer": "keyword",
+					"filter": [
+					  "compose_id_filter",
+					  "lowercase"
+					]
+				  }
+			},
+			"tokenizer": {
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				},
+				"path-tokenizer": {
+					"type": "path_hierarchy",
+					"delimiter": "."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				},
+				"compose_id_filter": {
+					"type": "pattern_capture",
+					"preserve_original": true,
+					"patterns": [
+						"([a-z]+)-"
+					]
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"geometry": {
+					"type": "geo_shape"
+				},
+				"properties": {
+					"dynamic": "false",
+					"properties": {
+						"collect": {
+							"dynamic": "false",
+							"properties": {
+								"analytics": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"dataDefinition": {
+											"dynamic": "false",
+											"properties": {
+												"description": {
+													"type": "text",
+													"analyzer": "spanish"
+												},
+												"device": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"model": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"id": {
+													"type": "long"
+												}
+											}
+										},
+										"date": {
+											"type": "date",
+											"format": "date_optional_time"
+										},
+										"id": {
+											"type": "long"
+										},
+										"organisation": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												}
+											}
+										},
+										"parameter": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"parameterType": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword"
+														}
+													}
+												}
+											}
+										},
+										"qFlag": {
+											"type": "keyword"
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"unit": {
+											"dynamic": "false",
+											"properties": {
+												"acronym": {
+													"type": "keyword"
+												},
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"unitType": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword"
+														}
+													}
+												}
+											}
+										},
+										"vFlag": {
+											"type": "keyword"
+										},
+										"value": {
+											"type": "double"
+										}
+									}
+								},
+								"animal": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"uuid": {
+											"type": "keyword"
+										}
+									}
+								},
+								"attributes": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"condition": {
+											"dynamic": "false",
+											"properties": {
+												"attributeType": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												}
+											}
+										},
+										"date": {
+											"type": "date",
+											"format": "date_optional_time"
+										},
+										"id": {
+											"type": "long"
+										},
+										"qFlag": {
+											"type": "keyword"
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"vFlag": {
+											"type": "keyword"
+										}
+									}
+								},
+								"collectionRegNo": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"collectorName": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"confidence": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword"
+										}
+									}
+								},
+								"deviation": {
+									"type": "long"
+								},
+								"distance": {
+									"type": "double"
+								},
+								"elements": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"analytics": {
+											"type": "nested",
+											"dynamic": "false",
+											"properties": {
+												"dataDefinition": {
+													"dynamic": "false",
+													"properties": {
+														"description": {
+															"type": "text",
+															"analyzer": "spanish"
+														},
+														"device": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"model": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																},
+																"name": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																}
+															}
+														},
+														"id": {
+															"type": "long"
+														}
+													}
+												},
+												"date": {
+													"type": "date",
+													"format": "date_optional_time"
+												},
+												"id": {
+													"type": "long"
+												},
+												"organisation": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"parameter": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"parameterType": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword"
+																}
+															}
+														}
+													}
+												},
+												"qFlag": {
+													"type": "keyword"
+												},
+												"remark": {
+													"type": "text",
+													"analyzer": "spanish"
+												},
+												"unit": {
+													"dynamic": "false",
+													"properties": {
+														"acronym": {
+															"type": "keyword"
+														},
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"unitType": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword"
+																}
+															}
+														}
+													}
+												},
+												"vFlag": {
+													"type": "keyword"
+												},
+												"value": {
+													"type": "double"
+												}
+											}
+										},
+										"attributes": {
+											"type": "nested",
+											"dynamic": "false",
+											"properties": {
+												"condition": {
+													"dynamic": "false",
+													"properties": {
+														"attributeType": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																}
+															}
+														},
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"date": {
+													"type": "date",
+													"format": "date_optional_time"
+												},
+												"id": {
+													"type": "long"
+												},
+												"qFlag": {
+													"type": "keyword"
+												},
+												"remark": {
+													"type": "text",
+													"analyzer": "spanish"
+												},
+												"vFlag": {
+													"type": "keyword"
+												}
+											}
+										},
+										"id": {
+											"type": "long"
+										},
+										"metrics": {
+											"type": "nested",
+											"dynamic": "false",
+											"properties": {
+												"date": {
+													"type": "date",
+													"format": "date_optional_time"
+												},
+												"id": {
+													"type": "long"
+												},
+												"metricDefinition": {
+													"dynamic": "false",
+													"properties": {
+														"acronym": {
+															"type": "keyword"
+														},
+														"device": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																}
+															}
+														},
+														"id": {
+															"type": "long"
+														},
+														"metricGroup": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																}
+															}
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"unit": {
+															"dynamic": "false",
+															"properties": {
+																"id": {
+																	"type": "long"
+																},
+																"name": {
+																	"type": "keyword",
+																	"fields": {
+																		"suggest": {
+																			"type": "text",
+																			"analyzer": "autocomplete",
+																			"search_analyzer": "lower_analyzer"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												},
+												"qFlag": {
+													"type": "keyword"
+												},
+												"remark": {
+													"type": "text",
+													"analyzer": "spanish"
+												},
+												"vFlag": {
+													"type": "keyword"
+												},
+												"value": {
+													"type": "double"
+												}
+											}
+										},
+										"registerNumber": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										}
+									}
+								},
+								"endDate": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"id": {
+									"type": "text",
+									"analyzer": "compose_id"
+								},
+								"localityConfidence": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword"
+										}
+									}
+								},
+								"metrics": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"date": {
+											"type": "date",
+											"format": "date_optional_time"
+										},
+										"id": {
+											"type": "long"
+										},
+										"metricDefinition": {
+											"dynamic": "false",
+											"properties": {
+												"acronym": {
+													"type": "keyword"
+												},
+												"device": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"id": {
+													"type": "long"
+												},
+												"metricGroup": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"unit": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										"qFlag": {
+											"type": "keyword"
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"vFlag": {
+											"type": "keyword"
+										},
+										"value": {
+											"type": "double"
+										}
+									}
+								},
+								"misidentification": {
+									"dynamic": "false",
+									"properties": {
+										"document": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												}
+											}
+										},
+										"id": {
+											"type": "long"
+										},
+										"taxon": {
+											"dynamic": "false",
+											"properties": {
+												"authorship": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"path": {
+													"type": "keyword",
+													"fields": {
+														"hierarchy": {
+															"type": "text",
+															"store": true,
+															"analyzer": "path-analyzer"
+														},
+														"split": {
+															"type": "text",
+															"analyzer": "split-path-analyzer"
+														}
+													}
+												},
+												"rank": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword"
+														}
+													}
+												},
+												"scientificName": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								"object": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"classification": {
+											"type": "nested",
+											"dynamic": "false",
+											"properties": {
+												"objectType": {
+													"dynamic": "false",
+													"properties": {
+														"code": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"id": {
+															"type": "long"
+														},
+														"level": {
+															"type": "integer"
+														},
+														"name": {
+															"type": "keyword",
+															"fields": {
+																"suggest": {
+																	"type": "text",
+																	"analyzer": "autocomplete",
+																	"search_analyzer": "lower_analyzer"
+																}
+															}
+														},
+														"path": {
+															"type": "keyword",
+															"fields": {
+																"hierarchy": {
+																	"type": "text",
+																	"store": true,
+																	"analyzer": "path-analyzer"
+																},
+																"split": {
+																	"type": "text",
+																	"analyzer": "split-path-analyzer"
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword"
+										}
+									}
+								},
+								"observationAngle": {
+									"type": "double"
+								},
+								"qFlag": {
+									"type": "keyword"
+								},
+								"radius": {
+									"type": "long"
+								},
+								"remark": {
+									"type": "text",
+									"analyzer": "spanish"
+								},
+								"sample": {
+									"dynamic": "false",
+									"properties": {
+										"description": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"endDate": {
+											"type": "date",
+											"format": "date_optional_time"
+										},
+										"id": {
+											"type": "long"
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"sampleType": {
+											"dynamic": "false",
+											"properties": {
+												"code": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"id": {
+													"type": "long"
+												}
+											}
+										},
+										"size": {
+											"type": "double"
+										},
+										"startDate": {
+											"type": "date",
+											"format": "date_optional_time"
+										}
+									}
+								},
+								"startDate": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"taxon": {
+									"dynamic": "false",
+									"properties": {
+										"authorship": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"commonName": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"path": {
+											"type": "keyword",
+											"fields": {
+												"hierarchy": {
+													"type": "text",
+													"store": true,
+													"analyzer": "path-analyzer"
+												},
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										},
+										"rank": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword"
+												}
+											}
+										},
+										"scientificName": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"validAs": {
+											"dynamic": "false",
+											"properties": {
+												"authorship": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"commonName": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"path": {
+													"type": "keyword",
+													"fields": {
+														"hierarchy": {
+															"type": "text",
+															"store": true,
+															"analyzer": "path-analyzer"
+														},
+														"split": {
+															"type": "text",
+															"analyzer": "split-path-analyzer"
+														}
+													}
+												},
+												"rank": {
+													"dynamic": "false",
+													"properties": {
+														"id": {
+															"type": "long"
+														},
+														"name": {
+															"type": "keyword"
+														}
+													}
+												},
+												"scientificName": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								"updated": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"vFlag": {
+									"type": "keyword"
+								},
+								"value": {
+									"type": "double"
+								},
+								"z": {
+									"type": "double"
+								}
+							}
+						},
+						"inTrack": {
+							"dynamic": "false",
+							"properties": {
+								"argosId": {
+									"type": "long"
+								},
+								"bearing": {
+									"type": "double"
+								},
+								"cumulativeKm": {
+									"type": "double"
+								},
+								"cumulativeTime": {
+									"type": "long"
+								},
+								"date": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"deviation": {
+									"type": "long"
+								},
+								"device": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"model": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										},
+										"name": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"hours": {
+									"type": "long"
+								},
+								"id": {
+									"type": "text",
+									"analyzer": "compose_id"
+								},
+								"lastDistanceKm": {
+									"type": "double"
+								},
+								"locationClass": {
+									"type": "keyword"
+								},
+								"passDuration": {
+									"type": "long"
+								},
+								"platform": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"uuid": {
+											"type": "keyword"
+										}
+									}
+								},
+								"qFlag": {
+									"type": "keyword"
+								},
+								"speedKph": {
+									"type": "double"
+								},
+								"vFlag": {
+									"type": "keyword"
+								},
+								"z": {
+									"type": "double"
+								}
+							}
+						},
+						"inTrackIds": {
+							"type": "text",
+							"analyzer": "compose_id"
+						},
+						"measurements": {
+							"type": "nested",
+							"dynamic": "false",
+							"properties": {
+								"data": {
+									"dynamic": "false",
+									"properties": {
+										"date": {
+											"type": "date",
+											"format": "date_optional_time"
+										},
+										"id": {
+											"type": "long"
+										},
+										"qFlag": {
+											"type": "keyword"
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"vFlag": {
+											"type": "keyword"
+										},
+										"value": {
+											"type": "double"
+										}
+									}
+								},
+								"dataDefinition": {
+									"dynamic": "false",
+									"properties": {
+										"derivedData": {
+											"type": "boolean"
+										},
+										"description": {
+											"type": "text",
+											"analyzer": "spanish"
+										},
+										"deviation": {
+											"type": "long"
+										},
+										"device": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"model": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												},
+												"name": {
+													"type": "keyword",
+													"fields": {
+														"suggest": {
+															"type": "text",
+															"analyzer": "autocomplete",
+															"search_analyzer": "lower_analyzer"
+														}
+													}
+												}
+											}
+										},
+										"id": {
+											"type": "long"
+										},
+										"isRegularity": {
+											"type": "boolean"
+										},
+										"isSerial": {
+											"type": "boolean"
+										},
+										"timeInterval": {
+											"type": "long"
+										},
+										"z": {
+											"type": "double"
+										}
+									}
+								},
+								"parameter": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"parameterType": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword"
+												}
+											}
+										},
+										"path": {
+											"type": "keyword",
+											"fields": {
+												"hierarchy": {
+													"type": "text",
+													"store": true,
+													"analyzer": "path-analyzer"
+												},
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										}
+									}
+								},
+								"unit": {
+									"dynamic": "false",
+									"properties": {
+										"acronym": {
+											"type": "keyword"
+										},
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"unitType": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												},
+												"name": {
+													"type": "keyword"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"media": {
+							"type": "nested",
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								}
+							}
+						},
+						"samplingPlace": {
+							"dynamic": "false",
+							"properties": {
+								"classification": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"code": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"description": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										},
+										"document": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												}
+											}
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"path": {
+											"type": "keyword",
+											"fields": {
+												"hierarchy": {
+													"type": "text",
+													"store": true,
+													"analyzer": "path-analyzer"
+												},
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"code": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"description": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"endDate": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"id": {
+									"type": "text",
+									"analyzer": "compose_id"
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"remark": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"startDate": {
+									"type": "date",
+									"format": "date_optional_time"
+								}
+							}
+						},
+						"samplingPlaceIds": {
+							"type": "text",
+							"analyzer": "compose_id"
+						},
+						"site": {
+							"dynamic": "false",
+							"properties": {
+								"classification": {
+									"type": "nested",
+									"dynamic": "false",
+									"properties": {
+										"code": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"description": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										},
+										"document": {
+											"dynamic": "false",
+											"properties": {
+												"id": {
+													"type": "long"
+												}
+											}
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"path": {
+											"type": "keyword",
+											"fields": {
+												"hierarchy": {
+													"type": "text",
+													"store": true,
+													"analyzer": "path-analyzer"
+												},
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										},
+										"remark": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"code": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"dashboard": {
+									"type": "keyword"
+								},
+								"date": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"description": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"deviation": {
+									"type": "long"
+								},
+								"id": {
+									"type": "text",
+									"analyzer": "compose_id"
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"path": {
+									"type": "keyword",
+									"fields": {
+										"hierarchy": {
+											"type": "text",
+											"store": true,
+											"analyzer": "path-analyzer"
+										},
+										"split": {
+											"type": "text",
+											"analyzer": "split-path-analyzer"
+										}
+									}
+								},
+								"remark": {
+									"type": "text",
+									"analyzer": "spanish"
+								},
+								"updated": {
+									"type": "date",
+									"format": "date_optional_time"
+								},
+								"z": {
+									"type": "double"
+								}
+							}
+						},
+						"siteIds": {
+							"type": "text",
+							"analyzer": "compose_id"
+						},
+						"activityId": {
+							"type": "keyword"
+						},
+						"weatherConditions": {
+							"type": "nested",
+							"dynamic": "false",
+							"properties": {
+								"acronym": {
+									"type": "keyword"
+								},
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								},
+								"seaConditionType": {
+									"dynamic": "false",
+									"properties": {
+										"id": {
+											"type": "long"
+										},
+										"name": {
+											"type": "keyword"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

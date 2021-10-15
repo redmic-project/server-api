@@ -1,0 +1,149 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				},
+				"path-analyzer": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer"
+				}
+			},
+			"tokenizer": {
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				},
+				"path-tokenizer": {
+					"type": "path_hierarchy",
+					"delimiter": "."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"badIdentity": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"scientificName": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"path": {
+							"type": "keyword",
+							"fields": {
+								"split": {
+									"type": "text",
+									"analyzer": "split-path-analyzer"
+								},
+								"path": {
+									"type": "text",
+									"analyzer": "path-analyzer",
+									"store": true
+								}
+							}
+						}
+					}
+				},
+				"taxon": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"scientificName": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"path": {
+							"type": "keyword",
+							"fields": {
+								"split": {
+									"type": "text",
+									"analyzer": "split-path-analyzer"
+								},
+								"path": {
+									"type": "text",
+									"analyzer": "path-analyzer",
+									"store": true
+								}
+							}
+						}
+					}
+				},
+				"document": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"title": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						},
+						"code": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

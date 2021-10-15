@@ -15,7 +15,7 @@
 			"maxLength": 500
 		},
 		"parent": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/projects/"
 		},
 		"code": {
@@ -39,19 +39,30 @@
 			],
 			"maxLength": 1500
 		},
+		"resources": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ActivityResourceDTO"
+			}
+		},
 		"accessibility": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/accessibilities/"
 		},
 		"scope": {
 			"type": [
-				"integer",
+				"string",
 				"null"
 			],
 			"url": "/operator/scopes/"
 		},
 		"activityType": {
-			"type": "integer",
+			"type": "string",
 			"url": "/operator/activitytypes"
 		},
 		"startDate": {
@@ -108,6 +119,39 @@
 			"items": {
 				"$ref": "#/definitions/OrganisationRoleDTO"
 			}
+		},
+		"licence": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 5000
+		},
+		"normative": {
+			"type": [
+				"string",
+				"null"
+			],
+			"maxLength": 5000
+		},
+		"spatialExtension": {
+			"type": [
+				"string",
+				"null"
+			]
+		},
+		"starred": {
+			"type": [
+				"boolean",
+				"null"
+			]
+		},
+		"themeInspire": {
+			"type": [
+				"string",
+				"null"
+			],
+			"url": "/operator/themeinspire"
 		}
 	},
 	"required": [
@@ -118,6 +162,24 @@
 		"activityType"
 	],
 	"definitions": {
+		"ActivityResourceDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": ["integer", "null"]
+				},
+				"resourceType": {
+					"type": "string",
+					"url": "/operator/resourcetype"
+				},
+				"urlResource": {
+					"type": "string",
+					"minLength": 1,
+					"maxLength": 500
+				}
+			},
+			"required": ["resourceType", "urlResource"]
+		},
 		"ActivityDocumentDTO": {
 			"type": "object",
 			"properties": {
@@ -128,7 +190,7 @@
 					]
 				},
 				"document": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/documents/"
 				}
 			},
@@ -146,15 +208,15 @@
 					]
 				},
 				"platform": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/platforms/"
 				},
 				"contact": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contacts/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -188,15 +250,15 @@
 					]
 				},
 				"contact": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contacts/"
 				},
 				"organisation": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -230,11 +292,11 @@
 					]
 				},
 				"organisation": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "integer",
+					"type": "string",
 					"url": "/operator/organisationroles/"
 				},
 				"endDate": {

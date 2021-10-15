@@ -1,0 +1,6 @@
+ctx._source.ids = [];
+
+ctx._source.service = params.service;
+ctx._source.date = params.date;
+ctx._source.name = params.name;
+ctx._source.userId = params.userId;

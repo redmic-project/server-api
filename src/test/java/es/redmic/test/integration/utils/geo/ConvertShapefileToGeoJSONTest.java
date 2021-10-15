@@ -9,9 +9,9 @@ package es.redmic.test.integration.utils.geo;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package es.redmic.test.integration.utils.geo;
  */
 
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.InputStream;
@@ -57,7 +57,7 @@ public class ConvertShapefileToGeoJSONTest extends IntegrationTestBase {
 
 		// @formatter:off
 
-		MvcResult result = mockMvc.perform(fileUpload(URL).file(file)).andExpect(status().isOk()).andReturn();
+		MvcResult result = mockMvc.perform(multipart(URL).file(file)).andExpect(status().isOk()).andReturn();
 
 		// @formatter:on
 
