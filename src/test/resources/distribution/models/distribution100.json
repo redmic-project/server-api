@@ -1,0 +1,46 @@
+{
+	"bbox": null,
+	"id": 1653218,
+	"properties": {
+		"taxons": [{
+			"id": 6822,
+			"path": "root.1.21.150.223.362.946.2698.6822",
+			"scientificName": "Euphausia krohnii",
+			"authorship": "(Brandt, 1851)",
+			"equivalent": null,
+			"registers": [{
+				"id": "/activity/518/citation/2b184df3-556b-4059-8e71-1277ff1b7bf2",
+				"confidence": 4,
+				"misidentification": null
+			}]
+		}]
+	},
+	"geometry": {
+		"type": "Polygon",
+		"coordinates": [
+			[
+				[
+					-16.4357664944,
+					28.135087212
+				],
+				[
+					-16.440856551,
+					28.1350337883
+				],
+				[
+					-16.4409169308,
+					28.1395459138
+				],
+				[
+					-16.4358266611,
+					28.1395993475
+				],
+				[
+					-16.4357664944,
+					28.135087212
+				]
+			]
+		]
+	},
+	"type": "Feature"
+}

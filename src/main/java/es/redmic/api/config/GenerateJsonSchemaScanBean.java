@@ -9,9 +9,9 @@ package es.redmic.api.config;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,8 +46,6 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaResources;
 
 import es.redmic.api.common.controller.RWController;
 import es.redmic.api.geodata.common.controller.RWGeoDataController;
-import es.redmic.api.series.common.controller.RWSeriesController;
-import es.redmic.api.series.common.controller.RWSeriesWithOutDataDefinitionController;
 import es.redmic.mediastorage.service.MediaStorageService;
 import es.redmic.models.es.administrative.dto.ActivityPlatformRoleDTO;
 import es.redmic.models.es.administrative.dto.ContactOrganisationRoleDTO;
@@ -133,43 +131,6 @@ public class GenerateJsonSchemaScanBean implements ApplicationContextAware {
 			}
 		}
 
-		@SuppressWarnings("rawtypes")
-		final Map<String, RWSeriesWithOutDataDefinitionController> seriesNewControllers = applicationContext
-				.getBeansOfType(RWSeriesWithOutDataDefinitionController.class);
-		for (@SuppressWarnings("rawtypes")
-		final RWSeriesWithOutDataDefinitionController controller : seriesNewControllers.values()) {
-
-			try {
-				Class<?> typeOfTDTO = (Class<?>) ((ParameterizedType) controller.getClass().getGenericSuperclass())
-						.getActualTypeArguments()[2];
-				generateAndSaveJsonSchema(typeOfTDTO);
-
-			} catch (Exception e) {
-				System.err.println("Error al generar el jsonSchema " + controller.getClass());
-				e.printStackTrace();
-			}
-		}
-
-		// TODO: eliminar cuando las series se pasen a lo nuevo (filtrado
-		// siempre por actividad y geodata
-		/* Genera los esquemas de Json de series */
-		@SuppressWarnings("rawtypes")
-		final Map<String, RWSeriesController> seriesControllers = applicationContext
-				.getBeansOfType(RWSeriesController.class);
-		for (@SuppressWarnings("rawtypes")
-		final RWSeriesController controller : seriesControllers.values()) {
-
-			try {
-				Class<?> typeOfTDTO = (Class<?>) ((ParameterizedType) controller.getClass().getGenericSuperclass())
-						.getActualTypeArguments()[1];
-				generateAndSaveJsonSchema(typeOfTDTO);
-
-			} catch (Exception e) {
-				System.err.println("Error al generar el jsonSchema " + controller.getClass());
-				e.printStackTrace();
-			}
-		}
-
 		for (int i = 0; i < specialBeansToGenerate.size(); i++) {
 
 			try {
@@ -183,7 +144,7 @@ public class GenerateJsonSchemaScanBean implements ApplicationContextAware {
 
 	/**
 	 * Genera y guarda el json esquema para el dto del controlador pasado
-	 * 
+	 *
 	 * @param typeOfTDTO
 	 *            Clase del dto del cual se generará el esquema
 	 * @throws JsonProcessingException

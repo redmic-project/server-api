@@ -9,9 +9,9 @@ package es.redmic.api.administrative.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,9 @@ package es.redmic.api.administrative.controller;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +51,7 @@ public class ContactController
 		this.serviceES = serviceES;
 	}
 
-	@RequestMapping(value = "${contoller.mapping.FILTERED_ACTIVITIES}", method = RequestMethod.GET)
+	@GetMapping(value = "${contoller.mapping.FILTERED_ACTIVITIES}")
 	@ResponseBody
 	public SuperDTO getActivities(@RequestParam(required = false, value = "fields") String[] fields,
 			@RequestParam(required = false, value = "text") String text,
@@ -63,7 +63,7 @@ public class ContactController
 
 		processQuery(queryDTO);
 
-		JSONCollectionDTO response = serviceES.getActivities(convertToQuery(queryDTO), id);
+		JSONCollectionDTO response = serviceES.getActivities(convertToDataQuery(queryDTO), id);
 		return new ElasticSearchDTO(response);
 	}
 }

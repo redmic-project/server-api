@@ -1,0 +1,104 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"email": {
+					"tokenizer": "uax_url_email",
+					"filter": [
+						"lowercase",
+						"unique"
+					]
+				}
+			},
+			"tokenizer": {},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"name": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"acronym": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"email": {
+					"type": "text",
+					"analyzer": "email"
+				},
+				"phone": {
+					"type": "text"
+				},
+				"organisationType": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"country": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"inserted": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_optional_time"
+				}
+			}
+		}
+	}
+}

@@ -54,10 +54,8 @@ variables:
     ELASTIC_ADDRESSES: docker
     OAUTH_SERVER: http://docker:8081
     PROPERTY_USER_API: http://docker:8082
-    ELASTICSEARCH_IMAGE_NAME: registry.gitlab.com/redmic-project/elastic/elasticsearch/master
-    ELASTICSEARCH_IMAGE_TAG: latest
-    SCHEMA_ES_IMAGE_NAME: registry.gitlab.com/redmic-project/elastic/schema-es/master
-    SCHEMA_ES_IMAGE_TAG: latest
+    ELASTICSEARCH_IMAGE_NAME: docker.elastic.co/elasticsearch/elasticsearch
+    ELASTICSEARCH_IMAGE_TAG: 6.6.2
     ES_BOOTSTRAP_MEMORY_LOCK: 'true'
     OLD_ELASTIC_ADMIN_PASS: changeme
     ELASTIC_ADMIN_PASS: elastic_admin_pass
@@ -65,13 +63,12 @@ variables:
     ELASTIC_USER_PASS: elastic_user_pass
     ELASTIC_USER_ROLE: redmic_user
     ES_JAVA_OPTS: '-Xms512m -Xmx512m -Djava.security.policy=file:///usr/share/elasticsearch/config/grovy-classes_whitelist.policy'
-    ES_CLUSTER_NAME: elasticsearch_dev
+    ES_CLUSTER_NAME: es_dev
     ES_NODE_NAME: node-1
     ES_DISCOVERY_ZEN_MINIMUM_MASTER_NODES: 1
-    ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS: es-1
-    ES_XPACK_SECURITY_ENABLED: 'true'
-    ELASTIC_HOSTS: es-1
-    ELASTIC_SCHEMA_VERSION: '0.1'
+    ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS: es6-1
+    ES_XPACK_SECURITY_ENABLED: 'false'
+    ELASTIC_HOSTS: es6-1
     GITLAB_REGISTRY_HOST: registry.gitlab.com
     CI_DEPLOY_USER: ci_deploy_user
     CI_DEPLOY_PASSWORD: ci_deploy_password
@@ -167,7 +164,7 @@ variables:
         -U ${POSTGRES_USER} \
         -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'"
     - >
-      docker run -d --rm --name es-1 \
+      docker run -d --rm --name es6-1 \
         -p 9300:9300 \
         -p 9200:9200 \
         --network test \
@@ -194,18 +191,9 @@ variables:
         echo "Waiting for elasticsearch server, remaining attempts... Last output:";
         echo $RESPONSE;
       done
-    - >
-      docker login ${GITLAB_REGISTRY_HOST} -u ${CI_DEPLOY_USER} -p ${CI_DEPLOY_PASSWORD};
-      docker run --rm --name schema-es \
-        --network test \
-        -e ELASTIC_USER \
-        -e ELASTIC_USER_PASS \
-        -e ELASTIC_HOSTS \
-        -e ELASTIC_SCHEMA_VERSION \
-        ${SCHEMA_ES_IMAGE_NAME}:${SCHEMA_ES_IMAGE_TAG}
   after_script:
     - rm -rf .m2/repository/es
-    - docker stop user oauth postgres es-1
+    - docker stop user oauth postgres es6-1
 
 .docker-build:
   variables:

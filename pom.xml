@@ -6,36 +6,37 @@
 	<parent>
 		<groupId>es.redmic</groupId>
 		<artifactId>server-parent</artifactId>
-		<version>0.1.0</version>
+		<version>0.3.0</version>
 		<relativePath />
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>api</artifactId>
 	<packaging>jar</packaging>
-	<version>0.11.0</version>
+	<version>0.11.0-feature-refactoring</version>
 	<name>API</name>
 	<description>RESTful web services</description>
 
 	<properties>
 		<!-- REDMIC -->
-		<redmic.db.version>0.6.1-legacy-0.6</redmic.db.version>
-		<redmic.elasticsearch.version>0.6.1-legacy-0.6</redmic.elasticsearch.version>
-		<redmic.exceptions.version>0.6.0</redmic.exceptions.version>
-		<redmic.utils.version>0.6.0</redmic.utils.version>
-		<redmic.models.version>0.6.1-legacy-0.6</redmic.models.version>
+		<redmic.db.version>0.7.0-feature-refactoring</redmic.db.version>
+		<redmic.elasticsearch.version>0.8.0-feature-refactoring</redmic.elasticsearch.version>
+		<redmic.exceptions.version>0.10.0</redmic.exceptions.version>
+		<redmic.utils.version>0.10.0-feature-changeJtsVersion</redmic.utils.version>
+		<redmic.models.version>0.12.0-feature-refactoring</redmic.models.version>
 		<redmic.mediastorage.version>0.7.0</redmic.mediastorage.version>
 		<redmic.sitemapgen4j.version>0.6.0</redmic.sitemapgen4j.version>
 
-		<redmic.test-utils.version>0.6.0</redmic.test-utils.version>
+		<redmic.test-utils.version>0.10.0-feature-refactoring</redmic.test-utils.version>
 
 		<!-- OTHERS -->
-		<orika-core.version>1.4.6</orika-core.version>
-		<commons-fileupload>1.3.2</commons-fileupload>
-		<powermock.version>1.7.3</powermock.version>
+		<jackson-datatype-jts.version>1.0-2.7</jackson-datatype-jts.version>
+		<orika-core.version>1.5.4</orika-core.version>
+		<commons-fileupload>1.4</commons-fileupload>
+		<powermock.version>2.0.9</powermock.version>
 
 		<!-- Plugins -->
-		<asciidoctor.maven.plugin.version>1.5.6</asciidoctor.maven.plugin.version>
+		<asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -110,6 +111,13 @@
 		<!-- Otros -->
 
 		<dependency>
+			<groupId>com.graphhopper.external</groupId>
+			<artifactId>jackson-datatype-jts</artifactId>
+			<version>${jackson-datatype-jts.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>orika-core</artifactId>
 			<version>${orika-core.version}</version>
@@ -126,23 +134,27 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-easymock</artifactId>
 			<version>${powermock.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
 			<version>${powermock.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!--test de documentación -->
@@ -158,23 +170,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-						<configuration>
-							<executable>true</executable>
-							<finalName>api</finalName>
-							<outputDirectory>dist</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<executable>true</executable>
+					<finalName>api</finalName>
+					<outputDirectory>dist</outputDirectory>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
+					<reuseForks>false</reuseForks>
+					<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
 					<includes>
 						<include>**/Test*.java</include>
 						<include>**/*Test.java</include>

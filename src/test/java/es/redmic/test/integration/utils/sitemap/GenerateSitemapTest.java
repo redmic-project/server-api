@@ -4,7 +4,7 @@ package es.redmic.test.integration.utils.sitemap;
  * #%L
  * API
  * %%
- * Copyright (C) 2019 REDMIC Project / Server
+ * Copyright (C) 2019 - 2021 REDMIC Project / Server
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,12 @@ package es.redmic.test.integration.utils.sitemap;
  * #L%
  */
 
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,10 +40,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import es.redmic.ApiApplication;
 import es.redmic.api.utils.sitemap.controller.GenerateSitemapController;
-import es.redmic.api.utils.sitemap.dto.OpenModules;
-import es.redmic.api.utils.sitemap.service.GenerateSitemapService;
 import es.redmic.test.integration.ApiApplicationTest;
-import es.redmic.test.integration.utils.JsonToBeanTestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { ApiApplication.class,
@@ -57,9 +50,6 @@ public class GenerateSitemapTest {
 
 	@MockBean
 	GenerateSitemapController controller;
-
-	@Autowired
-	GenerateSitemapService service;
 
 	@Autowired
 	protected WebApplicationContext webApplicationContext;
@@ -72,8 +62,7 @@ public class GenerateSitemapTest {
 	// @formatter:off
 
 	private final String FILE_NAME = "sitemap.xml",
-			GENERATE_SITEMAP_URL = "/" + FILE_NAME,
-			OPEN_MODULES_RESOURCE = "/sitemap/openModules.json";
+			GENERATE_SITEMAP_URL = "/" + FILE_NAME;
 
 	// @formatter:on
 
@@ -91,21 +80,5 @@ public class GenerateSitemapTest {
 	public void getSitemap_ReturnFile_IfSitemapWasGenerated() throws Exception {
 
 		mockMvc.perform(get(GENERATE_SITEMAP_URL)).andExpect(status().isOk());
-	}
-
-	@Test
-	public void generateSitemap_CreateFile_IfThereAreOpenModules() throws Exception {
-
-		File f = new File(DESTINATION_DIR + "/" + FILE_NAME);
-		f.delete();
-
-		OpenModules openModules = (OpenModules) JsonToBeanTestUtil.getBean(OPEN_MODULES_RESOURCE, OpenModules.class);
-
-		Whitebox.setInternalState(service, "openModules", openModules);
-		service.createSitemap();
-
-		assertTrue(f.exists() && f.isFile());
-
-		// TODO: Cuando tenga la base de datos de tests, comprobar contenido.
 	}
 }

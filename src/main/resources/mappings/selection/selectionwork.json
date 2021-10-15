@@ -1,0 +1,30 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {},
+			"tokenizer": {},
+			"filter": {}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"service": {
+					"type": "keyword"
+				},
+				"date": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}

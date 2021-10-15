@@ -1,0 +1,165 @@
+{
+	"settings": {
+		"index": {
+			"max_ngram_diff": 18,
+			"number_of_shards": 3
+		},
+		"analysis": {
+			"analyzer": {
+				"lower_analyzer": {
+					"type": "custom",
+					"tokenizer": "standard",
+					"filter": ["lowercase", "asciifolding"]
+				},
+				"autocomplete": {
+					"type": "custom",
+					"tokenizer": "whitespace",
+					"filter": ["lowercase", "asciifolding", "nGram_filter"]
+				},
+				"split-path-analyzer": {
+					"type": "custom",
+					"tokenizer": "split-path-tokenizer"
+				},
+				"path-analyzer": {
+					"type": "custom",
+					"tokenizer": "path-tokenizer"
+				}
+			},
+			"tokenizer": {
+				"split-path-tokenizer": {
+					"type": "pattern",
+					"delimiter": "\\."
+				},
+				"path-tokenizer": {
+					"type": "path_hierarchy",
+					"delimiter": "."
+				}
+			},
+			"filter": {
+				"nGram_filter": {
+					"type": "nGram",
+					"min_gram": 2,
+					"max_gram": 20
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"uuid": {
+					"type": "keyword"
+				},
+				"taxon": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"path": {
+							"type": "keyword",
+							"fields": {
+								"split": {
+									"type": "text",
+									"analyzer": "split-path-analyzer"
+								},
+								"path": {
+									"type": "text",
+									"analyzer": "path-analyzer",
+									"store": true
+								}
+							}
+						}
+					}
+				},
+				"name": {
+					"type": "keyword",
+					"fields": {
+						"suggest": {
+							"type": "text",
+							"analyzer": "autocomplete",
+							"search_analyzer": "lower_analyzer"
+						}
+					}
+				},
+				"sex": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"lifeStage": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"recoveries": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"destiny": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						},
+						"ending": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword"
+								}
+							}
+						}
+					}
+				},
+				"specimenTag": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"code": {
+							"type": "keyword",
+							"fields": {
+								"suggest": {
+									"type": "text",
+									"analyzer": "autocomplete",
+									"search_analyzer": "lower_analyzer"
+								}
+							}
+						}
+					}
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				}
+			}
+		}
+	}
+}

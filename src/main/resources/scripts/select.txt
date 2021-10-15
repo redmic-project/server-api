@@ -1,0 +1,10 @@
+if (ctx._source.ids == null) {
+	ctx._source.ids = params.ids;
+} else {
+	ctx._source.ids.addAll(params.ids);
+}
+
+ctx._source.service = params.service;
+ctx._source.date = params.date;
+ctx._source.name = params.name;
+ctx._source.userId = params.userId;

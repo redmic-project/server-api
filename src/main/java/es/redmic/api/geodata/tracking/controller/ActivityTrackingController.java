@@ -9,9 +9,9 @@ package es.redmic.api.geodata.tracking.controller;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,15 +36,15 @@ import es.redmic.models.es.common.query.dto.DataQueryDTO;
 @RestController
 @RequestMapping(value = "${controller.mapping.ACTIVITY_TRACKING}")
 public class ActivityTrackingController extends RController<Activity, ActivityDTO, DataQueryDTO> {
-	
+
 	@Autowired
 	public ActivityTrackingController(ActivityESService service) {
 		super(service);
 	}
-	
+
 	@PostConstruct
 	private void postConstruct() {
-		
+
 		setFixedQuery(TrackingQueryUtils.getActivityCategoryTermQuery());
 	}
 }
