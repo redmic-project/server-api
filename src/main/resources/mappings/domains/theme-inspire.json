@@ -32,7 +32,7 @@
 			"dynamic": false,
 			"properties": {
 				"id": {
-					"type": "keyword"
+					"type": "long"
 				},
 				"code": {
 					"type": "keyword"

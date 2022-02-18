@@ -15,7 +15,7 @@
 			"maxLength": 500
 		},
 		"parent": {
-			"type": "string",
+			"type": "integer",
 			"url": "/operator/projects/"
 		},
 		"code": {
@@ -51,18 +51,18 @@
 			}
 		},
 		"accessibility": {
-			"type": "string",
+			"type": "integer",
 			"url": "/operator/accessibilities/"
 		},
 		"scope": {
 			"type": [
-				"string",
+				"integer",
 				"null"
 			],
 			"url": "/operator/scopes/"
 		},
 		"activityType": {
-			"type": "string",
+			"type": "integer",
 			"url": "/operator/activitytypes"
 		},
 		"startDate": {
@@ -148,7 +148,7 @@
 		},
 		"themeInspire": {
 			"type": [
-				"string",
+				"integer",
 				"null"
 			],
 			"url": "/operator/themeinspire"
@@ -169,7 +169,7 @@
 					"type": ["integer", "null"]
 				},
 				"resourceType": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/resourcetype"
 				},
 				"urlResource": {
@@ -190,7 +190,7 @@
 					]
 				},
 				"document": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/documents/"
 				}
 			},
@@ -208,15 +208,15 @@
 					]
 				},
 				"platform": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/platforms/"
 				},
 				"contact": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/contacts/"
 				},
 				"role": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -250,15 +250,15 @@
 					]
 				},
 				"contact": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/contacts/"
 				},
 				"organisation": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/contactroles/"
 				},
 				"endDate": {
@@ -292,11 +292,11 @@
 					]
 				},
 				"organisation": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/organisations/"
 				},
 				"role": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/organisationroles/"
 				},
 				"endDate": {

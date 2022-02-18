@@ -79,7 +79,7 @@
 				},
 				"confidence": {
 					"default": "1",
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/confidences"
 				},
 				"radius": {
@@ -87,16 +87,16 @@
 				},
 				"speciesConfidence": {
 					"default": "1",
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/confidences"
 				},
 				"taxon": {
-					"type": "string",
+					"type": "integer",
 					"url": "/operator/taxons/species"
 				},
 				"misidentification": {
 					"type": [
-						"string",
+						"integer",
 						"null"
 					],
 					"url": "/operator/taxons/misidentification"

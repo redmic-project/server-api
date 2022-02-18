@@ -210,7 +210,6 @@ variables:
 .deploy-external-service:
   variables:
     STACK: ${PROJECT_PARENT_NAME}
-    DD_AWS_REGION: ${AWS_REGION}
 
 .scheduled-run:
   variables:
