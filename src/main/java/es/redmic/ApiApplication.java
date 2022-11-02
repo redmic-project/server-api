@@ -1,5 +1,7 @@
 package es.redmic;
 
+import java.util.List;
+
 /*-
  * #%L
  * API
@@ -47,6 +49,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import es.redmic.api.common.converter.QueryDTOMessageConverter;
 import es.redmic.api.config.GenerateJsonSchemaScanBean;
 import es.redmic.api.config.ResourceBundleMessageSource;
+import es.redmic.api.utils.filters.DTOFilters;
 import es.redmic.databaselib.common.repository.BaseRepositoryImpl;
 import es.redmic.db.config.EntityManagerWrapper;
 import es.redmic.es.common.service.UserUtilsServiceItfc;
@@ -106,8 +109,10 @@ public class ApiApplication {
 	@Bean
 	public QueryDTOMessageConverter queryDTOMessageConverter() {
 
-		FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false).addFilter("DataQueryDTO",
-				SimpleBeanPropertyFilter.serializeAll());
+		FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false)
+			.addFilter("DataQueryDTO", SimpleBeanPropertyFilter.serializeAll())
+			.addFilter("InternalDocumentFilter", DTOFilters.getDocumentFilter(userService));
+
 		objectMapper.setFilterProvider(filters);
 
 		return new QueryDTOMessageConverter(objectMapper, userService);
