@@ -22,6 +22,7 @@ package es.redmic.test.integration.administrative;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -29,7 +30,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -100,6 +101,7 @@ public class DocumentControllerTest extends IntegrationTestBase {
 		modelToIndex.setSource("Esto es un documento en español");
 		modelToIndex.setInternalUrl("/api/mediastorage/123.pdf");
 		modelToIndex.setPrivateInternalUrl(true);
+		modelToIndex.setEnabled(true);
 
 		DomainES documentType = new DomainES();
 		documentType.setId(1L);
@@ -157,5 +159,39 @@ public class DocumentControllerTest extends IntegrationTestBase {
 
 		result.andExpect(status().is2xxSuccessful());
 		result.andExpect(jsonPath("$.body.data[0].internalUrl", notNullValue()));
+	}
+
+	@Test
+	public void checkDocumentController_NoReturnResult_IfSearchDocumentAsUserAndDocumentIsDisabled() throws Exception {
+
+		MetadataQueryDTO query = new MetadataQueryDTO();
+		query.setSize(1);
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(post(CONTROLLER_DOCUMENT + "/_search").content(mapper.writeValueAsString(query))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenUser()));
+
+		result.andExpect(status().is2xxSuccessful());
+		result.andExpect(jsonPath("$.body.data.length()", is(0)));
+	}
+
+	@Test
+	public void checkDocumentController_ReturnResult_IfSearchDocumentAsAdministratorAndDocumentIsDisabled() throws Exception {
+
+		MetadataQueryDTO query = new MetadataQueryDTO();
+		query.setSize(1);
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(post(CONTROLLER_DOCUMENT + "/_search").content(mapper.writeValueAsString(query))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenAdministratorUser()));
+
+		result.andExpect(status().is2xxSuccessful());
+		result.andExpect(jsonPath("$.body.data[0]", notNullValue()));
 	}
 }

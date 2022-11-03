@@ -1,5 +1,9 @@
 package es.redmic.api.administrative.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /*-
  * #%L
  * API
@@ -48,6 +52,22 @@ public class DocumentController extends
 	public DocumentController(DocumentService service, DocumentESService serviceES) {
 		super(service, serviceES);
 		this.serviceES = serviceES;
+	}
+
+	@Override
+	protected Map<String, Object> getFixedQuery() {
+
+		Map<String, Object> fixedQuery = super.getFixedQuery();
+
+		List<String> roles = userService.getUserRole();
+
+		if (!roles.contains("ROLE_ADMINISTRATOR")) {
+
+			fixedQuery.put("only_enable", true);
+			return fixedQuery;
+		}
+		fixedQuery.remove("only_enable");
+		return fixedQuery;
 	}
 
 	@GetMapping(value = "${contoller.mapping.FILTERED_ACTIVITIES}")
