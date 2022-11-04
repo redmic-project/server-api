@@ -25,7 +25,6 @@
 		<redmic.utils.version>0.10.0-feature-changeJtsVersion</redmic.utils.version>
 		<redmic.models.version>0.13.0-feature-addInternalUrl</redmic.models.version>
 		<redmic.mediastorage.version>0.7.0</redmic.mediastorage.version>
-		<redmic.sitemapgen4j.version>0.6.0</redmic.sitemapgen4j.version>
 
 		<redmic.test-utils.version>0.11.0</redmic.test-utils.version>
 
@@ -82,13 +81,6 @@
 			<groupId>es.redmic.lib</groupId>
 			<artifactId>mediastorage</artifactId>
 			<version>${redmic.mediastorage.version}</version>
-		</dependency>
-
-		<!-- Generate sitemap -->
-		<dependency>
-			<groupId>es.redmic.lib</groupId>
-			<artifactId>sitemapgen4j</artifactId>
-			<version>${redmic.sitemapgen4j.version}</version>
 		</dependency>
 
 		<!-- SpringBoot -->
