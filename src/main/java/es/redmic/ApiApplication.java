@@ -36,6 +36,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.bedatadriven.jackson.datatype.jts.JtsModule;
@@ -59,6 +60,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, ElasticsearchAutoConfiguration.class })
 @EnableAutoConfiguration
 @EnableTransactionManagement
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan({ "es.redmic.api", "es.redmic.es", "es.redmic.databaselib", "es.redmic.db", "es.redmic.mediastorage",
 		"es.redmic.utils" })
 @EnableJpaRepositories(basePackages = { "es.redmic.db",

@@ -21,7 +21,11 @@ package es.redmic.test.integration.administrative;
  */
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -57,6 +61,7 @@ import es.redmic.es.administrative.repository.DocumentESRepository;
 import es.redmic.models.es.administrative.model.Document;
 import es.redmic.models.es.common.model.DomainES;
 import es.redmic.models.es.common.query.dto.MetadataQueryDTO;
+import es.redmic.models.es.common.query.dto.MgetDTO;
 import es.redmic.test.integration.common.IntegrationTestBase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -193,5 +198,70 @@ public class DocumentControllerTest extends IntegrationTestBase {
 
 		result.andExpect(status().is2xxSuccessful());
 		result.andExpect(jsonPath("$.body.data[0]", notNullValue()));
+	}
+
+	@Test
+	public void checkDocumentController_NoReturnResult_IfMgetDocumentAsUserAndDocumentIsDisabled() throws Exception {
+
+		MgetDTO query = new MgetDTO();
+		List<String> ids = new ArrayList<>();
+		ids.add(modelToIndex.getId().toString());
+		query.setIds(ids);
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(post(CONTROLLER_DOCUMENT + "/_mget").content(mapper.writeValueAsString(query))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenUser()));
+
+		result.andExpect(status().is2xxSuccessful());
+		result.andExpect(jsonPath("$.body.data.length()", is(0)));
+	}
+
+	@Test
+	public void checkDocumentController_ReturnResult_IfMgetDocumentAsAdministratorAndDocumentIsDisabled() throws Exception {
+
+		MgetDTO query = new MgetDTO();
+		List<String> ids = new ArrayList<>();
+		ids.add(modelToIndex.getId().toString());
+		query.setIds(ids);
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(post(CONTROLLER_DOCUMENT + "/_mget").content(mapper.writeValueAsString(query))
+				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenAdministratorUser()));
+
+		result.andExpect(status().is2xxSuccessful());
+		result.andExpect(jsonPath("$.body.data[0]", notNullValue()));
+	}
+
+	@Test
+	public void checkDocumentController_ThrowException_IfGetDocumentAsUserAndDocumentIsDisabled() throws Exception {
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(get(CONTROLLER_DOCUMENT + "/" + modelToIndex.getId())
+				.accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenUser()));
+
+		result.andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	public void checkDocumentController_ReturnResult_IfGetDocumentAsAdministratorAndDocumentIsDisabled() throws Exception {
+
+		modelToIndex.setEnabled(false);
+		modelToIndex = repository.save(modelToIndex);
+
+		ResultActions result = this.mockMvc
+			.perform(get(CONTROLLER_DOCUMENT + "/" + modelToIndex.getId())
+				.accept(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + getTokenAdministratorUser()));
+
+		result.andExpect(status().is2xxSuccessful());
+		result.andExpect(jsonPath("$.body.id", is(33)));
 	}
 }
