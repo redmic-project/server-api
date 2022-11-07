@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.9'
 
 services:
   api:
@@ -43,12 +43,19 @@ services:
       mode: replicated
       replicas: ${REPLICAS:-1}
       labels:
-        traefik.microservice.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}
-        traefik.mediastorage.frontend.rule: Host:${PUBLIC_HOSTNAME};PathPrefix:/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|species|platforms|organisations}
-        traefik.mediastorage.frontend.redirect.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
-        traefik.mediastorage.frontend.redirect.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$$1/$$2/$$3
-        traefik.backend: ${MICROSERVICE_NAME}
-        traefik.port: "${MICROSERVICE_PORT}"
+        traefik.enable: 'true'
+
+        traefik.http.routers.api.entrypoints: ${TRAEFIK_ENTRYPOINT}
+        traefik.http.routers.api.rule: Host(`${PUBLIC_HOSTNAME}`) && PathPrefix(`/${MICROSERVICE_NAME}`)
+        traefik.http.services.api.loadbalancer.server.port: ${MICROSERVICE_PORT}
+
+        traefik.http.routers.mediastorage.entrypoints: ${TRAEFIK_ENTRYPOINT}
+        traefik.http.routers.mediastorage.rule: Host(`${PUBLIC_HOSTNAME}`) && PathPrefix(`/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|species|platforms|organisations}`)
+        traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|species|platforms|organisations)/(.+\\.(?:gif|jpe?g|png))$$
+        traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$$1/$$2/$$3
+        traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.permanent: 'true'
+        traefik.http.routers.mediastorage-redirect.middlewares: mediastorage-redirect-regex
+        traefik.http.routers.mediastorage-redirect.service: noop@internal
       restart_policy:
         delay: ${RESTART_DELAY:-1m}
       update_config:
