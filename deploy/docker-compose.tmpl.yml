@@ -50,7 +50,7 @@ services:
         traefik.http.services.redmic-api.loadbalancer.server.port: ${MICROSERVICE_PORT}
 
         traefik.http.routers.mediastorage.entrypoints: ${TRAEFIK_ENTRYPOINT}
-        traefik.http.routers.mediastorage.rule: Host(`${PUBLIC_HOSTNAME}`) && PathPrefix(`/${MICROSERVICE_NAME}/mediastorage/photobank/{animals|species|platforms|organisations}`)
+        traefik.http.routers.mediastorage.rule: Host(`${PUBLIC_HOSTNAME}`) && PathPrefix(`/${MICROSERVICE_NAME}/mediastorage/photobank/{type:animals|species|platforms|organisations}`)
         traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.regex: ^.*/${MICROSERVICE_NAME}/mediastorage/(photobank)/(animals|species|platforms|organisations)/(.+\.(?:gif|jpe?g|png))$$
         traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.replacement: https://s3-${AWS_REGION}.amazonaws.com/${S3_BUCKET}/public/$${1}/$${2}/$${3}
         traefik.http.middlewares.mediastorage-redirect-regex.redirectregex.permanent: 'true'
