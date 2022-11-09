@@ -46,7 +46,8 @@ services:
         traefik.enable: 'true'
 
         traefik.http.routers.redmic-api.entrypoints: ${TRAEFIK_ENTRYPOINT}
-        traefik.http.routers.redmic-api.rule: Host(`${PUBLIC_HOSTNAME}`) && PathPrefix(`/${MICROSERVICE_NAME}`)
+        traefik.http.routers.redmic-api.rule: (Host(`${PUBLIC_HOSTNAME}`) || Host(`${TRAEFIK_SUBDOMAIN}.${PUBLIC_HOSTNAME}`)) && PathPrefix(`/${MICROSERVICE_NAME}`)
+
         traefik.http.services.redmic-api.loadbalancer.server.port: ${MICROSERVICE_PORT}
 
         traefik.http.routers.mediastorage.entrypoints: ${TRAEFIK_ENTRYPOINT}
