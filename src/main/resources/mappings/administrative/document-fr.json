@@ -132,6 +132,9 @@
 				"language": {
 					"type": "keyword"
 				},
+				"enabled": {
+					"type": "boolean"
+				},
 				"inserted": {
 					"type": "date",
 					"format": "date_optional_time"

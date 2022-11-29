@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.redmic.es.data.common.service.RDataESService;
+import es.redmic.exception.common.NotFoundException;
 import es.redmic.exception.databinding.DTONotValidException;
 import es.redmic.models.es.common.dto.BaseDTO;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
@@ -87,7 +88,7 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 		if (errorDto.hasErrors())
 			throw new DTONotValidException(errorDto);
 
-		JSONCollectionDTO result = ESService.mget(dto);
+		JSONCollectionDTO result = postFilter(ESService.mget(dto));
 		return new ElasticSearchDTO(result, result.getTotal());
 	}
 
@@ -95,7 +96,7 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 	@ResponseBody
 	public SuperDTO _get(@PathVariable("id") Long id) {
 
-		TDTO response = ESService.get(id.toString());
+		TDTO response = postFilter(ESService.get(id.toString()));
 		return new ElasticSearchDTO(response, response == null ? 0 : 1);
 	}
 
@@ -118,5 +119,13 @@ public abstract class RController<TModel extends BaseES<?>, TDTO extends BaseDTO
 		processQuery(queryDTO, bindingResult);
 		List<String> response = ESService.suggest(convertToDataQuery((TQueryDTO) queryDTO));
 		return new ElasticSearchDTO(response, response.size());
+	}
+
+	protected JSONCollectionDTO postFilter(JSONCollectionDTO jsonCollectionDTO) {
+		return jsonCollectionDTO;
+	}
+
+	protected TDTO postFilter(TDTO tdto) throws NotFoundException {
+		return tdto;
 	}
 }

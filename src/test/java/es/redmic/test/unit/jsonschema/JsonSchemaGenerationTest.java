@@ -41,6 +41,8 @@ import org.springframework.core.env.Environment;
 import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import es.redmic.api.config.GenerateJsonSchemaScanBean;
@@ -87,6 +89,10 @@ public class JsonSchemaGenerationTest {
 		Whitebox.invokeMethod(jsonSchemaUtil, "jsonSchemaGeneratorInit");
 		objectMapper.registerModule(new JodaModule());
 		objectMapper.registerModule(new JtsModule());
+
+		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+		filterProvider.addFilter("InternalDocumentFilter", SimpleBeanPropertyFilter.serializeAll());
+		objectMapper.setFilterProvider(filterProvider);
 
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 	}

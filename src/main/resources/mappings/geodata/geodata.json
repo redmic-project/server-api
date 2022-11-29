@@ -2,7 +2,8 @@
 	"settings": {
 		"index": {
 			"max_ngram_diff": 18,
-			"number_of_shards": 3
+			"number_of_shards": 3,
+			"max_result_window" : 50000
 		},
 		"analysis": {
 			"analyzer": {
@@ -62,6 +63,12 @@
 		"_doc": {
 			"dynamic": "false",
 			"properties": {
+				"id": {
+					"type": "long"
+				},
+				"uuid": {
+					"type": "keyword"
+				},
 				"geometry": {
 					"type": "geo_shape"
 				},
