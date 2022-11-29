@@ -1,5 +1,9 @@
 package es.redmic.api.administrative.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /*-
  * #%L
  * API
@@ -32,8 +36,11 @@ import es.redmic.api.common.controller.RWController;
 import es.redmic.db.administrative.model.Document;
 import es.redmic.db.administrative.service.DocumentService;
 import es.redmic.es.administrative.service.DocumentESService;
+import es.redmic.exception.common.NotFoundException;
+import es.redmic.exception.data.ItemNotFoundException;
 import es.redmic.models.es.administrative.dto.DocumentDTO;
 import es.redmic.models.es.common.dto.ElasticSearchDTO;
+import es.redmic.models.es.common.dto.JSONCollectionDTO;
 import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.query.dto.MetadataQueryDTO;
 
@@ -50,6 +57,22 @@ public class DocumentController extends
 		this.serviceES = serviceES;
 	}
 
+	@Override
+	protected Map<String, Object> getFixedQuery() {
+
+		Map<String, Object> fixedQuery = super.getFixedQuery();
+
+		List<String> roles = userService.getUserRole();
+
+		if (!roles.contains("ROLE_ADMINISTRATOR")) {
+
+			fixedQuery.put("only_enable", true);
+			return fixedQuery;
+		}
+		fixedQuery.remove("only_enable");
+		return fixedQuery;
+	}
+
 	@GetMapping(value = "${contoller.mapping.FILTERED_ACTIVITIES}")
 	@ResponseBody
 	public SuperDTO getActivities(@RequestParam(required = false, value = "fields") String[] fields,
@@ -62,5 +85,30 @@ public class DocumentController extends
 		processQuery(queryDTO);
 
 		return new ElasticSearchDTO(serviceES.getActivities(convertToDataQuery(queryDTO), id));
+	}
+
+	@Override
+	protected JSONCollectionDTO postFilter(JSONCollectionDTO jsonCollectionDTO) {
+
+		List<String> roles = userService.getUserRole();
+
+		if (jsonCollectionDTO.getTotal() > 0) {
+			List<DocumentDTO> result = jsonCollectionDTO.getData();
+			result.removeIf(tdto -> !roles.contains("ROLE_ADMINISTRATOR") && Boolean.FALSE.equals(tdto.getEnabled()));
+			jsonCollectionDTO.setData(result);
+		}
+		return jsonCollectionDTO;
+	}
+
+	@Override
+	protected DocumentDTO postFilter(DocumentDTO tdto) throws NotFoundException {
+
+		List<String> roles = userService.getUserRole();
+
+		if (!roles.contains("ROLE_ADMINISTRATOR") && Boolean.FALSE.equals(tdto.getEnabled())) {
+			throw new  ItemNotFoundException("id", tdto.getId().toString());
+		}
+
+		return tdto;
 	}
 }

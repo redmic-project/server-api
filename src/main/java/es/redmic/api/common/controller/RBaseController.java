@@ -66,7 +66,7 @@ public abstract class RBaseController<TModel extends BaseES<?>, TDTO extends Bas
 	RBaseESService<TModel, TDTO> service;
 
 	@Autowired
-	UserUtilsService userService;
+	protected UserUtilsService userService;
 
 	protected Class<TDTO> typeOfTDTO;
 	protected Class<TQueryDTO> typeOfTQueryDTO;

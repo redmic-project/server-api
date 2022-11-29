@@ -1,5 +1,7 @@
 package es.redmic;
 
+import java.util.List;
+
 /*-
  * #%L
  * API
@@ -34,6 +36,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.bedatadriven.jackson.datatype.jts.JtsModule;
@@ -47,6 +50,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import es.redmic.api.common.converter.QueryDTOMessageConverter;
 import es.redmic.api.config.GenerateJsonSchemaScanBean;
 import es.redmic.api.config.ResourceBundleMessageSource;
+import es.redmic.api.utils.filters.DTOFilters;
 import es.redmic.databaselib.common.repository.BaseRepositoryImpl;
 import es.redmic.db.config.EntityManagerWrapper;
 import es.redmic.es.common.service.UserUtilsServiceItfc;
@@ -56,6 +60,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, ElasticsearchAutoConfiguration.class })
 @EnableAutoConfiguration
 @EnableTransactionManagement
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan({ "es.redmic.api", "es.redmic.es", "es.redmic.databaselib", "es.redmic.db", "es.redmic.mediastorage",
 		"es.redmic.utils" })
 @EnableJpaRepositories(basePackages = { "es.redmic.db",
@@ -106,8 +111,10 @@ public class ApiApplication {
 	@Bean
 	public QueryDTOMessageConverter queryDTOMessageConverter() {
 
-		FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false).addFilter("DataQueryDTO",
-				SimpleBeanPropertyFilter.serializeAll());
+		FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false)
+			.addFilter("DataQueryDTO", SimpleBeanPropertyFilter.serializeAll())
+			.addFilter("InternalDocumentFilter", DTOFilters.getDocumentFilter(userService));
+
 		objectMapper.setFilterProvider(filters);
 
 		return new QueryDTOMessageConverter(objectMapper, userService);

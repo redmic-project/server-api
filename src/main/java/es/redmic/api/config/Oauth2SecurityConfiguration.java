@@ -86,8 +86,6 @@ public class Oauth2SecurityConfiguration {
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/utils/geo/convert2geojson").permitAll();
 
-			http.authorizeRequests().antMatchers(HttpMethod.GET, "/sitemap.xml").permitAll();
-
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/activitycategories").access(
 					"#oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
@@ -101,6 +99,10 @@ public class Oauth2SecurityConfiguration {
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/photobank/users/**").access(
+					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+
+			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/documents/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
 					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
