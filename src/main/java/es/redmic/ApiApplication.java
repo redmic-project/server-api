@@ -60,7 +60,6 @@ import io.micrometer.core.instrument.MeterRegistry;
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, ElasticsearchAutoConfiguration.class })
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan({ "es.redmic.api", "es.redmic.es", "es.redmic.databaselib", "es.redmic.db", "es.redmic.mediastorage",
 		"es.redmic.utils" })
 @EnableJpaRepositories(basePackages = { "es.redmic.db",

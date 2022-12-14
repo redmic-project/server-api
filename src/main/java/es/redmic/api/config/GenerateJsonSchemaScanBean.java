@@ -41,6 +41,9 @@ import org.springframework.core.env.PropertySource;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 import com.kjetland.jackson.jsonSchema.JsonSchemaResources;
 
@@ -168,6 +171,12 @@ public class GenerateJsonSchemaScanBean implements ApplicationContextAware {
 	}
 
 	private void jsonSchemaGeneratorInit() {
+
+		FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false)
+			.addFilter("DataQueryDTO", SimpleBeanPropertyFilter.serializeAll())
+			.addFilter("InternalDocumentFilter", SimpleBeanPropertyFilter.serializeAll());
+
+		objectMapper.setFilterProvider(filters);
 
 		jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper, JsonSchemaResources.setResources(getProperties()));
 	}
