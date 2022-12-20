@@ -183,12 +183,14 @@ variables:
         -e ES_XPACK_SECURITY_ENABLED \
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
     - >
+      RETRIES=10;
       RESPONSE="";
-      until [ "$RESPONSE" = "green" ];
+      until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
       do
         sleep 15;
+        RETRIES=$((RETRIES-=1));
         RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
-        echo "Waiting for elasticsearch server, remaining attempts... Last output:";
+        echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
         echo $RESPONSE;
       done
   after_script:
