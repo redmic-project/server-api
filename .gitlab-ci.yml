@@ -78,7 +78,7 @@ variables:
     - >
       mkdir -p sql;
       chmod -R 755 sql;
-      docker network create test
+      docker network create test || true
     - >
       docker run -d --rm --name postgres \
         -p 5432:5432 \
