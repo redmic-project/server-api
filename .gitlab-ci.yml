@@ -183,16 +183,21 @@ variables:
         -e ES_XPACK_SECURITY_ENABLED \
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
     - >
+      sleep 20;
       RETRIES=10;
       RESPONSE="";
       until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
       do
-        sleep 15;
+        sleep 5;
         RETRIES=$((RETRIES-=1));
         RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
         echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
-        echo $RESPONSE;
       done
+      if [ "$RESPONSE" != "green" ]
+      then
+        echo "Elasticsearch logs:"
+        docker logs -n 100 es6-1
+      fi
   after_script:
     - rm -rf .m2/repository/es
     - docker stop user oauth postgres es6-1
