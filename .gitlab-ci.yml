@@ -192,12 +192,12 @@ variables:
         RETRIES=$((RETRIES-=1));
         RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
         echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
-      done
-      if [ "$RESPONSE" != "green" ]
+      done;
+      if [ "$RESPONSE" != "green" ];
       then
         echo "Elasticsearch logs:"
         docker logs -n 100 es6-1
-      fi
+      fi;
   after_script:
     - rm -rf .m2/repository/es
     - docker stop user oauth postgres es6-1
