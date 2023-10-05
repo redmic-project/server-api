@@ -50,6 +50,17 @@
 				"$ref": "#/definitions/ActivityResourceDTO"
 			}
 		},
+		"embeddedContents": {
+			"type": [
+				"array",
+				"null"
+			],
+			"uniqueItemsByRequiredProperties": true,
+			"uniqueItems": true,
+			"items": {
+				"$ref": "#/definitions/ActivityEmbeddedContentDTO"
+			}
+		},
 		"accessibility": {
 			"type": "integer",
 			"url": "/operator/accessibilities/"
@@ -179,6 +190,20 @@
 				}
 			},
 			"required": ["resourceType", "urlResource"]
+		},
+		"ActivityEmbeddedContentDTO": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": ["integer", "null"]
+				},
+				"embeddedContent": {
+					"type": "string",
+					"minLength": 1,
+					"maxLength": 50000
+				}
+			},
+			"required": ["embeddedContent"]
 		},
 		"ActivityDocumentDTO": {
 			"type": "object",
