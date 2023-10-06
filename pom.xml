@@ -13,17 +13,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>api</artifactId>
 	<packaging>jar</packaging>
-	<version>0.13.1-feature-addActivityEmbeddedContent</version>
+	<version>0.14.0</version>
 	<name>API</name>
 	<description>RESTful web services</description>
 
 	<properties>
 		<!-- REDMIC -->
-		<redmic.db.version>0.9.0-feature-addActivityEmbeddedContent</redmic.db.version>
-		<redmic.elasticsearch.version>0.10.0-feature-addActivityEmbeddedContent</redmic.elasticsearch.version>
+		<redmic.db.version>0.10.0</redmic.db.version>
+		<redmic.elasticsearch.version>0.11.0</redmic.elasticsearch.version>
 		<redmic.exceptions.version>0.10.0</redmic.exceptions.version>
 		<redmic.utils.version>0.10.0-feature-changeJtsVersion</redmic.utils.version>
-		<redmic.models.version>0.14.0-feature-addActivityEmbeddedContent</redmic.models.version>
+		<redmic.models.version>0.15.0</redmic.models.version>
 		<redmic.mediastorage.version>0.7.0</redmic.mediastorage.version>
 
 		<redmic.test-utils.version>0.11.0</redmic.test-utils.version>
