@@ -184,7 +184,7 @@ variables:
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
     - >
       sleep 20;
-      RETRIES=15;
+      RETRIES=30;
       RESPONSE="";
       until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
       do
