@@ -184,11 +184,11 @@ variables:
         ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG}
     - >
       sleep 20;
-      RETRIES=10;
+      RETRIES=15;
       RESPONSE="";
       until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
       do
-        sleep 5;
+        sleep 10;
         RETRIES=$((RETRIES-=1));
         RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
         echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
