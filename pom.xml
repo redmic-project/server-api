@@ -7,7 +7,7 @@
 		<groupId>es.redmic</groupId>
 		<artifactId>server-parent</artifactId>
 		<version>0.3.0</version>
-		<relativePath />
+		<relativePath>../server-parent/pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
