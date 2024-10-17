@@ -67,8 +67,8 @@ public abstract class IntegrationTestBase {
 	@Value("${test.user.ADMINISTRATOR}")
 	private String ADMINISTRATOR_USER;
 
-	@Value("${test.user.OAG}")
-	private String OAG_USER;
+	@Value("${test.user.MANAGER}")
+	private String MANAGER_USER;
 
 	@Value("${test.user.COLLABORATOR}")
 	private String COLLABORATOR_USER;
@@ -94,9 +94,9 @@ public abstract class IntegrationTestBase {
 		return obtainAccessToken(ADMINISTRATOR_USER, PASSWORD);
 	}
 
-	protected String getTokenOAGUser() {
+	protected String getTokenManagerUser() {
 
-		return obtainAccessToken(OAG_USER, PASSWORD);
+		return obtainAccessToken(MANAGER_USER, PASSWORD);
 	}
 
 	protected String getTokenCollaboratorUser() {

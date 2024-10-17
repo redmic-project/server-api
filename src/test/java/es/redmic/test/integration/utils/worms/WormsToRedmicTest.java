@@ -85,7 +85,7 @@ public class WormsToRedmicTest extends IntegrationTestBase {
 		when(controller.convert2redmic(anyInt())).thenReturn(new SuperDTO(true));
 
 		mockMvc.perform(
-				post(WORMS_URL + "/convert2redmic/136470").header("Authorization", "Bearer " + getTokenOAGUser()))
+				post(WORMS_URL + "/convert2redmic/136470").header("Authorization", "Bearer " + getTokenManagerUser()))
 				.andExpect(status().isOk());
 	}
 
@@ -134,7 +134,7 @@ public class WormsToRedmicTest extends IntegrationTestBase {
 		when(controller.convert2redmic(anyInt())).thenReturn(new SuperDTO(true));
 
 		mockMvc.perform(
-				put(WORMS_URL + "/convert2redmic/136470").header("Authorization", "Bearer " + getTokenOAGUser()))
+				put(WORMS_URL + "/convert2redmic/136470").header("Authorization", "Bearer " + getTokenManagerUser()))
 				.andExpect(status().isOk());
 	}
 

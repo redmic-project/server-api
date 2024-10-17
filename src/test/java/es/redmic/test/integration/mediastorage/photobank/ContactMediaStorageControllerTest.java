@@ -54,10 +54,10 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 	MockMultipartFile multipartFile = getFile(PHOTO_RESOURCES, FILENAME_PHOTO, PHOTO_CONTENT_TYPE);
 
 	@Test
-	public void uploadFile_Return200_IfUploadPhotoAsOAGUser() throws Exception {
+	public void uploadFile_Return200_IfUploadPhotoAsManagerUser() throws Exception {
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE).file(multipartFile)
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 
@@ -71,7 +71,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
 				.file(getFile(DOCUMENT_RESOURCES, FILENAME_DOCUMENT, DOCUMENT_CONTENT_TYPE))
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 
@@ -103,7 +103,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 	}
 
 	@Test
-	public void getFile_Return200_IfGetPhotoAsOAGUser() throws Exception {
+	public void getFile_Return200_IfGetPhotoAsManagerUser() throws Exception {
 
 		UrlDTO urlDTO = uploadMultipartFileToMediaStorage(PHOTO_RESOURCES, FILENAME_PHOTO, URL_PHOTO_CONTACTS,
 				PATH_CONTACTS, DOCUMENT_CONTENT_TYPE);
@@ -112,7 +112,7 @@ public class ContactMediaStorageControllerTest extends BaseMediaStorageControlle
 
 		mediaStorage.checkFileExist(PATH_CONTACTS, newName);
 
-		mockMvc.perform(get(urlDTO.getUrl().replace("/api", "")).header("Authorization", "Bearer " + getTokenOAGUser()))
+		mockMvc.perform(get(urlDTO.getUrl().replace("/api", "")).header("Authorization", "Bearer " + getTokenManagerUser()))
 				.andExpect(status().isOk());
 
 		mediaStorage.deleteFile(PATH_CONTACTS, newName);
