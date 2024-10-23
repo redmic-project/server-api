@@ -23,8 +23,8 @@ package es.redmic.api.privatedata.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.redmic.api.privatedata.repository.GeoFixedObservationSeriesESRepository;
 import es.redmic.es.geodata.common.service.RGeoDataESService;
-import es.redmic.es.geodata.geofixedstation.repository.GeoFixedTimeSeriesESRepository;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
 import es.redmic.models.es.geojson.geofixedstation.dto.GeoFixedTimeSeriesDTO;
 
@@ -32,7 +32,7 @@ import es.redmic.models.es.geojson.geofixedstation.dto.GeoFixedTimeSeriesDTO;
 public class GeoFixedObservationSeriesESService extends RGeoDataESService<GeoFixedTimeSeriesDTO, GeoPointData> {
 
 	@Autowired
-	public GeoFixedObservationSeriesESService(GeoFixedTimeSeriesESRepository repository) {
+	public GeoFixedObservationSeriesESService(GeoFixedObservationSeriesESRepository repository) {
 		super(repository);
 	}
 }
