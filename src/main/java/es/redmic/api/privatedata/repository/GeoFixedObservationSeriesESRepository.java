@@ -33,7 +33,7 @@ public class GeoFixedObservationSeriesESRepository extends GeoFixedBaseESReposit
 	protected static String TYPE = "_doc";
 
 	public GeoFixedObservationSeriesESRepository() {
-		super();
+		super(INDEX, TYPE);
 		setInternalQuery(GeoFixedTimeSeriesQueryUtils.INTERNAL_QUERY);
 	}
 
