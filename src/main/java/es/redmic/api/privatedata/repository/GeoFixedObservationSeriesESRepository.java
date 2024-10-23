@@ -29,17 +29,17 @@ import es.redmic.models.es.geojson.common.model.GeoPointData;
 @Repository
 public class GeoFixedObservationSeriesESRepository extends GeoFixedBaseESRepository<GeoPointData> {
 
-	protected static String[] INDEX = { "private_geodata" };
+	protected static String[] PRIVATE_INDEX = { "private_geodata" };
 	protected static String TYPE = "_doc";
 
 	public GeoFixedObservationSeriesESRepository() {
-		super(INDEX, TYPE);
+		super(PRIVATE_INDEX, TYPE);
 		setInternalQuery(GeoFixedTimeSeriesQueryUtils.INTERNAL_QUERY);
 	}
 
 	@Override
 	public String[] getIndex() {
-		return INDEX;
+		return PRIVATE_INDEX;
 	}
 
 	@Override
