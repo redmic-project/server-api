@@ -45,7 +45,7 @@ import es.redmic.models.es.geojson.properties.model.GeoDataProperties;
 @Repository
 public class GeoFixedObservationSeriesESRepository extends RGeoDataESRepository<GeoPointData> {
 
-	protected static String[] INDEX = { "private_geodata" };
+	protected static String[] INDEX = { "private-geodata" };
 	protected static String TYPE = "_doc";
 
 	@Value("${controller.mapping.DEVICE}")
