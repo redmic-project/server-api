@@ -32,7 +32,6 @@ import org.springframework.stereotype.Service;
 import es.redmic.api.privatedata.repository.GeoFixedObservationSeriesESRepository;
 import es.redmic.es.geodata.common.service.RGeoDataESService;
 import es.redmic.models.es.common.DataPrefixType;
-import es.redmic.models.es.common.model.ReferencesES;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.geojson.common.model.Feature;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
