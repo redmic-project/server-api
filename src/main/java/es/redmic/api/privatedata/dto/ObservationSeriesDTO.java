@@ -35,6 +35,7 @@ import es.redmic.models.es.common.deserializer.CustomDateTimeDeserializer;
 import es.redmic.models.es.common.dto.DTOImplementWithMeta;
 import es.redmic.models.es.common.serializer.CustomDateTimeSerializer;
 
+@JsonIgnoreProperties(value = {"_meta"}, ignoreUnknown = true)
 public class ObservationSeriesDTO extends DTOImplementWithMeta {
 
 	@NotNull

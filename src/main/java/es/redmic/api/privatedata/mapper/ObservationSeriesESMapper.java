@@ -1,6 +1,4 @@
-package es.redmic.api.privatedata.service;
-
-
+package es.redmic.api.privatedata.mapper;
 
 /*-
  * #%L
@@ -22,19 +20,21 @@ package es.redmic.api.privatedata.service;
  * #L%
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import es.redmic.api.privatedata.dto.ObservationDTO;
 import es.redmic.api.privatedata.dto.ObservationSeriesDTO;
 import es.redmic.api.privatedata.model.ObservationSeries;
-import es.redmic.api.privatedata.repository.ObservationSeriesESRepository;
-import es.redmic.es.data.common.service.RDataESService;
+import ma.glasnost.orika.CustomMapper;
+import ma.glasnost.orika.MappingContext;
 
-@Service
-public class ObservationSeriesESService extends RDataESService<ObservationSeries, ObservationSeriesDTO> {
+@Component
+public class ObservationSeriesESMapper extends CustomMapper<ObservationSeries, ObservationSeriesDTO> {
 
-	@Autowired
-	public ObservationSeriesESService(ObservationSeriesESRepository repository) {
-		super(repository);
+	@Override
+	public void mapAtoB(ObservationSeries a, ObservationSeriesDTO b, MappingContext context) {
+
+
+		b.setObservationDTO(mapperFacade.map(a.getObservation(), ObservationDTO.class));
 	}
 }
