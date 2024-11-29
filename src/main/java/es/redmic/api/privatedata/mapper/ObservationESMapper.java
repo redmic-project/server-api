@@ -37,7 +37,7 @@ public class ObservationESMapper extends CustomMapper<Observation, ObservationDT
 	@Override
 	public void mapAtoB(Observation a, ObservationDTO b, MappingContext context) {
 
-		b.setTaxonomy(mapperFacade.map(a.getTaxonomy(), TaxonomyCompactDTO.class);
+		b.setTaxonomy(mapperFacade.map(a.getTaxonomy(), TaxonomyCompactDTO.class));
 		b.setAnimal(mapperFacade.map(a.getAnimal(), AnimalTaxonomyCompactDTO.class));
 		b.setDevice(mapperFacade.map(a.getDevice(), DeviceCompactDTO.class));
 		b.setObservationType(mapperFacade.map(a.getObservationType(), DomainDTO.class));
