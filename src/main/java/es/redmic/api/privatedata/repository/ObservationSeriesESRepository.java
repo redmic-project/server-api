@@ -42,7 +42,7 @@ import es.redmic.models.es.data.common.model.DataSearchWrapper;
 @Repository
 public class ObservationSeriesESRepository extends RDataESRepository<ObservationSeries> {
 
-	protected static String[] INDEX = { "private-geodata" };
+	protected static String[] INDEX = { "private-observationseries" };
 	protected static String TYPE = "_doc";
 
 	public ObservationSeriesESRepository() {
