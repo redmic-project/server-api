@@ -68,7 +68,7 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 	public QueryBuilder getTermQuery(Map<String, Object> terms, BoolQueryBuilder query) {
 
 		if (terms.containsKey("dataDefinition")) {
-			Long dataDefinitionId = (Long) terms.get("dataDefinition");
+			Long dataDefinitionId = Long.valueOf(((Integer)terms.get("dataDefinition")).longValue());
 			query.must(QueryBuilders.termQuery("dataDefinition", dataDefinitionId));
 		}
 		return super.getTermQuery(terms, query);
