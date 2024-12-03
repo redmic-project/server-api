@@ -42,16 +42,16 @@ import es.redmic.models.es.common.dto.SuperDTO;
 import es.redmic.models.es.common.model.BaseES;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.common.query.dto.MgetDTO;
+import es.redmic.models.es.geojson.common.model.GeoPointData;
 import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
 
-public abstract class RTrackBaseController<TModel extends BaseES<?>, TDTO extends BaseDTO<?>, TQueryDTO> extends RBaseController<TModel, TDTO, TQueryDTO> {
+public abstract class RTrackBaseController<TModel, TDTO, TQueryDTO> extends RBaseController<GeoPointData, ElementTrackingDTO, GeoDataQueryDTO> {
 
-	TrackingBaseESService service;
+	protected TrackingBaseESService<ElementTrackingDTO, GeoPointData> service;
 
 	@SuppressWarnings("unchecked")
-	@Autowired
-	protected RTrackBaseController(TrackingBaseESService serviceES) {
-		super((RBaseESService<TModel, TDTO>) serviceES);
+	protected RTrackBaseController(TrackingBaseESService<ElementTrackingDTO, GeoPointData> serviceES) {
+		super(serviceES);
 		this.service = serviceES;
 	}
 
@@ -82,20 +82,20 @@ public abstract class RTrackBaseController<TModel extends BaseES<?>, TDTO extend
 	@PostMapping(value = "/_search")
 	@ResponseBody
 	public SuperDTO _search(@PathVariable("activityId") String activityId, @PathVariable("uuid") String uuid,
-			@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
+			@Valid @RequestBody GeoDataQueryDTO queryDTO, BindingResult bindingResult) {
 
 		processQuery(queryDTO, bindingResult);
 
-		return new ElasticSearchDTO(service.find(activityId, uuid, (GeoDataQueryDTO) queryDTO));
+		return new ElasticSearchDTO(service.find(activityId, uuid, queryDTO));
 	}
 
 	@PostMapping(value = "${controller.mapping.TRACK_CLUSTER}/_search")
 	@ResponseBody
 	public SuperDTO getCluster(@PathVariable("activityId") String activityId, @PathVariable("uuid") String uuid,
-			@Valid @RequestBody TQueryDTO queryDTO, BindingResult bindingResult) {
+			@Valid @RequestBody GeoDataQueryDTO queryDTO, BindingResult bindingResult) {
 
 		processQuery(queryDTO, bindingResult);
 
-		return new ElasticSearchDTO(service.getTrackingPointsInLineStringCluster(activityId, (GeoDataQueryDTO) queryDTO, uuid));
+		return new ElasticSearchDTO(service.getTrackingPointsInLineStringCluster(activityId, queryDTO, uuid));
 	}
 }
