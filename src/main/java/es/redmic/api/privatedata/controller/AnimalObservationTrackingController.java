@@ -24,19 +24,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.redmic.api.geodata.common.controller.RGeoDataController;
-import es.redmic.api.privatedata.service.GeoFixedObservationSeriesESService;
+import es.redmic.api.geodata.tracking.controller.RTrackBaseController;
+import es.redmic.es.geodata.tracking.common.service.TrackingESService;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
-import es.redmic.models.es.geojson.geofixedstation.dto.GeoFixedTimeSeriesDTO;
+import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
 
 @RestController
-@RequestMapping("${controller.mapping.PRIVATE_SURVEYSTATIONS_BY_ACTIVITY}")
-public class GeoFixedObservationSeriesController
-	extends RGeoDataController<GeoPointData, GeoFixedTimeSeriesDTO, GeoDataQueryDTO> {
+@RequestMapping(value = "${controller.mapping.PRIVATE_TRACKING_BY_ACTIVITY_AND_ELEMENT}")
+public class AnimalObservationTrackingController
+	extends RTrackBaseController<GeoPointData, ElementTrackingDTO, GeoDataQueryDTO> {
 
 	@Autowired
-	public GeoFixedObservationSeriesController(GeoFixedObservationSeriesESService service) {
+	public AnimalObservationTrackingController(TrackingESService service) {
 		super(service);
 	}
 }
