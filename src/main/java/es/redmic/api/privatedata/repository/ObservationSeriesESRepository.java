@@ -76,19 +76,21 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 
 	@Override
 	protected String[] getDefaultSearchFields() {
-		return new String[] { "observation.note.suggest", "observation.animal.name.suggest",
-			"observation.device.name.suggest", "observation.taxonomy.scientificName.suggest" };
+		return new String[] { "observation.animal.name", "observation.animal.name.suggest",
+			"observation.device.name", "observation.device.name.suggest",
+			"observation.taxonomy.scientificName", "observation.taxonomy.scientificName.suggest" };
 	}
 
 	@Override
 	protected String[] getDefaultHighlightFields() {
-		return new String[] { "observation.note.suggest", "observation.animal.name.suggest",
-			"observation.device.name.suggest", "observation.taxonomy.scientificName.suggest" };
+		return new String[] { "observation.animal.name", "observation.animal.name.suggest",
+			"observation.device.name", "observation.device.name.suggest",
+			"observation.taxonomy.scientificName", "observation.taxonomy.scientificName.suggest" };
 	}
 
 	@Override
 	protected String[] getDefaultSuggestFields() {
-		return new String[] { "observation.note", "observation.animal.name", "observation.device.name",
+		return new String[] { "observation.animal.name", "observation.device.name",
 			"observation.taxonomy.scientificName" };
 	}
 }
