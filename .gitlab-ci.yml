@@ -77,132 +77,132 @@ variables:
     - ${DIND_IMAGE_NAME}:${DIND_IMAGE_TAG}
   before_script:
     - >
-      if [ "${SKIP_TESTS}" -eq 1 ];
+      if [ "${SKIP_TESTS}" -eq 0 ];
       then
-        exit 0
-      fi;
-      mkdir -p sql;
-      chmod -R 755 sql;
-      docker network create test || true;
-      docker run -d --rm --name postgres \
-        -p 5432:5432 \
-        --network test \
-        --network-alias db \
-        -e POSTGRES_DB \
-        -e POSTGRES_USER \
-        -e POSTGRES_PASSWORD \
-        -v $(pwd)/sql:/sql \
-        postgres:${POSTGRES_IMAGE_TAG};
-      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
-        -o sql/oauth_database_structure_test.sql \
-        "https://gitlab.com/api/v4/snippets/${OAUTH_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
-      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
-        -o sql/oauth_database_data_test.sql \
-        "https://gitlab.com/api/v4/snippets/${OAUTH_DATABASE_DATA_TEST_SNIPPET_ID}/raw";
-      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
-        -o sql/user_database_structure_test.sql \
-        "https://gitlab.com/api/v4/snippets/${USER_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
-      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
-        -o sql/user_database_data_test.sql \
-        "https://gitlab.com/api/v4/snippets/${USER_DATABASE_DATA_TEST_SNIPPET_ID}/raw";
-      RETRIES=10;
-      until docker exec postgres psql -h localhost \
+        mkdir -p sql;
+        chmod -R 755 sql;
+        docker network create test || true;
+        docker run -d --rm --name postgres \
+          -p 5432:5432 \
+          --network test \
+          --network-alias db \
+          -e POSTGRES_DB \
+          -e POSTGRES_USER \
+          -e POSTGRES_PASSWORD \
+          -v $(pwd)/sql:/sql \
+          postgres:${POSTGRES_IMAGE_TAG};
+        curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+          -o sql/oauth_database_structure_test.sql \
+          "https://gitlab.com/api/v4/snippets/${OAUTH_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
+        curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+          -o sql/oauth_database_data_test.sql \
+          "https://gitlab.com/api/v4/snippets/${OAUTH_DATABASE_DATA_TEST_SNIPPET_ID}/raw";
+        curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+          -o sql/user_database_structure_test.sql \
+          "https://gitlab.com/api/v4/snippets/${USER_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
+        curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+          -o sql/user_database_data_test.sql \
+          "https://gitlab.com/api/v4/snippets/${USER_DATABASE_DATA_TEST_SNIPPET_ID}/raw";
+        RETRIES=10;
+        until docker exec postgres psql -h localhost \
+            -d redmic \
+            -U ${POSTGRES_USER} \
+            -c 'select 1' > /dev/null 2>&1 || [ $RETRIES -eq 0 ];
+        do
+            RETRIES=$((RETRIES-=1));
+            echo "Waiting for postgres server, ${RETRIES} remaining attempts...";
+            sleep 1;
+        done;
+        docker exec postgres psql -h localhost \
           -d redmic \
           -U ${POSTGRES_USER} \
-          -c 'select 1' > /dev/null 2>&1 || [ $RETRIES -eq 0 ];
-      do
+          -f /sql/oauth_database_structure_test.sql;
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -c "ALTER ROLE ${USER_SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${USER_SPRING_DATASOURCE_PASSWORD}'";
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -f /sql/oauth_database_data_test.sql;
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -f /sql/user_database_structure_test.sql;
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -f /sql/user_database_data_test.sql;
+        docker run -d --rm --name oauth \
+          -p 8081:8081 \
+          --network test \
+          -e SPRING_PROFILES_ACTIVE=dev \
+          -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
+          -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
+          ${OAUTH_IMAGE_NAME}:${OAUTH_IMAGE_TAG};
+        docker run -d --rm --name user \
+          -p 8082:8082 \
+          --network test \
+          -e SPRING_PROFILES_ACTIVE=dev \
+          -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
+          -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
+          -e OAUTH_CLIENT_ID \
+          -e OAUTH_CLIENT_SECRET \
+          ${USER_IMAGE_NAME}:${USER_IMAGE_TAG};
+        curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
+          -o sql/api_database_structure_test.sql \
+          "https://gitlab.com/api/v4/snippets/${API_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -f /sql/api_database_structure_test.sql;
+        docker exec postgres psql -h localhost \
+          -d redmic \
+          -U ${POSTGRES_USER} \
+          -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
+        docker run -d --rm --name es6-1 \
+          -p 9300:9300 \
+          -p 9200:9200 \
+          --network test \
+          --ulimit memlock=-1:-1 \
+          -e ES_BOOTSTRAP_MEMORY_LOCK \
+          -e OLD_ELASTIC_ADMIN_PASS \
+          -e ELASTIC_ADMIN_PASS \
+          -e ELASTIC_USER \
+          -e ELASTIC_USER_PASS \
+          -e ELASTIC_USER_ROLE \
+          -e ES_JAVA_OPTS \
+          -e ES_CLUSTER_NAME \
+          -e ES_NODE_NAME \
+          -e ES_DISCOVERY_ZEN_MINIMUM_MASTER_NODES \
+          -e ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS \
+          -e ES_XPACK_SECURITY_ENABLED \
+          ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG};
+        sleep 20;
+        RETRIES=30;
+        RESPONSE="";
+        until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
+        do
+          sleep 10;
           RETRIES=$((RETRIES-=1));
-          echo "Waiting for postgres server, ${RETRIES} remaining attempts...";
-          sleep 1;
-      done;
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -f /sql/oauth_database_structure_test.sql;
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -c "ALTER ROLE ${USER_SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${USER_SPRING_DATASOURCE_PASSWORD}'";
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -f /sql/oauth_database_data_test.sql;
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -f /sql/user_database_structure_test.sql;
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -f /sql/user_database_data_test.sql;
-      docker run -d --rm --name oauth \
-        -p 8081:8081 \
-        --network test \
-        -e SPRING_PROFILES_ACTIVE=dev \
-        -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
-        -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
-        ${OAUTH_IMAGE_NAME}:${OAUTH_IMAGE_TAG};
-      docker run -d --rm --name user \
-        -p 8082:8082 \
-        --network test \
-        -e SPRING_PROFILES_ACTIVE=dev \
-        -e SPRING_DATASOURCE_USERNAME=${USER_SPRING_DATASOURCE_USERNAME} \
-        -e SPRING_DATASOURCE_PASSWORD=${USER_SPRING_DATASOURCE_PASSWORD} \
-        -e OAUTH_CLIENT_ID \
-        -e OAUTH_CLIENT_SECRET \
-        ${USER_IMAGE_NAME}:${USER_IMAGE_TAG};
-      curl -s --header "PRIVATE-TOKEN: ${GITLAB_TOKEN_READ_API}" \
-        -o sql/api_database_structure_test.sql \
-        "https://gitlab.com/api/v4/snippets/${API_DATABASE_STRUCTURE_TEST_SNIPPET_ID}/raw";
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -f /sql/api_database_structure_test.sql;
-      docker exec postgres psql -h localhost \
-        -d redmic \
-        -U ${POSTGRES_USER} \
-        -c "ALTER ROLE ${SPRING_DATASOURCE_USERNAME} WITH PASSWORD '${SPRING_DATASOURCE_PASSWORD}'";
-      docker run -d --rm --name es6-1 \
-        -p 9300:9300 \
-        -p 9200:9200 \
-        --network test \
-        --ulimit memlock=-1:-1 \
-        -e ES_BOOTSTRAP_MEMORY_LOCK \
-        -e OLD_ELASTIC_ADMIN_PASS \
-        -e ELASTIC_ADMIN_PASS \
-        -e ELASTIC_USER \
-        -e ELASTIC_USER_PASS \
-        -e ELASTIC_USER_ROLE \
-        -e ES_JAVA_OPTS \
-        -e ES_CLUSTER_NAME \
-        -e ES_NODE_NAME \
-        -e ES_DISCOVERY_ZEN_MINIMUM_MASTER_NODES \
-        -e ES_DISCOVERY_ZEN_PING_UNICAST_HOSTS \
-        -e ES_XPACK_SECURITY_ENABLED \
-        ${ELASTICSEARCH_IMAGE_NAME}:${ELASTICSEARCH_IMAGE_TAG};
-      sleep 20;
-      RETRIES=30;
-      RESPONSE="";
-      until [ "$RESPONSE" = "green" ] || [ "$RETRIES" -eq 0 ];
-      do
-        sleep 10;
-        RETRIES=$((RETRIES-=1));
-        RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
-        echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
-      done;
-      if [ "$RESPONSE" != "green" ];
-      then
-        echo "Elasticsearch logs:"
-        docker logs -n 100 es6-1
+          RESPONSE="$(curl -sS -u ${ELASTIC_USER}:${ELASTIC_USER_PASS} docker:9200/_cat/health?h=status || :)";
+          echo "Waiting for elasticsearch server, ${RETRIES} remaining attempts... Last output:";
+        done;
+        if [ "$RESPONSE" != "green" ];
+        then
+          echo "Elasticsearch logs:"
+          docker logs -n 100 es6-1
+        fi;
+      else
+        echo "Skipping tests"
       fi;
   after_script:
     - >
-      if [ "${SKIP_TESTS}" -eq 1 ];
+      if [ "${SKIP_TESTS}" -eq 0 ];
       then
-        exit 0
-      fi;
-      rm -rf .m2/repository/es;
-      docker stop user oauth postgres es6-1
+        rm -rf .m2/repository/es;
+        docker stop user oauth postgres es6-1;
+      fi
 
 .docker-build:
   variables:
