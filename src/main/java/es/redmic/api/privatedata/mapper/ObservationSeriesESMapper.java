@@ -35,6 +35,6 @@ public class ObservationSeriesESMapper extends CustomMapper<ObservationSeries, O
 	public void mapAtoB(ObservationSeries a, ObservationSeriesDTO b, MappingContext context) {
 
 
-		b.setObservationDTO(mapperFacade.map(a.getObservation(), ObservationDTO.class));
+		b.setObservation(mapperFacade.map(a.getObservation(), ObservationDTO.class));
 	}
 }

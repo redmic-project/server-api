@@ -71,7 +71,7 @@ public class ObservationSeriesDTO extends DTOImplementWithMeta {
 
 	@JsonIgnoreProperties(value = {"_meta"})
 	@NotNull
-	private ObservationDTO observationDTO;
+	private ObservationDTO observation;
 
 	public Double getValue() {
 		return value;
@@ -148,11 +148,11 @@ public class ObservationSeriesDTO extends DTOImplementWithMeta {
 		this.updated = updated;
 	}
 
-	public ObservationDTO getObservationDTO() {
-		return observationDTO;
+	public ObservationDTO getObservation() {
+		return observation;
 	}
 
-	public void setObservationDTO(ObservationDTO observationDTO) {
-		this.observationDTO = observationDTO;
+	public void setObservation(ObservationDTO observation) {
+		this.observation = observation;
 	}
 }
