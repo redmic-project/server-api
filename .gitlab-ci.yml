@@ -77,10 +77,10 @@ variables:
     - ${DIND_IMAGE_NAME}:${DIND_IMAGE_TAG}
   before_script:
     - >
-      if [ ${SKIP_TESTS} -eq 1 ]
+      if [ "${SKIP_TESTS}" -eq 1 ];
       then
-        exit 0;
-      fi
+        exit 0
+      fi;
     - >
       mkdir -p sql;
       chmod -R 755 sql;
@@ -206,9 +206,9 @@ variables:
       fi;
   after_script:
     - >
-      if [ ${SKIP_TESTS} -eq 1 ]
+      if [ "${SKIP_TESTS}" -eq 1 ];
       then
-        exit 0;
+        exit 0
       fi;
       rm -rf .m2/repository/es;
       docker stop user oauth postgres es6-1
