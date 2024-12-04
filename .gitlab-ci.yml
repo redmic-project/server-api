@@ -72,9 +72,15 @@ variables:
     GITLAB_REGISTRY_HOST: registry.gitlab.com
     CI_DEPLOY_USER: ci_deploy_user
     CI_DEPLOY_PASSWORD: ci_deploy_password
+    SKIP_TESTS: 0
   services:
     - ${DIND_IMAGE_NAME}:${DIND_IMAGE_TAG}
   before_script:
+    - >
+      if [ ${SKIP_TESTS} -eq 1 ]
+      then
+        exit 0;
+      fi
     - >
       mkdir -p sql;
       chmod -R 755 sql;
@@ -199,8 +205,13 @@ variables:
         docker logs -n 100 es6-1
       fi;
   after_script:
-    - rm -rf .m2/repository/es
-    - docker stop user oauth postgres es6-1
+    - >
+      if [ ${SKIP_TESTS} -eq 1 ]
+      then
+        exit 0;
+      fi;
+      rm -rf .m2/repository/es;
+      docker stop user oauth postgres es6-1
 
 .docker-build:
   variables:
