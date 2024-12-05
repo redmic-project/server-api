@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.redmic.api.geodata.tracking.controller.RTrackBaseController;
-import es.redmic.es.geodata.tracking.common.service.TrackingESService;
+import es.redmic.api.privatedata.service.AnimalObservationTrackingESService;
 import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
 import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
@@ -36,7 +36,7 @@ public class AnimalObservationTrackingController
 	extends RTrackBaseController<GeoPointData, ElementTrackingDTO, GeoDataQueryDTO> {
 
 	@Autowired
-	public AnimalObservationTrackingController(TrackingESService service) {
+	public AnimalObservationTrackingController(AnimalObservationTrackingESService service) {
 		super(service);
 	}
 }
