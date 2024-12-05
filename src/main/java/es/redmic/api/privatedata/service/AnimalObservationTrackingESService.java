@@ -21,12 +21,14 @@ package es.redmic.api.privatedata.service;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import es.redmic.api.privatedata.repository.AnimalObservationTrackingESRepository;
 import es.redmic.es.geodata.tracking.common.service.TrackingBaseESService;
 import es.redmic.models.es.geojson.common.model.GeoPointData;
 import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
 
+@Service
 public class AnimalObservationTrackingESService extends TrackingBaseESService<ElementTrackingDTO, GeoPointData> {
 
 	@Autowired
