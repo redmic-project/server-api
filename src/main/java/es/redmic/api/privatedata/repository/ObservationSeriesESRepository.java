@@ -100,7 +100,11 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 
 		BoolQueryBuilder query = super.getQueryBuilder(queryDTO, serviceQuery);
 
-		query.must(getDateLimitsQuery(((DataQueryDTO)queryDTO).getDateLimits(), DATETIME_FIELD));
+		QueryBuilder dateLimitsQuery = getDateLimitsQuery(((DataQueryDTO)queryDTO).getDateLimits(), DATETIME_FIELD);
+
+		if (dateLimitsQuery != null) {
+			query.must(dateLimitsQuery);
+		}
 
 		return query;
 	}
