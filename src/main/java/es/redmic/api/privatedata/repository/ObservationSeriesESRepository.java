@@ -1,18 +1,5 @@
 package es.redmic.api.privatedata.repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.lucene.search.join.ScoreMode;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.InnerHitBuilder;
-import org.elasticsearch.index.query.NestedQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.locationtech.jts.geom.Geometry;
-import org.springframework.beans.factory.annotation.Value;
-
 /*-
  * #%L
  * API
@@ -33,10 +20,19 @@ import org.springframework.beans.factory.annotation.Value;
  * #L%
  */
 
+import java.util.Map;
+
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.springframework.stereotype.Repository;
 
 import es.redmic.api.privatedata.model.ObservationSeries;
 import es.redmic.es.data.common.repository.RDataESRepository;
+import es.redmic.models.es.common.query.dto.DataQueryDTO;
+import es.redmic.models.es.common.query.dto.DateLimitsDTO;
+import es.redmic.models.es.common.query.dto.SimpleQueryDTO;
 import es.redmic.models.es.data.common.model.DataSearchWrapper;
 
 @Repository
@@ -44,6 +40,8 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 
 	protected static String[] INDEX = { "private-observationseries" };
 	protected static String TYPE = "_doc";
+
+	public static final String DATETIME_FIELD = "date";
 
 	public ObservationSeriesESRepository() {
 		super(INDEX, TYPE);
@@ -53,6 +51,7 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 	protected String getMappingFilePath(String index, String type) {
 		return MAPPING_BASE_PATH + "private/geodata" + MAPPING_FILE_EXTENSION;
 	}
+
 
 	public DataSearchWrapper<?> findByDataDefinition(Long dataDefinitionId) {
 
@@ -92,5 +91,32 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 	protected String[] getDefaultSuggestFields() {
 		return new String[] { "observation.animal.name", "observation.device.name",
 			"observation.taxonomy.scientificName" };
+	}
+
+	// TODO: ELiminar cuando se extienda de RSeriesRepository
+
+	@Override
+	protected <TQueryDTO extends SimpleQueryDTO> BoolQueryBuilder getQueryBuilder(TQueryDTO queryDTO, QueryBuilder serviceQuery) {
+
+		BoolQueryBuilder query = super.getQueryBuilder(queryDTO, serviceQuery);
+
+		query.must(getDateLimitsQuery(((DataQueryDTO)queryDTO).getDateLimits(), DATETIME_FIELD));
+
+		return query;
+	}
+
+	protected static QueryBuilder getDateLimitsQuery(DateLimitsDTO dateLimitsDTO, String datePath) {
+
+		if (dateLimitsDTO == null)
+			return null;
+
+		RangeQueryBuilder range = QueryBuilders.rangeQuery(datePath);
+
+		if (dateLimitsDTO.getStartDate() != null)
+			range.gte(dateLimitsDTO.getStartDate());
+		if (dateLimitsDTO.getEndDate() != null)
+			range.lte(dateLimitsDTO.getEndDate());
+
+		return range;
 	}
 }
