@@ -77,6 +77,7 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 	protected String[] getDefaultSearchFields() {
 		return new String[] { "observation.animal.name", "observation.animal.name.suggest",
 			"observation.device.name", "observation.device.name.suggest",
+			"observation.organisation.name", "observation.organisation.name.suggest",
 			"observation.taxonomy.scientificName", "observation.taxonomy.scientificName.suggest" };
 	}
 
@@ -84,13 +85,14 @@ public class ObservationSeriesESRepository extends RDataESRepository<Observation
 	protected String[] getDefaultHighlightFields() {
 		return new String[] { "observation.animal.name", "observation.animal.name.suggest",
 			"observation.device.name", "observation.device.name.suggest",
+			"observation.organisation.name", "observation.organisation.name.suggest",
 			"observation.taxonomy.scientificName", "observation.taxonomy.scientificName.suggest" };
 	}
 
 	@Override
 	protected String[] getDefaultSuggestFields() {
 		return new String[] { "observation.animal.name", "observation.device.name",
-			"observation.taxonomy.scientificName" };
+			"observation.organisation.name", "observation.taxonomy.scientificName" };
 	}
 
 	// TODO: ELiminar cuando se extienda de RSeriesRepository
