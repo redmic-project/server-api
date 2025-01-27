@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import es.redmic.api.privatedata.dto.ObservationDTO;
 import es.redmic.api.privatedata.model.Observation;
+import es.redmic.models.es.administrative.dto.OrganisationCompactDTO;
 import es.redmic.models.es.administrative.taxonomy.dto.AnimalTaxonomyCompactDTO;
 import es.redmic.models.es.administrative.taxonomy.dto.TaxonomyCompactDTO;
 import es.redmic.models.es.common.dto.DomainDTO;
@@ -40,6 +41,7 @@ public class ObservationESMapper extends CustomMapper<Observation, ObservationDT
 		b.setTaxonomy(mapperFacade.map(a.getTaxonomy(), TaxonomyCompactDTO.class));
 		b.setAnimal(mapperFacade.map(a.getAnimal(), AnimalTaxonomyCompactDTO.class));
 		b.setDevice(mapperFacade.map(a.getDevice(), DeviceCompactDTO.class));
+		b.setOrganisation(mapperFacade.map(a.getOrganisation(), OrganisationCompactDTO.class));
 		b.setObservationType(mapperFacade.map(a.getObservationType(), DomainDTO.class));
 	}
 }
