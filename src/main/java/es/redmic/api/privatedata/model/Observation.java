@@ -4,6 +4,7 @@ import es.redmic.models.es.administrative.taxonomy.model.AnimalTaxonomyCompact;
 import es.redmic.models.es.administrative.taxonomy.model.TaxonomyBase;
 import es.redmic.models.es.common.model.DomainES;
 import es.redmic.models.es.maintenance.device.model.DeviceCompact;
+import es.redmic.models.es.administrative.model.OrganisationCompact;
 
 /*-
  * #%L
@@ -35,6 +36,8 @@ public class Observation {
 	private DeviceCompact device;
 
 	private AnimalTaxonomyCompact animal;
+
+	private OrganisationCompact organisation;
 
 	private DomainES observationType;
 
@@ -69,6 +72,14 @@ public class Observation {
 	public void setAnimal(AnimalTaxonomyCompact animal) {
 		this.animal = animal;
 	}
+
+	public OrganisationCompact getOrganisation() {
+		return this.organisation;
+	}
+
+	public void setOrganisation(OrganisationCompact organisation) {
+		this.organisation = organisation;
+	};
 
 	public DomainES getObservationType() {
 		return observationType;

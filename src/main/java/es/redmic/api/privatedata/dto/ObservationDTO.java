@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import es.redmic.models.es.administrative.dto.OrganisationCompactDTO;
+
 /*-
  * #%L
  * API
@@ -47,6 +49,9 @@ public class ObservationDTO {
 	private AnimalTaxonomyCompactDTO animal;
 
 	@JsonIgnoreProperties(value = {"_meta"})
+	private OrganisationCompactDTO organisation;
+
+	@JsonIgnoreProperties(value = {"_meta"})
 	@NotNull
 	private DomainDTO observationType;
 
@@ -80,6 +85,14 @@ public class ObservationDTO {
 
 	public void setAnimal(AnimalTaxonomyCompactDTO animal) {
 		this.animal = animal;
+	}
+
+	public OrganisationCompactDTO getOrganisation() {
+		return organisation;
+	}
+
+	public void setOrganisation(OrganisationCompactDTO organisation) {
+		this.organisation = organisation;
 	}
 
 	public DomainDTO getObservationType() {
