@@ -41,6 +41,8 @@ public class ObservationSeries extends BaseAbstractES {
 
 	private DateTime date;
 
+	private String remark;
+
 	private Long dataDefinition;
 
 	private Character qFlag = '0';
@@ -89,6 +91,14 @@ public class ObservationSeries extends BaseAbstractES {
 	@JsonDeserialize(using = CustomDateTimeDeserializer.class)
 	public void setDate(DateTime date) {
 		this.date = date;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Long getDataDefinition() {

@@ -47,6 +47,8 @@ public class ObservationSeriesDTO extends DTOImplementWithMeta {
 	@NotNull
 	private Double value;
 
+	private String remark;
+
 	@NotNull
 	@JsonSerialize(using = CustomDateTimeSerializer.class)
 	@JsonDeserialize(using = CustomDateTimeDeserializer.class)
@@ -79,6 +81,14 @@ public class ObservationSeriesDTO extends DTOImplementWithMeta {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public DateTime getDate() {
