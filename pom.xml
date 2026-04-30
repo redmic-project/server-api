@@ -20,10 +20,10 @@
 	<properties>
 		<!-- REDMIC -->
 		<redmic.db.version>0.10.0</redmic.db.version>
-		<redmic.elasticsearch.version>0.11.0-feature-addPrivateProjectStructure</redmic.elasticsearch.version>
+		<redmic.elasticsearch.version>0.12.0</redmic.elasticsearch.version>
 		<redmic.exceptions.version>0.10.0</redmic.exceptions.version>
 		<redmic.utils.version>0.10.0-feature-changeJtsVersion</redmic.utils.version>
-		<redmic.models.version>0.15.0-feature-addPrivateProjectStructure</redmic.models.version>
+		<redmic.models.version>0.16.0</redmic.models.version>
 		<redmic.mediastorage.version>0.7.0</redmic.mediastorage.version>
 
 		<redmic.test-utils.version>0.11.0</redmic.test-utils.version>
