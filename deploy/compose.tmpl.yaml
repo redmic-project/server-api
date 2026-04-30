@@ -14,6 +14,7 @@ services:
       ELASTIC_CLUSTERNAME:
       ELASTIC_USER:
       ELASTIC_PASSWORD:
+      REDMIC_ELASTICSEARCH_MIN_PIXELS_TO_CLUSTER:
       JAVA_OPTS:
     networks:
       elastic-net:
