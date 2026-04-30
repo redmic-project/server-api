@@ -1,10 +1,10 @@
-package es.redmic.api.geodata.tracking.controller;
+package es.redmic.api.privatedata.controller;
 
 /*-
  * #%L
  * API
  * %%
- * Copyright (C) 2019 REDMIC Project / Server
+ * Copyright (C) 2024 REDMIC Project / Server
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.redmic.es.geodata.tracking.common.service.TrackingESService;
-import es.redmic.models.es.common.query.dto.GeoDataQueryDTO;
-import es.redmic.models.es.geojson.common.model.GeoPointData;
-import es.redmic.models.es.geojson.tracking.common.ElementTrackingDTO;
+import es.redmic.api.common.controller.RController;
+import es.redmic.api.privatedata.dto.ObservationSeriesDTO;
+import es.redmic.api.privatedata.model.ObservationSeries;
+import es.redmic.api.privatedata.service.ObservationSeriesESService;
+import es.redmic.models.es.common.query.dto.DataQueryDTO;
 
 @RestController
-@RequestMapping(value = "${controller.mapping.TRACKING_BY_ACTIVITY_AND_ELEMENT}")
-public class RTrackController extends RTrackBaseController<GeoPointData, ElementTrackingDTO, GeoDataQueryDTO> {
+@RequestMapping("${controller.mapping.PRIVATE_OBSERVATIONSERIES}")
+public class ObservationSeriesController
+	extends RController<ObservationSeries, ObservationSeriesDTO, DataQueryDTO> {
 
 	@Autowired
-	public RTrackController(TrackingESService serviceES) {
-		super(serviceES);
+	public ObservationSeriesController(ObservationSeriesESService observationSeriesESService) {
+		super(observationSeriesESService);
 	}
 }

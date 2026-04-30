@@ -68,6 +68,9 @@ public class Oauth2SecurityConfiguration {
 
 			http.cors();
 
+			http.authorizeRequests().antMatchers("/private/**").access(
+				"hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER')");
+
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_search").permitAll();
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_categories").permitAll();

@@ -1,0 +1,305 @@
+{
+	"settings": {
+		"index": {
+			"analysis": {
+				"filter": {
+					"nGram_filter": {
+						"type": "nGram",
+						"min_gram": "2",
+						"max_gram": "20"
+					}
+				},
+				"analyzer": {
+					"autocomplete": {
+						"filter": [
+							"lowercase",
+							"asciifolding",
+							"nGram_filter"
+						],
+						"type": "custom",
+						"tokenizer": "whitespace"
+					},
+					"lower_analyzer": {
+						"filter": [
+							"lowercase",
+							"asciifolding"
+						],
+						"type": "custom",
+						"tokenizer": "standard"
+					},
+					"path-analyzer": {
+						"type": "custom",
+						"tokenizer": "path-tokenizer"
+					},
+					"split-path-analyzer": {
+						"type": "custom",
+						"tokenizer": "split-path-tokenizer"
+					}
+				},
+				"tokenizer": {
+					"split-path-tokenizer": {
+						"type": "pattern",
+						"delimiter": "\\."
+					},
+					"path-tokenizer": {
+						"type": "path_hierarchy",
+						"delimiter": "."
+					}
+				}
+			}
+		}
+	},
+	"mappings": {
+		"_doc": {
+			"dynamic": "false",
+			"properties": {
+				"id": {
+					"type": "keyword"
+				},
+				"activityId": {
+					"type": "keyword"
+				},
+				"featureId": {
+					"type": "keyword"
+				},
+				"date": {
+					"type": "date",
+					"format": "date_optional_time"
+				},
+				"featuresRelations": {
+					"type": "keyword"
+				},
+				"sampleId": {
+					"type": "keyword"
+				},
+				"dataDefinition": {
+					"type": "long"
+				},
+				"z": {
+					"type": "double"
+				},
+				"deviation": {
+					"type": "double"
+				},
+				"value": {
+					"type": "double"
+				},
+				"remark": {
+					"type": "text"
+				},
+				"qFlag": {
+					"type": "keyword"
+				},
+				"vFlag": {
+					"type": "keyword"
+				},
+				"updated": {
+					"type": "date",
+					"format": "date_time"
+				},
+				"inserted": {
+					"type": "date",
+					"format": "date_time"
+				},
+				"confidence": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"object": {
+					"type": "nested",
+					"dynamic": "false",
+					"properties": {
+						"classification": {
+							"type": "nested",
+							"dynamic": "false",
+							"properties": {
+								"objectType": {
+									"dynamic": "false",
+									"properties": {
+										"code": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"id": {
+											"type": "long"
+										},
+										"level": {
+											"type": "integer"
+										},
+										"name": {
+											"type": "keyword",
+											"fields": {
+												"suggest": {
+													"type": "text",
+													"analyzer": "autocomplete",
+													"search_analyzer": "lower_analyzer"
+												}
+											}
+										},
+										"path": {
+											"type": "keyword",
+											"fields": {
+												"hierarchy": {
+													"type": "text",
+													"store": true,
+													"analyzer": "path-analyzer"
+												},
+												"split": {
+													"type": "text",
+													"analyzer": "split-path-analyzer"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "keyword"
+						}
+					}
+				},
+				"observation": {
+					"dynamic": "false",
+					"properties": {
+						"id": {
+							"type": "long"
+						},
+						"animal": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"uuid": {
+									"type": "text",
+									"fields": {
+										"keyword": {
+											"type": "keyword",
+											"ignore_above": 256
+										}
+									}
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						},
+						"device": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						},
+						"organisation": {
+							"dynamic": "false",
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						},
+						"note": {
+							"type": "text",
+							"fields": {
+								"keyword": {
+									"type": "keyword",
+									"ignore_above": 256
+								}
+							}
+						},
+						"observationType": {
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"name": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								},
+								"name_en": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						},
+						"taxonomy": {
+							"properties": {
+								"id": {
+									"type": "long"
+								},
+								"scientificName": {
+									"type": "keyword",
+									"fields": {
+										"suggest": {
+											"type": "text",
+											"analyzer": "autocomplete",
+											"search_analyzer": "lower_analyzer"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
