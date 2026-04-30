@@ -52,10 +52,10 @@ public class AnimalMediaStorageControllerTest extends BaseMediaStorageController
 	MockMultipartFile multipartFile = getFile(PHOTO_RESOURCES, FILENAME_PHOTO, PHOTO_CONTENT_TYPE);
 
 	@Test
-	public void checkSecurity_Return200_IfUploadPhotoAsOAGUser() throws Exception {
+	public void checkSecurity_Return200_IfUploadPhotoAsManagerUser() throws Exception {
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE).file(multipartFile)
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 
@@ -69,7 +69,7 @@ public class AnimalMediaStorageControllerTest extends BaseMediaStorageController
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
 				.file(getFile(DOCUMENT_RESOURCES, FILENAME_DOCUMENT, DOCUMENT_CONTENT_TYPE))
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 

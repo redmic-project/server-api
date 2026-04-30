@@ -49,10 +49,10 @@ public class CompressMediaStorageControllerTest extends BaseMediaStorageControll
 	MockMultipartFile multipartFile = getFile(INGEST_DATA_RESOURCES, FILENAME_COMPRESS, COMPRESS_CONTENT_TYPE);
 
 	@Test
-	public void checkSecurity_Return200_IfUploadCompressFileAsOAGUser() throws Exception {
+	public void checkSecurity_Return200_IfUploadCompressFileAsManagerUser() throws Exception {
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE).file(multipartFile)
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 
@@ -66,7 +66,7 @@ public class CompressMediaStorageControllerTest extends BaseMediaStorageControll
 
 		MockHttpServletRequestBuilder fileUpload = multipart(BASE_MAPPING + CONTROLLER_UPLOAD_FILE)
 				.file(getFile(PHOTO_RESOURCES, FILENAME_PHOTO, PHOTO_CONTENT_TYPE))
-				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenOAGUser());
+				.contentType(MediaType.MULTIPART_FORM_DATA).header("Authorization", "Bearer " + getTokenManagerUser());
 
 		ResultActions result = mockMvc.perform(fileUpload);
 

@@ -68,6 +68,9 @@ public class Oauth2SecurityConfiguration {
 
 			http.cors();
 
+			http.authorizeRequests().antMatchers("/private/**").access(
+				"hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER')");
+
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_search").permitAll();
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**/_categories").permitAll();
@@ -80,7 +83,7 @@ public class Oauth2SecurityConfiguration {
 
 			http.authorizeRequests().antMatchers("/**/_selections/**").access(
 				"#oauth2.hasScope('write') and "
-				+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+				+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/_search/_schema").permitAll();
 
@@ -88,46 +91,46 @@ public class Oauth2SecurityConfiguration {
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/activitycategories").access(
 					"#oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/**/_schema").access(
 					"#oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/uploads/users").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/photobank/users/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/documents/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/mediastorage/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.GET, "/mediastorage/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").access(
 					"#oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.PUT, "/**").access(
-					"#oauth2.hasScope('write') and hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					"#oauth2.hasScope('write') and hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/**").access(
 					"#oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR')");
 
 			http.authorizeRequests().antMatchers("/temp/report/**/").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
-					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_OAG', 'ROLE_COLLABORATOR', 'ROLE_USER')");
+					+ "hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_MANAGER', 'ROLE_COLLABORATOR', 'ROLE_USER')");
 
 			http.authorizeRequests().antMatchers("/**/convert2redmic/**").access(
 					"#oauth2.hasScope('read') or #oauth2.hasScope('write') and "
