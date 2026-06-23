@@ -31,7 +31,7 @@
 		<!-- OTHERS -->
 		<jackson-datatype-jts.version>1.0-2.7</jackson-datatype-jts.version>
 		<orika-core.version>1.5.4</orika-core.version>
-		<commons-fileupload>1.4</commons-fileupload>
+		<commons-fileupload>1.5</commons-fileupload>
 		<powermock.version>2.0.9</powermock.version>
 
 		<!-- Plugins -->
