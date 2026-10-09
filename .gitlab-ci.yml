@@ -1,39 +1,16 @@
 include:
   - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/building/maven/microservice.yml'
+    ref: main
+    file: '/build/maven/microservice.yml'
   - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/scanning/dependency-scanning.yml'
+    ref: main
+    file: '/build/docker/docker-build.yml'
   - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/packaging-docker/docker-build.yml'
+    ref: main
+    file: '/test/auto.yml'
   - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/deployment-service/docker-deploy.yml'
-  - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/deployment-service/custom-image.yml'
-  - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/deployment-external-service/backup-files.yml'
-  - project: 'redmic-project/gitlab-ci-templates'
-    ref: master
-    file: '/deployment-service/maintenance.yml'
-
-stages:
-  - build
-  - test
-  - pre-package
-  - package
-  - post-package
-  - deploy
-  - deploy-external-service
-  - maintenance
-
-variables:
-  PROJECT_PARENT_NAME: api
-  DEVELOPMENT_MAINTENANCE_DISABLED: 'true'
+    ref: main
+    file: '/deploy/service/docker-deploy.yml'
 
 .maven-build:
   variables:
@@ -209,16 +186,6 @@ variables:
     DBLD_PARENT_IMAGE_NAME: ${REDMIC_SERVER_IMAGE_NAME}
     DBLD_PARENT_IMAGE_TAG: ${REDMIC_SERVER_IMAGE_TAG}
 
-.deploy:
+.docker-deploy:
   variables:
-    STACK: ${PROJECT_PARENT_NAME}
-    STATUS_CHECK_DELAY: 300
-
-.deploy-external-service:
-  variables:
-    STACK: ${PROJECT_PARENT_NAME}
-
-.scheduled-run:
-  variables:
-    STACK: ${PROJECT_PARENT_NAME}
-    SERVICE: ${PROJECT_PARENT_NAME}_backup-files
+    STACK: api
