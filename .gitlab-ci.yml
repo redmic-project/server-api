@@ -185,7 +185,7 @@ include:
   variables:
     DBLD_PARENT_IMAGE_NAME: ${REDMIC_SERVER_IMAGE_NAME}
     DBLD_PARENT_IMAGE_TAG: ${REDMIC_SERVER_IMAGE_TAG}
-  depends:
+  dependencies:
     - ⚒️ maven-build
 
 .docker-deploy:
